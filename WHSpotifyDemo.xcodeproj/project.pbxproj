@@ -9,12 +9,30 @@
 /* Begin PBXBuildFile section */
 		4241C59E1C77A7D50031F2A9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4241C59D1C77A7D50031F2A9 /* main.m */; };
 		4241C5A11C77A7D50031F2A9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4241C5A01C77A7D50031F2A9 /* AppDelegate.m */; };
-		4241C5A41C77A7D50031F2A9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4241C5A31C77A7D50031F2A9 /* ViewController.m */; };
 		4241C5A71C77A7D50031F2A9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4241C5A51C77A7D50031F2A9 /* Main.storyboard */; };
 		4241C5A91C77A7D50031F2A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4241C5A81C77A7D50031F2A9 /* Assets.xcassets */; };
 		4241C5AC1C77A7D50031F2A9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4241C5AA1C77A7D50031F2A9 /* LaunchScreen.storyboard */; };
 		4241C5B71C77A7D50031F2A9 /* WHSpotifyDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4241C5B61C77A7D50031F2A9 /* WHSpotifyDemoTests.m */; };
 		4241C5C21C77A7D50031F2A9 /* WHSpotifyDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4241C5C11C77A7D50031F2A9 /* WHSpotifyDemoUITests.m */; };
+		4241C5D71C77B0D00031F2A9 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4241C5D61C77B0D00031F2A9 /* LoginViewController.m */; };
+		4241C5DA1C77B7360031F2A9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4241C5D91C77B7360031F2A9 /* AVFoundation.framework */; };
+		4241C5DC1C77B87C0031F2A9 /* Spotify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4241C5DB1C77B87C0031F2A9 /* Spotify.framework */; };
+		4241C5EA1C77C0BC0031F2A9 /* NowPlayingBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4241C5E01C77C0BC0031F2A9 /* NowPlayingBarView.xib */; };
+		4241C5EB1C77C0BC0031F2A9 /* NowPlayingDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4241C5E11C77C0BC0031F2A9 /* NowPlayingDetailView.xib */; };
+		4241C5EC1C77C0BC0031F2A9 /* NowPlayingBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4241C5E31C77C0BC0031F2A9 /* NowPlayingBarView.m */; };
+		4241C5ED1C77C0BC0031F2A9 /* NowPlayingDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4241C5E51C77C0BC0031F2A9 /* NowPlayingDetailViewController.m */; };
+		4241C5EE1C77C0BC0031F2A9 /* PlaylistTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4241C5E71C77C0BC0031F2A9 /* PlaylistTableViewController.m */; };
+		4241C5EF1C77C0BC0031F2A9 /* MyMusicTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4241C5E91C77C0BC0031F2A9 /* MyMusicTableViewController.m */; };
+		4241C5F41C77C0CB0031F2A9 /* SPTAudioStreamingController+WHSpotifyHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4241C5F11C77C0CB0031F2A9 /* SPTAudioStreamingController+WHSpotifyHelper.m */; };
+		4241C5F51C77C0CB0031F2A9 /* SPTSearch+WebAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 4241C5F31C77C0CB0031F2A9 /* SPTSearch+WebAPI.m */; };
+		4241C5F81C77C0F10031F2A9 /* SpotifySearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4241C5F71C77C0F10031F2A9 /* SpotifySearchTableViewController.m */; };
+		4241C5FB1C77C0FF0031F2A9 /* DurationPositionBarManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4241C5FA1C77C0FF0031F2A9 /* DurationPositionBarManager.m */; };
+		4241C6011C77C1790031F2A9 /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4241C6001C77C1790031F2A9 /* TabBarViewController.m */; };
+		4241C6091C77C4FD0031F2A9 /* PlaylistTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4241C6041C77C4FD0031F2A9 /* PlaylistTableViewCell.m */; };
+		4241C60A1C77C4FD0031F2A9 /* PlaylistTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4241C6051C77C4FD0031F2A9 /* PlaylistTableViewCell.xib */; };
+		4241C60B1C77C4FD0031F2A9 /* TrackTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4241C6071C77C4FD0031F2A9 /* TrackTableViewCell.m */; };
+		4241C60C1C77C4FD0031F2A9 /* TrackTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4241C6081C77C4FD0031F2A9 /* TrackTableViewCell.xib */; };
+		A777E2BFA35EA7E55881946E /* libPods-WHSpotifyDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCEF3E49BC470B73AF4D4492 /* libPods-WHSpotifyDemo.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,8 +57,6 @@
 		4241C59D1C77A7D50031F2A9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4241C59F1C77A7D50031F2A9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		4241C5A01C77A7D50031F2A9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		4241C5A21C77A7D50031F2A9 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		4241C5A31C77A7D50031F2A9 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		4241C5A61C77A7D50031F2A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4241C5A81C77A7D50031F2A9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4241C5AB1C77A7D50031F2A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -51,6 +67,40 @@
 		4241C5BD1C77A7D50031F2A9 /* WHSpotifyDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WHSpotifyDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4241C5C11C77A7D50031F2A9 /* WHSpotifyDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WHSpotifyDemoUITests.m; sourceTree = "<group>"; };
 		4241C5C31C77A7D50031F2A9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4241C5D51C77B0D00031F2A9 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		4241C5D61C77B0D00031F2A9 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		4241C5D81C77B5A50031F2A9 /* SpotifyConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpotifyConfig.h; sourceTree = "<group>"; };
+		4241C5D91C77B7360031F2A9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		4241C5DB1C77B87C0031F2A9 /* Spotify.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Spotify.framework; sourceTree = "<group>"; };
+		4241C5E01C77C0BC0031F2A9 /* NowPlayingBarView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NowPlayingBarView.xib; sourceTree = "<group>"; };
+		4241C5E11C77C0BC0031F2A9 /* NowPlayingDetailView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NowPlayingDetailView.xib; sourceTree = "<group>"; };
+		4241C5E21C77C0BC0031F2A9 /* NowPlayingBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NowPlayingBarView.h; sourceTree = "<group>"; };
+		4241C5E31C77C0BC0031F2A9 /* NowPlayingBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NowPlayingBarView.m; sourceTree = "<group>"; };
+		4241C5E41C77C0BC0031F2A9 /* NowPlayingDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NowPlayingDetailViewController.h; sourceTree = "<group>"; };
+		4241C5E51C77C0BC0031F2A9 /* NowPlayingDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NowPlayingDetailViewController.m; sourceTree = "<group>"; };
+		4241C5E61C77C0BC0031F2A9 /* PlaylistTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaylistTableViewController.h; sourceTree = "<group>"; };
+		4241C5E71C77C0BC0031F2A9 /* PlaylistTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaylistTableViewController.m; sourceTree = "<group>"; };
+		4241C5E81C77C0BC0031F2A9 /* MyMusicTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyMusicTableViewController.h; sourceTree = "<group>"; };
+		4241C5E91C77C0BC0031F2A9 /* MyMusicTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyMusicTableViewController.m; sourceTree = "<group>"; };
+		4241C5F01C77C0CB0031F2A9 /* SPTAudioStreamingController+WHSpotifyHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SPTAudioStreamingController+WHSpotifyHelper.h"; sourceTree = "<group>"; };
+		4241C5F11C77C0CB0031F2A9 /* SPTAudioStreamingController+WHSpotifyHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SPTAudioStreamingController+WHSpotifyHelper.m"; sourceTree = "<group>"; };
+		4241C5F21C77C0CB0031F2A9 /* SPTSearch+WebAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SPTSearch+WebAPI.h"; sourceTree = "<group>"; };
+		4241C5F31C77C0CB0031F2A9 /* SPTSearch+WebAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SPTSearch+WebAPI.m"; sourceTree = "<group>"; };
+		4241C5F61C77C0F10031F2A9 /* SpotifySearchTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpotifySearchTableViewController.h; sourceTree = "<group>"; };
+		4241C5F71C77C0F10031F2A9 /* SpotifySearchTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpotifySearchTableViewController.m; sourceTree = "<group>"; };
+		4241C5F91C77C0FF0031F2A9 /* DurationPositionBarManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DurationPositionBarManager.h; sourceTree = "<group>"; };
+		4241C5FA1C77C0FF0031F2A9 /* DurationPositionBarManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DurationPositionBarManager.m; sourceTree = "<group>"; };
+		4241C5FF1C77C1790031F2A9 /* TabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarViewController.h; sourceTree = "<group>"; };
+		4241C6001C77C1790031F2A9 /* TabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarViewController.m; sourceTree = "<group>"; };
+		4241C6031C77C4FD0031F2A9 /* PlaylistTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaylistTableViewCell.h; sourceTree = "<group>"; };
+		4241C6041C77C4FD0031F2A9 /* PlaylistTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaylistTableViewCell.m; sourceTree = "<group>"; };
+		4241C6051C77C4FD0031F2A9 /* PlaylistTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlaylistTableViewCell.xib; sourceTree = "<group>"; };
+		4241C6061C77C4FD0031F2A9 /* TrackTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrackTableViewCell.h; sourceTree = "<group>"; };
+		4241C6071C77C4FD0031F2A9 /* TrackTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrackTableViewCell.m; sourceTree = "<group>"; };
+		4241C6081C77C4FD0031F2A9 /* TrackTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TrackTableViewCell.xib; sourceTree = "<group>"; };
+		7AFC401C544F061173DBDB11 /* Pods-WHSpotifyDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WHSpotifyDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WHSpotifyDemo/Pods-WHSpotifyDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		B505C438632E5E4144E6A49D /* Pods-WHSpotifyDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WHSpotifyDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-WHSpotifyDemo/Pods-WHSpotifyDemo.release.xcconfig"; sourceTree = "<group>"; };
+		FCEF3E49BC470B73AF4D4492 /* libPods-WHSpotifyDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WHSpotifyDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +108,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4241C5DA1C77B7360031F2A9 /* AVFoundation.framework in Frameworks */,
+				4241C5DC1C77B87C0031F2A9 /* Spotify.framework in Frameworks */,
+				A777E2BFA35EA7E55881946E /* libPods-WHSpotifyDemo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,13 +131,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		179C376E1680823BD3CD6D93 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FCEF3E49BC470B73AF4D4492 /* libPods-WHSpotifyDemo.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		4241C5901C77A7D50031F2A9 = {
 			isa = PBXGroup;
 			children = (
+				4241C5DB1C77B87C0031F2A9 /* Spotify.framework */,
+				4241C5D91C77B7360031F2A9 /* AVFoundation.framework */,
 				4241C59B1C77A7D50031F2A9 /* WHSpotifyDemo */,
 				4241C5B51C77A7D50031F2A9 /* WHSpotifyDemoTests */,
 				4241C5C01C77A7D50031F2A9 /* WHSpotifyDemoUITests */,
 				4241C59A1C77A7D50031F2A9 /* Products */,
+				D0D497D61B853D1F61DDA1D0 /* Pods */,
+				179C376E1680823BD3CD6D93 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -111,6 +176,7 @@
 				4241C5AA1C77A7D50031F2A9 /* LaunchScreen.storyboard */,
 				4241C5AD1C77A7D50031F2A9 /* Info.plist */,
 				4241C59C1C77A7D50031F2A9 /* Supporting Files */,
+				4241C5D81C77B5A50031F2A9 /* SpotifyConfig.h */,
 			);
 			path = WHSpotifyDemo;
 			sourceTree = "<group>";
@@ -144,6 +210,8 @@
 		4241C5CF1C77A9D90031F2A9 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				4241C5F91C77C0FF0031F2A9 /* DurationPositionBarManager.h */,
+				4241C5FA1C77C0FF0031F2A9 /* DurationPositionBarManager.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -151,7 +219,14 @@
 		4241C5D01C77A9E00031F2A9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				4241C6021C77C4F40031F2A9 /* Cells */,
 				4241C5A51C77A7D50031F2A9 /* Main.storyboard */,
+				4241C5E01C77C0BC0031F2A9 /* NowPlayingBarView.xib */,
+				4241C5E11C77C0BC0031F2A9 /* NowPlayingDetailView.xib */,
+				4241C5E41C77C0BC0031F2A9 /* NowPlayingDetailViewController.h */,
+				4241C5E51C77C0BC0031F2A9 /* NowPlayingDetailViewController.m */,
+				4241C5E21C77C0BC0031F2A9 /* NowPlayingBarView.h */,
+				4241C5E31C77C0BC0031F2A9 /* NowPlayingBarView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -159,8 +234,16 @@
 		4241C5D11C77A9E80031F2A9 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				4241C5A21C77A7D50031F2A9 /* ViewController.h */,
-				4241C5A31C77A7D50031F2A9 /* ViewController.m */,
+				4241C5D51C77B0D00031F2A9 /* LoginViewController.h */,
+				4241C5D61C77B0D00031F2A9 /* LoginViewController.m */,
+				4241C5E81C77C0BC0031F2A9 /* MyMusicTableViewController.h */,
+				4241C5E91C77C0BC0031F2A9 /* MyMusicTableViewController.m */,
+				4241C5E61C77C0BC0031F2A9 /* PlaylistTableViewController.h */,
+				4241C5E71C77C0BC0031F2A9 /* PlaylistTableViewController.m */,
+				4241C5F61C77C0F10031F2A9 /* SpotifySearchTableViewController.h */,
+				4241C5F71C77C0F10031F2A9 /* SpotifySearchTableViewController.m */,
+				4241C5FF1C77C1790031F2A9 /* TabBarViewController.h */,
+				4241C6001C77C1790031F2A9 /* TabBarViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -168,8 +251,34 @@
 		4241C5D21C77A9F20031F2A9 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				4241C5F01C77C0CB0031F2A9 /* SPTAudioStreamingController+WHSpotifyHelper.h */,
+				4241C5F11C77C0CB0031F2A9 /* SPTAudioStreamingController+WHSpotifyHelper.m */,
+				4241C5F21C77C0CB0031F2A9 /* SPTSearch+WebAPI.h */,
+				4241C5F31C77C0CB0031F2A9 /* SPTSearch+WebAPI.m */,
 			);
 			name = Categories;
+			sourceTree = "<group>";
+		};
+		4241C6021C77C4F40031F2A9 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				4241C6031C77C4FD0031F2A9 /* PlaylistTableViewCell.h */,
+				4241C6041C77C4FD0031F2A9 /* PlaylistTableViewCell.m */,
+				4241C6051C77C4FD0031F2A9 /* PlaylistTableViewCell.xib */,
+				4241C6061C77C4FD0031F2A9 /* TrackTableViewCell.h */,
+				4241C6071C77C4FD0031F2A9 /* TrackTableViewCell.m */,
+				4241C6081C77C4FD0031F2A9 /* TrackTableViewCell.xib */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
+		D0D497D61B853D1F61DDA1D0 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				7AFC401C544F061173DBDB11 /* Pods-WHSpotifyDemo.debug.xcconfig */,
+				B505C438632E5E4144E6A49D /* Pods-WHSpotifyDemo.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -179,9 +288,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4241C5C61C77A7D50031F2A9 /* Build configuration list for PBXNativeTarget "WHSpotifyDemo" */;
 			buildPhases = (
+				98C744758159790508F4240B /* Check Pods Manifest.lock */,
 				4241C5951C77A7D50031F2A9 /* Sources */,
 				4241C5961C77A7D50031F2A9 /* Frameworks */,
 				4241C5971C77A7D50031F2A9 /* Resources */,
+				EA5BF54F50C0BBF2300BF11B /* Embed Pods Frameworks */,
+				44F2B0576C019D645C863CC2 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -239,6 +351,11 @@
 				TargetAttributes = {
 					4241C5981C77A7D50031F2A9 = {
 						CreatedOnToolsVersion = 7.2.1;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					4241C5B11C77A7D50031F2A9 = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -276,8 +393,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				4241C5AC1C77A7D50031F2A9 /* LaunchScreen.storyboard in Resources */,
+				4241C60C1C77C4FD0031F2A9 /* TrackTableViewCell.xib in Resources */,
 				4241C5A91C77A7D50031F2A9 /* Assets.xcassets in Resources */,
+				4241C5EA1C77C0BC0031F2A9 /* NowPlayingBarView.xib in Resources */,
 				4241C5A71C77A7D50031F2A9 /* Main.storyboard in Resources */,
+				4241C5EB1C77C0BC0031F2A9 /* NowPlayingDetailView.xib in Resources */,
+				4241C60A1C77C4FD0031F2A9 /* PlaylistTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,14 +418,73 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		44F2B0576C019D645C863CC2 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WHSpotifyDemo/Pods-WHSpotifyDemo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		98C744758159790508F4240B /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		EA5BF54F50C0BBF2300BF11B /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WHSpotifyDemo/Pods-WHSpotifyDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		4241C5951C77A7D50031F2A9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4241C5A41C77A7D50031F2A9 /* ViewController.m in Sources */,
+				4241C5ED1C77C0BC0031F2A9 /* NowPlayingDetailViewController.m in Sources */,
+				4241C6011C77C1790031F2A9 /* TabBarViewController.m in Sources */,
+				4241C5D71C77B0D00031F2A9 /* LoginViewController.m in Sources */,
+				4241C5F51C77C0CB0031F2A9 /* SPTSearch+WebAPI.m in Sources */,
 				4241C5A11C77A7D50031F2A9 /* AppDelegate.m in Sources */,
+				4241C5EE1C77C0BC0031F2A9 /* PlaylistTableViewController.m in Sources */,
+				4241C60B1C77C4FD0031F2A9 /* TrackTableViewCell.m in Sources */,
+				4241C5FB1C77C0FF0031F2A9 /* DurationPositionBarManager.m in Sources */,
+				4241C5EF1C77C0BC0031F2A9 /* MyMusicTableViewController.m in Sources */,
 				4241C59E1C77A7D50031F2A9 /* main.m in Sources */,
+				4241C5F81C77C0F10031F2A9 /* SpotifySearchTableViewController.m in Sources */,
+				4241C5EC1C77C0BC0031F2A9 /* NowPlayingBarView.m in Sources */,
+				4241C5F41C77C0CB0031F2A9 /* SPTAudioStreamingController+WHSpotifyHelper.m in Sources */,
+				4241C6091C77C4FD0031F2A9 /* PlaylistTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -441,10 +621,16 @@
 		};
 		4241C5C71C77A7D50031F2A9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFC401C544F061173DBDB11 /* Pods-WHSpotifyDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = WHSpotifyDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = wearhaus.WHSpotifyDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -452,10 +638,16 @@
 		};
 		4241C5C81C77A7D50031F2A9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B505C438632E5E4144E6A49D /* Pods-WHSpotifyDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = WHSpotifyDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = wearhaus.WHSpotifyDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -528,6 +720,7 @@
 				4241C5C81C77A7D50031F2A9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4241C5C91C77A7D50031F2A9 /* Build configuration list for PBXNativeTarget "WHSpotifyDemoTests" */ = {
 			isa = XCConfigurationList;
@@ -536,6 +729,7 @@
 				4241C5CB1C77A7D50031F2A9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4241C5CC1C77A7D50031F2A9 /* Build configuration list for PBXNativeTarget "WHSpotifyDemoUITests" */ = {
 			isa = XCConfigurationList;
@@ -544,6 +738,7 @@
 				4241C5CE1C77A7D50031F2A9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
