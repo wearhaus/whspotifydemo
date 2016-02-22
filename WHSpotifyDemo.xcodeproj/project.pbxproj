@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4227D3DC1C78541600A71342 /* AccountTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4227D3DB1C78541600A71342 /* AccountTableViewController.m */; };
 		4241C59E1C77A7D50031F2A9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4241C59D1C77A7D50031F2A9 /* main.m */; };
 		4241C5A11C77A7D50031F2A9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4241C5A01C77A7D50031F2A9 /* AppDelegate.m */; };
 		4241C5A71C77A7D50031F2A9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4241C5A51C77A7D50031F2A9 /* Main.storyboard */; };
@@ -53,6 +54,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4227D3DA1C78541600A71342 /* AccountTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountTableViewController.h; sourceTree = "<group>"; };
+		4227D3DB1C78541600A71342 /* AccountTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountTableViewController.m; sourceTree = "<group>"; };
 		4241C5991C77A7D50031F2A9 /* WHSpotifyDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WHSpotifyDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4241C59D1C77A7D50031F2A9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4241C59F1C77A7D50031F2A9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -244,6 +247,8 @@
 				4241C5F71C77C0F10031F2A9 /* SpotifySearchTableViewController.m */,
 				4241C5FF1C77C1790031F2A9 /* TabBarViewController.h */,
 				4241C6001C77C1790031F2A9 /* TabBarViewController.m */,
+				4227D3DA1C78541600A71342 /* AccountTableViewController.h */,
+				4227D3DB1C78541600A71342 /* AccountTableViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -474,6 +479,7 @@
 				4241C5ED1C77C0BC0031F2A9 /* NowPlayingDetailViewController.m in Sources */,
 				4241C6011C77C1790031F2A9 /* TabBarViewController.m in Sources */,
 				4241C5D71C77B0D00031F2A9 /* LoginViewController.m in Sources */,
+				4227D3DC1C78541600A71342 /* AccountTableViewController.m in Sources */,
 				4241C5F51C77C0CB0031F2A9 /* SPTSearch+WebAPI.m in Sources */,
 				4241C5A11C77A7D50031F2A9 /* AppDelegate.m in Sources */,
 				4241C5EE1C77C0BC0031F2A9 /* PlaylistTableViewController.m in Sources */,

@@ -96,6 +96,7 @@
     [cell.playlistTitle setText:playlist.name];
     [cell.playlistSubtitle setText:[NSString stringWithFormat:@"%lu songs", (unsigned long)playlist.trackCount]];
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+    [cell.playlistImage setImage:[UIImage imageNamed:@"PlaylistDefault"]];
     
 //    [cell.imageView hnk_setImageFromURL:playlist.smallestImage.imageURL];
 //    [cell.playlistImage hnk_setImageFromURL:playlist.smallestImage.imageURL];

@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ajR-Xo-ZSJ" customClass="SPTConnectButton">
-                                <rect key="frame" x="180" y="302" width="240" height="50"/>
+                                <rect key="frame" x="180" y="322" width="240" height="50"/>
                                 <color key="backgroundColor" red="0.1215686275" green="0.74117647060000003" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="2BM-ez-EhR"/>
@@ -28,21 +28,47 @@
                                     <action selector="loginButton_clicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Zut-8L-CqM"/>
                                 </connections>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ezT-fd-Nsm">
-                                <rect key="frame" x="180" y="360" width="240" height="50"/>
+                            <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ezT-fd-Nsm">
+                                <rect key="frame" x="180" y="380" width="240" height="50"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="SoundCloudIcon" translatesAutoresizingMaskIntoConstraints="NO" id="Amz-sp-Cqy">
+                                        <rect key="frame" x="0.0" y="0.0" width="66" height="50"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="LOGIN WITH SOUNDCLOUD" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W2l-3p-Fut">
+                                        <rect key="frame" x="66" y="15" width="160" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="hGG-GZ-iEK"/>
                                     <constraint firstAttribute="width" constant="240" id="mMp-Mm-dsr"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="25"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                </userDefinedRuntimeAttributes>
                             </view>
+                            <imageView userInteractionEnabled="NO" alpha="0.80000000000000004" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WearhausLogo" translatesAutoresizingMaskIntoConstraints="NO" id="uFR-KF-qkl">
+                                <rect key="frame" x="216" y="111" width="167" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="167" id="4xY-UX-rgQ"/>
+                                    <constraint firstAttribute="height" constant="128" id="N7m-1x-F44"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="ezT-fd-Nsm" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="8Jt-Jf-oUo"/>
                             <constraint firstItem="ajR-Xo-ZSJ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Nud-ys-z74"/>
-                            <constraint firstItem="ezT-fd-Nsm" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="85" id="YjU-ss-4ws"/>
-                            <constraint firstItem="ajR-Xo-ZSJ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="27" id="kC2-zx-n98"/>
+                            <constraint firstItem="ezT-fd-Nsm" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="105" id="YjU-ss-4ws"/>
+                            <constraint firstItem="ajR-Xo-ZSJ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="47" id="kC2-zx-n98"/>
+                            <constraint firstItem="uFR-KF-qkl" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-125" id="wVz-1K-HR7"/>
+                            <constraint firstItem="uFR-KF-qkl" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="z4w-WG-262"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="6Rw-JT-uNF"/>
@@ -171,24 +197,37 @@
             </objects>
             <point key="canvasLocation" x="982" y="2253"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Account Table View Controller-->
         <scene sceneID="LBU-pO-vEx">
             <objects>
-                <tableViewController id="jXA-YW-htE" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="UbT-K5-bZW">
+                <tableViewController id="jXA-YW-htE" customClass="AccountTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="UbT-K5-bZW">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="wa6-rN-LQU">
-                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wa6-rN-LQU" id="oD5-C9-Jlm">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <sections>
+                            <tableViewSection id="5JI-tz-9p1">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="bbM-UM-pqx" style="IBUITableViewCellStyleDefault" id="MEV-on-ulC">
+                                        <rect key="frame" x="0.0" y="99" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MEV-on-ulC" id="9Z7-W2-h16">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Logout" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bbM-UM-pqx">
+                                                    <rect key="frame" x="15" y="0.0" width="570" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
                         <connections>
                             <outlet property="dataSource" destination="jXA-YW-htE" id="ynE-PS-lFP"/>
                             <outlet property="delegate" destination="jXA-YW-htE" id="vR4-mt-hEP"/>
@@ -291,6 +330,8 @@
         <image name="MusicIcon" width="50" height="50"/>
         <image name="PlaylistIcon" width="50" height="50"/>
         <image name="SearchIcon" width="50" height="50"/>
+        <image name="SoundCloudIcon" width="500" height="500"/>
         <image name="UserIcon" width="50" height="50"/>
+        <image name="WearhausLogo" width="500" height="500"/>
     </resources>
 </document>

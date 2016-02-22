@@ -24,7 +24,6 @@
 {
     [super viewDidLoad];
     
-    [self setTitle:@"Song Search"];
     [self setupNavbar];
     [self initSearchController];
     [self registerTableViewCellNib];
@@ -65,6 +64,7 @@
 
 - (void)setupNavbar
 {
+    [self setTitle:@"Search"];
     [self.navigationController setNavigationBarHidden:NO];
 }
 

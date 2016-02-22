@@ -13,6 +13,7 @@
 #import "PlaylistTableViewController.h"
 #import "SPTAudioStreamingController+WHSpotifyHelper.h"
 #import "MyMusicTableViewController.h"
+#import "AccountTableViewController.h"
 #import <Spotify/SPTDiskCache.h>
 #import <MediaPlayer/MPNowPlayingInfoCenter.h>
 #import <MediaPlayer/MPMediaItem.h>
@@ -21,7 +22,7 @@
 #import <MediaPlayer/MPRemoteCommand.h>
 
 
-@interface TabBarViewController () <SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate, SPTAudioStreamingDelegate, NowPlayingBarViewDelegate, SpotifySearchTableViewControllerDelegate, PlaylistTableViewControllerDelegate, MyMusicTableViewControllerDelegate>
+@interface TabBarViewController () <SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate, SPTAudioStreamingDelegate, NowPlayingBarViewDelegate, SpotifySearchTableViewControllerDelegate, PlaylistTableViewControllerDelegate, MyMusicTableViewControllerDelegate, AccountTableViewControllerDelegate>
 
 @property (nonatomic, strong) SPTAudioStreamingController *player;
 @property (nonatomic, strong) NowPlayingBarView *nowPlayingBarView;
@@ -52,6 +53,7 @@
                 break;
                 
             case WHSpotifyTabUser:
+                ((AccountTableViewController *)[(UINavigationController *)obj topViewController]).delegate = self;
                 break;
                 
             default:
@@ -321,6 +323,30 @@
             NSLog(@"buffering track...");
         }];
     }];
+}
+
+
+
+#pragma mark - AccountTableViewController Delegate
+
+- (void)accountTableView:(AccountTableViewController *)tableView didSelectLogout:(BOOL)didSelectLogout
+{
+    if (didSelectLogout)
+    {
+        SPTAuth *auth = [SPTAuth defaultInstance];
+        if (self.player)
+        {
+            [self.player logout:^(NSError *error)
+            {
+                auth.session = nil;
+                [self.navigationController popViewControllerAnimated:YES];
+            }];
+        }
+        else
+        {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    }
 }
 
 @end
