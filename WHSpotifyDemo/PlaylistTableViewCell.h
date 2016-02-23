@@ -17,4 +17,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *playlistSubtitle;
 @property (weak, nonatomic) IBOutlet UIImageView *playlistImage;
 
+- (void)initWithPlaylistTitle:(NSString *)title playlistSubtitle:(NSString *)subtitle playlistImageURL:(NSURL *)imageURL;
+
 @end

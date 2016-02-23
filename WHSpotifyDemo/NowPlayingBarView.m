@@ -10,7 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 
-#define NowPlayingBarOffset     49.5
+#define NowPlayingBarOffset     50
 
 @implementation NowPlayingBarView
 {

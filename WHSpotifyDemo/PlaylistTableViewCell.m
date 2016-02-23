@@ -7,17 +7,17 @@
 //
 
 #import "PlaylistTableViewCell.h"
+#import <Haneke.h>
+
 
 @implementation PlaylistTableViewCell
 
-- (void)awakeFromNib {
-    // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+- (void)initWithPlaylistTitle:(NSString *)title playlistSubtitle:(NSString *)subtitle playlistImageURL:(NSURL *)imageURL
+{
+    self.playlistTitle.text = title;
+    self.playlistSubtitle.text = subtitle;
+    [self setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+    [self.playlistImage hnk_setImageFromURL:imageURL placeholder:[UIImage imageNamed:@"PlaylistDefault"]];
 }
 
 @end

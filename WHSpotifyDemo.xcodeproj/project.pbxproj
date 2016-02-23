@@ -636,7 +636,10 @@
 				);
 				INFOPLIST_FILE = WHSpotifyDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"$(inherited)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = wearhaus.WHSpotifyDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -653,7 +656,10 @@
 				);
 				INFOPLIST_FILE = WHSpotifyDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"$(inherited)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = wearhaus.WHSpotifyDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

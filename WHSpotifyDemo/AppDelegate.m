@@ -20,6 +20,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    // Set default app tint color
+    [self.window setTintColor:[UIColor colorWithRed:31.0/255.0 green:189.0/255.0 blue:204.0/255.0 alpha:1.0]];
+    
     // Set up shared authentication information
     SPTAuth *auth = [SPTAuth defaultInstance];
     auth.clientID = @kClientId;
