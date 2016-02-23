@@ -15,18 +15,19 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PlaylistTableViewCell" rowHeight="47" id="oRv-Fp-ncm" customClass="PlaylistTableViewCell">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="52"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PlaylistTableViewCell" rowHeight="48" id="oRv-Fp-ncm" customClass="PlaylistTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="53"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oRv-Fp-ncm" id="xFj-oZ-0gK">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="51.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="52.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MKk-76-gzo">
-                        <rect key="frame" x="19" y="5" width="42" height="42"/>
+                        <rect key="frame" x="19" y="5" width="42" height="40"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="42" id="MML-fC-xRR"/>
                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="42" id="VNV-kM-Z1o"/>
+                            <constraint firstAttribute="width" constant="42" id="gxW-id-MKe"/>
                             <constraint firstAttribute="width" constant="42" id="nCP-ca-zW9"/>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="42" id="uQ2-6k-0Md"/>
                             <constraint firstAttribute="width" secondItem="MKk-76-gzo" secondAttribute="height" multiplier="1:1" id="uQU-Jo-O2F"/>
@@ -36,47 +37,62 @@
                             <mask key="constraints">
                                 <exclude reference="MML-fC-xRR"/>
                                 <exclude reference="nCP-ca-zW9"/>
+                                <exclude reference="uQ2-6k-0Md"/>
+                                <exclude reference="uQU-Jo-O2F"/>
                                 <exclude reference="wME-XA-Kiv"/>
                             </mask>
                         </variation>
                     </imageView>
                     <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="JVj-5N-Dtk">
-                        <rect key="frame" x="69" y="26" width="48" height="16.5"/>
+                        <rect key="frame" x="69" y="26" width="48" height="18"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="16.5" id="Tnt-zd-Uja"/>
+                            <constraint firstAttribute="height" constant="18" id="Tnt-zd-Uja"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                         <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="0HE-Et-dgv">
-                        <rect key="frame" x="69" y="11" width="28.5" height="17"/>
+                        <rect key="frame" x="69" y="11" width="29" height="17"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="17" id="lfY-AQ-ure"/>
+                            <constraint firstAttribute="width" constant="29" id="zMO-nY-ze6"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="zMO-nY-ze6"/>
+                            </mask>
+                        </variation>
                     </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="0HE-Et-dgv" firstAttribute="top" secondItem="xFj-oZ-0gK" secondAttribute="topMargin" constant="3" id="4tM-5v-k95"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="0HE-Et-dgv" secondAttribute="bottom" constant="16.5" id="J60-Fm-MqN"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="MKk-76-gzo" secondAttribute="bottom" constant="-2.5" id="JCb-ET-Zgh"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="0HE-Et-dgv" secondAttribute="bottom" constant="18.5" id="J60-Fm-MqN"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="MKk-76-gzo" secondAttribute="bottom" constant="-0.5" id="JCb-ET-Zgh"/>
                     <constraint firstItem="0HE-Et-dgv" firstAttribute="leading" secondItem="MKk-76-gzo" secondAttribute="trailing" constant="8" id="Sww-EW-ziI"/>
                     <constraint firstAttribute="bottomMargin" secondItem="JVj-5N-Dtk" secondAttribute="bottom" constant="2" id="VcS-t0-iHX"/>
                     <constraint firstItem="MKk-76-gzo" firstAttribute="top" secondItem="xFj-oZ-0gK" secondAttribute="topMargin" constant="-3" id="bIt-5X-jCc"/>
                     <constraint firstItem="MKk-76-gzo" firstAttribute="leading" secondItem="xFj-oZ-0gK" secondAttribute="leadingMargin" constant="11" id="d7b-IS-xfF"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="0HE-Et-dgv" secondAttribute="bottom" constant="16.5" id="i1u-p9-fa3"/>
                     <constraint firstItem="JVj-5N-Dtk" firstAttribute="top" secondItem="xFj-oZ-0gK" secondAttribute="topMargin" constant="18" id="pA2-hV-xJr"/>
                     <constraint firstItem="JVj-5N-Dtk" firstAttribute="leading" secondItem="MKk-76-gzo" secondAttribute="trailing" constant="8" id="xTO-ZE-GOl"/>
                 </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="J60-Fm-MqN"/>
+                        <exclude reference="VcS-t0-iHX"/>
+                    </mask>
+                </variation>
             </tableViewCellContentView>
             <connections>
                 <outlet property="playlistImage" destination="MKk-76-gzo" id="35M-ea-aGD"/>
                 <outlet property="playlistSubtitle" destination="JVj-5N-Dtk" id="Z7D-2y-si7"/>
                 <outlet property="playlistTitle" destination="0HE-Et-dgv" id="HHa-og-6a2"/>
             </connections>
-            <point key="canvasLocation" x="427" y="370"/>
+            <point key="canvasLocation" x="427" y="370.5"/>
         </tableViewCell>
     </objects>
 </document>
