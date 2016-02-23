@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 #import "SpotifyConfig.h"
 #import <Spotify/Spotify.h>
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 
 
 @interface AppDelegate ()
@@ -22,6 +24,8 @@
 {
     // Set default app tint color
     [self.window setTintColor:[UIColor colorWithRed:31.0/255.0 green:189.0/255.0 blue:204.0/255.0 alpha:1.0]];
+    
+    [Fabric with:@[[Crashlytics class]]];
     
     // Set up shared authentication information
     SPTAuth *auth = [SPTAuth defaultInstance];

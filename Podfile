@@ -5,6 +5,8 @@
 
 target 'WHSpotifyDemo' do
   pod 'Haneke', '~> 1.0'
+  pod 'Fabric'
+  pod 'Crashlytics'
 end
 
 target 'WHSpotifyDemoTests' do
