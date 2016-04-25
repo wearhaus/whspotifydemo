@@ -22,6 +22,7 @@
 #import <MediaPlayer/MPRemoteCommand.h>
 
 
+
 @interface TabBarViewController () <SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate, SPTAudioStreamingDelegate, NowPlayingBarViewDelegate, SpotifySearchTableViewControllerDelegate, PlaylistTableViewControllerDelegate, MyMusicTableViewControllerDelegate, AccountTableViewControllerDelegate>
 
 @property (nonatomic, strong) SPTAudioStreamingController *player;
@@ -36,34 +37,14 @@
     [super viewDidLoad];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     
-    // TODO: set delegate for views
-    [self.viewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop)
-    {
-        switch ((WHSpotifyTabViews)idx) {
-            case WHSpotifyTabSaved:
-                ((MyMusicTableViewController *)[(UINavigationController *)obj topViewController]).delegate = self;
-                break;
-                
-            case WHSpotifyTabSearch:
-                ((SpotifySearchTableViewController *)[(UINavigationController *)obj topViewController]).delegate = self;
-                break;
-                
-            case WHSpotifyTabPlaylists:
-                ((PlaylistTableViewController *)[(UINavigationController *)obj topViewController]).delegate = self;
-                break;
-                
-            case WHSpotifyTabUser:
-                ((AccountTableViewController *)[(UINavigationController *)obj topViewController]).delegate = self;
-                break;
-                
-            default:
-                break;
-        }
-    }];
+    [self setDelegates];
     
     // setup now playing bottom bar
-    self.nowPlayingBarView = [[NowPlayingBarView alloc] initInViewController:self];
-    [self.nowPlayingBarView assignBarActionWithTarget:self playPauseAction:@selector(playPause) nextTrackAction:@selector(fastForward) previousTrackAction:@selector(rewind)];
+//    self.nowPlayingBarView = [[NowPlayingBarView alloc] initInViewController:self];
+//    [self.nowPlayingBarView assignBarActionWithTarget:self playPauseAction:@selector(playPause) nextTrackAction:@selector(fastForward) previousTrackAction:@selector(rewind)];
+    
+    
+    // temp soundcloud
 }
 
 
@@ -199,6 +180,37 @@
 {
     if (self.player != nil)
         [self.nowPlayingBarView updateUI];
+}
+
+
+
+#pragma mark - Helper methods
+
+- (void)setDelegates
+{
+    [self.viewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop)
+     {
+         switch ((WHSpotifyTabViews)idx) {
+             case WHSpotifyTabSaved:
+                 ((MyMusicTableViewController *)[(UINavigationController *)obj topViewController]).delegate = self;
+                 break;
+                 
+             case WHSpotifyTabSearch:
+                 ((SpotifySearchTableViewController *)[(UINavigationController *)obj topViewController]).delegate = self;
+                 break;
+                 
+             case WHSpotifyTabPlaylists:
+                 ((PlaylistTableViewController *)[(UINavigationController *)obj topViewController]).delegate = self;
+                 break;
+                 
+             case WHSpotifyTabUser:
+                 ((AccountTableViewController *)[(UINavigationController *)obj topViewController]).delegate = self;
+                 break;
+                 
+             default:
+                 break;
+         }
+     }];
 }
 
 

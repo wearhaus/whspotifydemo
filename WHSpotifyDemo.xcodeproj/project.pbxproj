@@ -33,7 +33,8 @@
 		4241C60A1C77C4FD0031F2A9 /* PlaylistTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4241C6051C77C4FD0031F2A9 /* PlaylistTableViewCell.xib */; };
 		4241C60B1C77C4FD0031F2A9 /* TrackTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4241C6071C77C4FD0031F2A9 /* TrackTableViewCell.m */; };
 		4241C60C1C77C4FD0031F2A9 /* TrackTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4241C6081C77C4FD0031F2A9 /* TrackTableViewCell.xib */; };
-		A777E2BFA35EA7E55881946E /* libPods-WHSpotifyDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCEF3E49BC470B73AF4D4492 /* libPods-WHSpotifyDemo.a */; };
+		42FA92C81CCED96C006819A1 /* SoundCloud.m in Sources */ = {isa = PBXBuildFile; fileRef = 42FA92C71CCED96C006819A1 /* SoundCloud.m */; };
+		953432DE11F3BFA27A1DF5F4 /* libPods-WHSpotifyDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF3494AEFE5ED1084BE0106A /* libPods-WHSpotifyDemo.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,9 +102,12 @@
 		4241C6061C77C4FD0031F2A9 /* TrackTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrackTableViewCell.h; sourceTree = "<group>"; };
 		4241C6071C77C4FD0031F2A9 /* TrackTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrackTableViewCell.m; sourceTree = "<group>"; };
 		4241C6081C77C4FD0031F2A9 /* TrackTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TrackTableViewCell.xib; sourceTree = "<group>"; };
+		42FA92C61CCED96C006819A1 /* SoundCloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundCloud.h; sourceTree = "<group>"; };
+		42FA92C71CCED96C006819A1 /* SoundCloud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoundCloud.m; sourceTree = "<group>"; };
+		42FA92C91CCEDBD8006819A1 /* kSoundcloud.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = kSoundcloud.h; sourceTree = "<group>"; };
 		7AFC401C544F061173DBDB11 /* Pods-WHSpotifyDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WHSpotifyDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WHSpotifyDemo/Pods-WHSpotifyDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		B505C438632E5E4144E6A49D /* Pods-WHSpotifyDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WHSpotifyDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-WHSpotifyDemo/Pods-WHSpotifyDemo.release.xcconfig"; sourceTree = "<group>"; };
-		FCEF3E49BC470B73AF4D4492 /* libPods-WHSpotifyDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WHSpotifyDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF3494AEFE5ED1084BE0106A /* libPods-WHSpotifyDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WHSpotifyDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,7 +117,7 @@
 			files = (
 				4241C5DA1C77B7360031F2A9 /* AVFoundation.framework in Frameworks */,
 				4241C5DC1C77B87C0031F2A9 /* Spotify.framework in Frameworks */,
-				A777E2BFA35EA7E55881946E /* libPods-WHSpotifyDemo.a in Frameworks */,
+				953432DE11F3BFA27A1DF5F4 /* libPods-WHSpotifyDemo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,7 +141,7 @@
 		179C376E1680823BD3CD6D93 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				FCEF3E49BC470B73AF4D4492 /* libPods-WHSpotifyDemo.a */,
+				BF3494AEFE5ED1084BE0106A /* libPods-WHSpotifyDemo.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -188,6 +192,7 @@
 			isa = PBXGroup;
 			children = (
 				4241C59D1C77A7D50031F2A9 /* main.m */,
+				42FA92C91CCEDBD8006819A1 /* kSoundcloud.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -215,6 +220,8 @@
 			children = (
 				4241C5F91C77C0FF0031F2A9 /* DurationPositionBarManager.h */,
 				4241C5FA1C77C0FF0031F2A9 /* DurationPositionBarManager.m */,
+				42FA92C61CCED96C006819A1 /* SoundCloud.h */,
+				42FA92C71CCED96C006819A1 /* SoundCloud.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -498,6 +505,7 @@
 				4241C5F51C77C0CB0031F2A9 /* SPTSearch+WebAPI.m in Sources */,
 				4241C5A11C77A7D50031F2A9 /* AppDelegate.m in Sources */,
 				4241C5EE1C77C0BC0031F2A9 /* PlaylistTableViewController.m in Sources */,
+				42FA92C81CCED96C006819A1 /* SoundCloud.m in Sources */,
 				4241C60B1C77C4FD0031F2A9 /* TrackTableViewCell.m in Sources */,
 				4241C5FB1C77C0FF0031F2A9 /* DurationPositionBarManager.m in Sources */,
 				4241C5EF1C77C0BC0031F2A9 /* MyMusicTableViewController.m in Sources */,

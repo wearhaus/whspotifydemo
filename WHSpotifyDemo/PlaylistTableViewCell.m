@@ -7,7 +7,7 @@
 //
 
 #import "PlaylistTableViewCell.h"
-#import <Haneke.h>
+#import "Haneke.h"
 
 
 @implementation PlaylistTableViewCell
