@@ -9,7 +9,10 @@
 #import "SoundCloud.h"
 #import "kSoundcloud.h"
 #import "NSArray+stringify.h"
+#import "NSDictionary+QueryStringBuilder.h"
 #import <AFNetworking.h>
+#import <AVFoundation/AVPlayer.h>
+#import <AVFoundation/AVPlayerItem.h>
 
 
 #define SC_HOST             @"http://api.soundcloud.com"
@@ -20,6 +23,41 @@
 @implementation SoundCloud
 
 #pragma mark - Public
+
++ (instancetype)player
+{
+    static SoundCloud *_player = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _player = [[self alloc] _initAVPlayer];
+    });
+    
+    return _player;
+}
+
+
+- (instancetype)_initAVPlayer
+{
+    self = [super init];
+    
+    self.avPlayer = [[AVPlayer alloc] init];
+    return self;
+}
+
+- (void)_loadAndPlayURLString:(NSString *)url
+{
+    [self _loadAndPlayURL:[NSURL URLWithString:url]];
+}
+
+
+- (void)_loadAndPlayURL:(NSURL *)url
+{
+    NSURL *authenticaatedURL = [NSURL URLWithString:[@[url.absoluteString, [self authenticate]] stringify]];
+    AVPlayerItem *item = [AVPlayerItem playerItemWithURL:authenticaatedURL];
+    _avPlayer = [AVPlayer playerWithPlayerItem:item];
+    [_avPlayer play];
+}
+
 
 + (void)getUser_userInfo:(NSDictionary *)dict success:(void (^)(NSDictionary *responseObject))succcessBlock fail:(void (^)(BOOL finished))failBlock
 {
@@ -47,10 +85,24 @@
 }
 
 
++ (void)performSearchWithQuery:(NSString *)searchQuery userInfo:(NSDictionary *)dict callback:(void (^)(NSDictionary *))block
+{
+    [self request:[self searchForTrack:searchQuery] fromServer:SC_HOST withParams:nil success:^(NSDictionary *dict) {
+        
+        if (block) block(dict);
+        
+    } fail:^(BOOL finished) {
+        
+        NSLog(@"\n\n[debug] %@\n\n", @"Failed search.");
+        
+    }];
+}
+
+
 
 #pragma mark - Private
 
-+ (void)request:(NSString *)command fromServer:(NSString *)server withParams:(NSDictionary *)dict success:(void (^)(NSDictionary *))succcessBlock fail:(void (^)(BOOL))failBlock;
++ (void)request:(NSString *)command fromServer:(NSString *)server withParams:(NSDictionary *)dict success:(void (^)(id))succcessBlock fail:(void (^)(BOOL))failBlock;
 {
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
@@ -87,7 +139,19 @@
 
 + (NSString *)track:(NSString *)trackID
 {
-    return [@[ktracks,@"/",trackID, [self authenticate]]
+    return [@[ktracks,@"/",trackID,[self authenticate]]
+            stringify];
+}
+
+
++ (NSString *)searchForTrack:(NSString *)query
+{
+    NSDictionary *params = @{
+                             kq:            query,
+                             kclient_id:    SC_CLIENT_ID
+                             };
+    
+    return [@[ktracks,@"?",params.queryString]
             stringify];
 }
 
@@ -96,6 +160,13 @@
 {
     return [@[@"?",kclient_id,@"=",SC_CLIENT_ID]
             stringify];
+}
+                                
+
+- (NSString *)authenticate
+{
+    return [@[@"?",kclient_id,@"=",SC_CLIENT_ID]
+    stringify];
 }
 
 @end

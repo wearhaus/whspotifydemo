@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4214D48E1CD01825001BCBDB /* NSDictionary+QueryStringBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 4214D48D1CD01825001BCBDB /* NSDictionary+QueryStringBuilder.m */; };
 		4227D3DC1C78541600A71342 /* AccountTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4227D3DB1C78541600A71342 /* AccountTableViewController.m */; };
 		4241C59E1C77A7D50031F2A9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4241C59D1C77A7D50031F2A9 /* main.m */; };
 		4241C5A11C77A7D50031F2A9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4241C5A01C77A7D50031F2A9 /* AppDelegate.m */; };
@@ -56,6 +57,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4214D48C1CD01825001BCBDB /* NSDictionary+QueryStringBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+QueryStringBuilder.h"; sourceTree = "<group>"; };
+		4214D48D1CD01825001BCBDB /* NSDictionary+QueryStringBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+QueryStringBuilder.m"; sourceTree = "<group>"; };
 		4227D3DA1C78541600A71342 /* AccountTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountTableViewController.h; sourceTree = "<group>"; };
 		4227D3DB1C78541600A71342 /* AccountTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountTableViewController.m; sourceTree = "<group>"; };
 		4241C5991C77A7D50031F2A9 /* WHSpotifyDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WHSpotifyDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -266,6 +269,8 @@
 		4241C5D21C77A9F20031F2A9 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				4214D48C1CD01825001BCBDB /* NSDictionary+QueryStringBuilder.h */,
+				4214D48D1CD01825001BCBDB /* NSDictionary+QueryStringBuilder.m */,
 				426C5C951CCEE5CE00D85B24 /* NSArray+stringify.h */,
 				426C5C961CCEE5CE00D85B24 /* NSArray+stringify.m */,
 				4241C5F01C77C0CB0031F2A9 /* SPTAudioStreamingController+WHSpotifyHelper.h */,
@@ -509,6 +514,7 @@
 				4227D3DC1C78541600A71342 /* AccountTableViewController.m in Sources */,
 				4241C5F51C77C0CB0031F2A9 /* SPTSearch+WebAPI.m in Sources */,
 				4241C5A11C77A7D50031F2A9 /* AppDelegate.m in Sources */,
+				4214D48E1CD01825001BCBDB /* NSDictionary+QueryStringBuilder.m in Sources */,
 				4241C5EE1C77C0BC0031F2A9 /* PlaylistTableViewController.m in Sources */,
 				42FA92C81CCED96C006819A1 /* SoundCloud.m in Sources */,
 				4241C60B1C77C4FD0031F2A9 /* TrackTableViewCell.m in Sources */,

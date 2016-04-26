@@ -82,6 +82,7 @@
 #define kasset_data @"asset_data"
 #define kartwork_data @"artwork_data"
 #define kuser_favorite @"user_favorite"
+#define kq          @"q"
 
 
 #define kclient_id  @"client_id"

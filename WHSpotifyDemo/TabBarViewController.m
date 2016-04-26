@@ -21,6 +21,7 @@
 #import <MediaPlayer/MPRemoteCommandCenter.h>
 #import <MediaPlayer/MPRemoteCommand.h>
 #import "SoundCloud.h"
+#import "kSoundcloud.h"
 
 
 
@@ -46,13 +47,10 @@
     
     
     // temp soundcloud
-    [SoundCloud getTrack_userInfo:@{} success:^(NSDictionary *responseObject) {
+    [SoundCloud performSearchWithQuery:@"madeintyo i want" userInfo:@{} callback:^(id responseObject) {
         
-        NSLog(@"\n\n[debug] %@\n\n", @"Succesfully got track information.");
-        
-    } fail:^(BOOL finished) {
-        
-        
+        [[SoundCloud player] _loadAndPlayURLString:responseObject[0][kstream_url]];
+        NSLog(@"\n\n[debug] %@\n\n", @"Succesfully got track information from search.");
         
     }];
 }
@@ -165,17 +163,17 @@
         // TODO: enable all functionality here
         [self updateUI];
         
-        NSURLRequest *playlistReq = [SPTPlaylistSnapshot createRequestForPlaylistWithURI:[NSURL URLWithString:@"spotify:user:cariboutheband:playlist:4Dg0J0ICj9kKTGDyFu0Cv4"]
-                                                                             accessToken:auth.session.accessToken
-                                                                                   error:nil];
-        [[SPTRequest sharedHandler] performRequest:playlistReq callback:^(NSError *error, NSURLResponse *response, NSData *data) {
-            if (error != nil) {
-                NSLog(@"*** Failed to get playlist %@", error);
-                return;
-            }
-            SPTPlaylistSnapshot *playlistSnapshot = [SPTPlaylistSnapshot playlistSnapshotFromData:data withResponse:response error:nil];
-            [self.player playURIs:playlistSnapshot.firstTrackPage.items fromIndex:0 callback:nil];
-        }];
+//        NSURLRequest *playlistReq = [SPTPlaylistSnapshot createRequestForPlaylistWithURI:[NSURL URLWithString:@"spotify:user:cariboutheband:playlist:4Dg0J0ICj9kKTGDyFu0Cv4"]
+//                                                                             accessToken:auth.session.accessToken
+//                                                                                   error:nil];
+//        [[SPTRequest sharedHandler] performRequest:playlistReq callback:^(NSError *error, NSURLResponse *response, NSData *data) {
+//            if (error != nil) {
+//                NSLog(@"*** Failed to get playlist %@", error);
+//                return;
+//            }
+//            SPTPlaylistSnapshot *playlistSnapshot = [SPTPlaylistSnapshot playlistSnapshotFromData:data withResponse:response error:nil];
+//            [self.player playURIs:playlistSnapshot.firstTrackPage.items fromIndex:0 callback:nil];
+//        }];
     }];
 }
 
