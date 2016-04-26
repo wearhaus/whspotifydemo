@@ -20,6 +20,7 @@
 #import <MediaPlayer/MPMediaQuery.h>
 #import <MediaPlayer/MPRemoteCommandCenter.h>
 #import <MediaPlayer/MPRemoteCommand.h>
+#import "SoundCloud.h"
 
 
 
@@ -45,6 +46,15 @@
     
     
     // temp soundcloud
+    [SoundCloud getTrack_userInfo:@{} success:^(NSDictionary *responseObject) {
+        
+        NSLog(@"\n\n[debug] %@\n\n", @"Succesfully got track information.");
+        
+    } fail:^(BOOL finished) {
+        
+        
+        
+    }];
 }
 
 

@@ -13,6 +13,7 @@
 
 
 #define SC_HOST             @"http://api.soundcloud.com"
+
 #define SC_CLIENT_ID        @"c5791e23c5dbd5b726b7cc7dc409da5b"
 #define SC_CLIENT_SECRET    @"86ed937c98c7c2795a747168e9521a35"
 
@@ -28,16 +29,19 @@
 
 + (void)getTrack_userInfo:(NSDictionary *)dict success:(void (^)(NSDictionary *responseObject))succcessBlock fail:(void (^)(BOOL finished))failBlock
 {
-    [self request:[self track:@"trackID"] fromServer:SC_HOST withParams:nil success:^(NSDictionary *dict) {
+    [self request:[self track:@"206920024"] fromServer:SC_HOST withParams:nil success:^(NSDictionary *dict) {
         
         // TODO: put track URL in response
         // TODO: commented and logged instructions on how to load track
         // Reference: http://stackoverflow.com/questions/13111391/soundcloud-api-ios-no-sharing-only-listening
         //            https://developers.soundcloud.com/docs/api/reference#tracks
         
+        NSLog(@"%@",dict[kstream_url]);
+        if (succcessBlock) succcessBlock(dict);
+        
     } fail:^(BOOL failed) {
         
-        
+        if (failBlock) failBlock(YES);
         
     }];
 }
@@ -53,7 +57,7 @@
     
     NSURL *commandURL = [NSURL URLWithString:[@[server,command] stringify]];
     
-    NSURLRequest *request = [[AFHTTPRequestSerializer serializer] requestWithMethod:@"POST" URLString:commandURL.
+    NSURLRequest *request = [[AFHTTPRequestSerializer serializer] requestWithMethod:@"GET" URLString:commandURL.
                              absoluteString parameters:dict error:nil];
     
     
@@ -83,7 +87,7 @@
 
 + (NSString *)track:(NSString *)trackID
 {
-    return [@[ktracks,@"/",trackID]
+    return [@[ktracks,@"/",trackID, [self authenticate]]
             stringify];
 }
 
