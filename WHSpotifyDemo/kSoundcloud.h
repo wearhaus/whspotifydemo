@@ -23,10 +23,10 @@
 #define kfull_name  @"full_name"
 #define kcity       @"city"
 #define kdescription @"description"
-#define kdiscogs-name @"discogs-name"
-#define kmyspace-name @"myspace-name"
+#define kdiscogs_name @"discogs-name"
+#define kmyspace_name @"myspace-name"
 #define kwebsite    @"website"
-#define kwebsite-title @"website-title"
+#define kwebsite_title @"website-title"
 #define konline     @"online"
 #define ktrack_count @"track_count"
 #define kplaylist_count @"playlist_count"
@@ -50,5 +50,8 @@
 #define kembeddable_by @"embeddable_by"
 #define kpurchase_url @"purchase_url"
 #define kartwork_url @"artwork_url"
+
+
+#define kclient_id  @"client_id"
 
 #endif /* kSoundcloud_h */
