@@ -47,12 +47,12 @@
     
     
     // temp soundcloud
-    [SoundCloud performSearchWithQuery:@"madeintyo i want" userInfo:@{} callback:^(id responseObject) {
-        
-        [[SoundCloud player] _loadAndPlayURLString:responseObject[0][kstream_url]];
-        NSLog(@"\n\n[debug] %@\n\n", @"Succesfully got track information from search.");
-        
-    }];
+//    [SoundCloud performSearchWithQuery:@"madeintyo i want" userInfo:@{} callback:^(id responseObject) {
+//        
+//        [[SoundCloud player] _loadAndPlayURLString:responseObject[0][kstream_url]];
+//        NSLog(@"\n\n[debug] %@\n\n", @"Succesfully got track information from search.");
+//        
+//    }];
 }
 
 

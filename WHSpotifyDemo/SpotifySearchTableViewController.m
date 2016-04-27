@@ -10,6 +10,8 @@
 #import "SPTSearch+WebAPI.h"
 #import "TrackTableViewCell.h"
 #import <Spotify/Spotify.h>
+#import "SoundCloud.h"
+#import "kSoundcloud.h"
 
 
 @interface SpotifySearchTableViewController ()
@@ -49,16 +51,22 @@
 
 - (void)beginSearch
 {
-    [SPTSearch performSearchWithQuery:self.searchController.searchBar.text queryType:SPTQueryTypeTrack callback:^(NSError *error, SPTListPage *object) {
-        if (!error) {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                self.searchResults = [NSMutableArray arrayWithArray:object.items];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.tableView reloadData];
-                });
-            });
-        }
+    [SoundCloud performSearchWithQuery:self.searchController.searchBar.text userInfo:@{} callback:^(id responseObject) {
+        
+        [[SoundCloud player] _loadAndPlayURLString:responseObject[0][kstream_url]];
+        
     }];
+    
+//    [SPTSearch performSearchWithQuery:self.searchController.searchBar.text queryType:SPTQueryTypeTrack callback:^(NSError *error, SPTListPage *object) {
+//        if (!error) {
+//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//                self.searchResults = [NSMutableArray arrayWithArray:object.items];
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    [self.tableView reloadData];
+//                });
+//            });
+//        }
+//    }];
 }
 
 
@@ -96,8 +104,8 @@
 
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
-    if (searchController.searchBar.text.length != 0)
-        [self performSelectorOnMainThread:@selector(beginSearch) withObject:nil waitUntilDone:NO];
+//    if (searchController.searchBar.text.length != 0)
+//        [self performSelectorOnMainThread:@selector(beginSearch) withObject:nil waitUntilDone:NO];
 }
 
 
