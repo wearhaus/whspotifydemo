@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4214D48E1CD01825001BCBDB /* NSDictionary+QueryStringBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 4214D48D1CD01825001BCBDB /* NSDictionary+QueryStringBuilder.m */; };
 		4214D4981CD141BD001BCBDB /* SoundCloudSearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4214D4971CD141BD001BCBDB /* SoundCloudSearchTableViewController.m */; };
+		4214D49B1CD180AF001BCBDB /* SoundCloud+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4214D49A1CD180AF001BCBDB /* SoundCloud+Helper.m */; };
 		4227D3DC1C78541600A71342 /* AccountTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4227D3DB1C78541600A71342 /* AccountTableViewController.m */; };
 		4241C59E1C77A7D50031F2A9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4241C59D1C77A7D50031F2A9 /* main.m */; };
 		4241C5A11C77A7D50031F2A9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4241C5A01C77A7D50031F2A9 /* AppDelegate.m */; };
@@ -62,6 +63,8 @@
 		4214D48D1CD01825001BCBDB /* NSDictionary+QueryStringBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+QueryStringBuilder.m"; sourceTree = "<group>"; };
 		4214D4961CD141BD001BCBDB /* SoundCloudSearchTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundCloudSearchTableViewController.h; sourceTree = "<group>"; };
 		4214D4971CD141BD001BCBDB /* SoundCloudSearchTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoundCloudSearchTableViewController.m; sourceTree = "<group>"; };
+		4214D4991CD180AF001BCBDB /* SoundCloud+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SoundCloud+Helper.h"; sourceTree = "<group>"; };
+		4214D49A1CD180AF001BCBDB /* SoundCloud+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SoundCloud+Helper.m"; sourceTree = "<group>"; };
 		4227D3DA1C78541600A71342 /* AccountTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountTableViewController.h; sourceTree = "<group>"; };
 		4227D3DB1C78541600A71342 /* AccountTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountTableViewController.m; sourceTree = "<group>"; };
 		4241C5991C77A7D50031F2A9 /* WHSpotifyDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WHSpotifyDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -282,6 +285,8 @@
 				4241C5F11C77C0CB0031F2A9 /* SPTAudioStreamingController+WHSpotifyHelper.m */,
 				4241C5F21C77C0CB0031F2A9 /* SPTSearch+WebAPI.h */,
 				4241C5F31C77C0CB0031F2A9 /* SPTSearch+WebAPI.m */,
+				4214D4991CD180AF001BCBDB /* SoundCloud+Helper.h */,
+				4214D49A1CD180AF001BCBDB /* SoundCloud+Helper.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -526,6 +531,7 @@
 				4241C5FB1C77C0FF0031F2A9 /* DurationPositionBarManager.m in Sources */,
 				4241C5EF1C77C0BC0031F2A9 /* MyMusicTableViewController.m in Sources */,
 				426C5C971CCEE5CE00D85B24 /* NSArray+stringify.m in Sources */,
+				4214D49B1CD180AF001BCBDB /* SoundCloud+Helper.m in Sources */,
 				4241C59E1C77A7D50031F2A9 /* main.m in Sources */,
 				4241C5F81C77C0F10031F2A9 /* SpotifySearchTableViewController.m in Sources */,
 				4214D4981CD141BD001BCBDB /* SoundCloudSearchTableViewController.m in Sources */,

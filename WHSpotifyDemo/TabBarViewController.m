@@ -10,6 +10,7 @@
 #import "SpotifyConfig.h"
 #import "NowPlayingBarView.h"
 #import "SpotifySearchTableViewController.h"
+#import "SoundCloudSearchTableViewController.h"
 #import "PlaylistTableViewController.h"
 #import "SPTAudioStreamingController+WHSpotifyHelper.h"
 #import "MyMusicTableViewController.h"
@@ -21,11 +22,12 @@
 #import <MediaPlayer/MPRemoteCommandCenter.h>
 #import <MediaPlayer/MPRemoteCommand.h>
 #import "SoundCloud.h"
+#import "SoundCloud+Helper.h"
 #import "kSoundcloud.h"
 
 
 
-@interface TabBarViewController () <SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate, SPTAudioStreamingDelegate, NowPlayingBarViewDelegate, SpotifySearchTableViewControllerDelegate, PlaylistTableViewControllerDelegate, MyMusicTableViewControllerDelegate, AccountTableViewControllerDelegate>
+@interface TabBarViewController () <SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate, SPTAudioStreamingDelegate, NowPlayingBarViewDelegate, SpotifySearchTableViewControllerDelegate, PlaylistTableViewControllerDelegate, MyMusicTableViewControllerDelegate, AccountTableViewControllerDelegate, SoundCloudSearchTableViewControllerDelegate>
 
 @property (nonatomic, strong) SPTAudioStreamingController *player;
 @property (nonatomic, strong) NowPlayingBarView *nowPlayingBarView;
@@ -40,10 +42,7 @@
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     
     [self setDelegates];
-    
-    // setup now playing bottom bar
-//    self.nowPlayingBarView = [[NowPlayingBarView alloc] initInViewController:self];
-//    [self.nowPlayingBarView assignBarActionWithTarget:self playPauseAction:@selector(playPause) nextTrackAction:@selector(fastForward) previousTrackAction:@selector(rewind)];
+    [self setupNowPlayingBottomBar];
     
     
     // temp soundcloud
@@ -80,114 +79,16 @@
 
 - (void)playPause
 {
-    [self.player setIsPlaying:!self.player.isPlaying callback:nil];
-    [self.player updateCurrentPlaybackPosition];
+    [[SoundCloud player] _setIsPlaying:![SoundCloud player].isPlaying];
+    
+//    [self.player setIsPlaying:!self.player.isPlaying callback:nil];
+//    [self.player updateCurrentPlaybackPosition];
 }
 
 
 - (void)fastForward
 {
     [self.player skipNext:nil];
-}
-
-
-- (void)updateUI
-{
-    SPTAuth *auth = [SPTAuth defaultInstance];
-    
-    if (self.player.currentTrackURI == nil) {
-        return;
-    }
-    
-    [SPTTrack trackWithURI:self.player.currentTrackURI
-                   session:auth.session
-                  callback:^(NSError *error, SPTTrack *track)
-    {
-                      SPTPartialArtist *artist = [track.artists objectAtIndex:0];
-                      
-                      NSURL *imageURL = track.album.largestCover.imageURL;
-                      if (imageURL == nil) {
-                          NSLog(@"Album %@ doesn't have any images!", track.album);
-                          return;
-                      }
-                      
-                      // Pop over to a background queue to load the image over the network.
-                      dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                          NSError *error = nil;
-                          UIImage *image = nil;
-                          NSData *imageData = [NSData dataWithContentsOfURL:imageURL options:0 error:&error];
-                          
-                          MPMediaItemArtwork *albumArt;
-                          
-                          if (imageData != nil) {
-                              image = [UIImage imageWithData:imageData];
-                              albumArt = [[MPMediaItemArtwork alloc] initWithImage:image];
-                          }
-                          
-                          // …and back to the main queue to display the image.
-                          dispatch_async(dispatch_get_main_queue(), ^
-                          {
-                              if (image == nil) {
-                                  NSLog(@"Couldn't load cover image with error: %@", error);
-                                  return;
-                              }
-                              
-                              [self.nowPlayingBarView setSongTitle:track.name artist:artist.name albumArt:image duration:track.duration];
-                              [self.player setNowPlayingInfoWithCurrentTrack:track.name artist:artist.name album:track.album.name duration:track.duration albumArt:albumArt];
-                          });
-                      });
-                      
-                  }];
-}
-
-
-
-- (void)handleNewSession
-{
-    SPTAuth *auth = [SPTAuth defaultInstance];
-    
-    if (self.player == nil) {
-        self.player = [[SPTAudioStreamingController alloc] initWithClientId:auth.clientID];
-        self.player.playbackDelegate = self;
-        self.player.diskCache = [[SPTDiskCache alloc] initWithCapacity:1024 * 1024 * 64];
-        [self.player initControlCenterWithTarget:self playPauseAction:@selector(playPause) rewindAction:@selector(rewind) fastForwardAction:@selector(fastForward)];
-    }
-    
-    [self.player loginWithSession:auth.session callback:^(NSError *error) {
-        
-        if (error != nil) {
-            NSLog(@"*** Enabling playback got error: %@", error);
-            return;
-        }
-        
-        // TODO: enable all functionality here
-        [self updateUI];
-        
-//        NSURLRequest *playlistReq = [SPTPlaylistSnapshot createRequestForPlaylistWithURI:[NSURL URLWithString:@"spotify:user:cariboutheband:playlist:4Dg0J0ICj9kKTGDyFu0Cv4"]
-//                                                                             accessToken:auth.session.accessToken
-//                                                                                   error:nil];
-//        [[SPTRequest sharedHandler] performRequest:playlistReq callback:^(NSError *error, NSURLResponse *response, NSData *data) {
-//            if (error != nil) {
-//                NSLog(@"*** Failed to get playlist %@", error);
-//                return;
-//            }
-//            SPTPlaylistSnapshot *playlistSnapshot = [SPTPlaylistSnapshot playlistSnapshotFromData:data withResponse:response error:nil];
-//            [self.player playURIs:playlistSnapshot.firstTrackPage.items fromIndex:0 callback:nil];
-//        }];
-    }];
-}
-
-
-/**
- *  This method is needed in order for the now playing button bar to be updated
- *  with the currently playing track.
- *
- *  Use at viewWillAppear and nowPlayingBarDelegate willEnterForeground
- */
-- (void)handlePlaybackPosition
-{
-    if (self.player != nil)
-        [self.nowPlayingBarView updateUI];
 }
 
 
@@ -222,6 +123,151 @@
 }
 
 
+- (void)setupNowPlayingBottomBar
+{
+    self.nowPlayingBarView = [[NowPlayingBarView alloc] initInViewController:self];
+    [self.nowPlayingBarView assignBarActionWithTarget:self playPauseAction:@selector(playPause) nextTrackAction:@selector(fastForward) previousTrackAction:@selector(rewind)];
+}
+
+
+- (void)spt_updateUI
+{
+    SPTAuth *auth = [SPTAuth defaultInstance];
+    
+    if (self.player.currentTrackURI == nil) {
+        return;
+    }
+    
+    [SPTTrack trackWithURI:self.player.currentTrackURI
+                   session:auth.session
+                  callback:^(NSError *error, SPTTrack *track)
+     {
+         SPTPartialArtist *artist = [track.artists objectAtIndex:0];
+         
+         NSURL *imageURL = track.album.largestCover.imageURL;
+         if (imageURL == nil) {
+             NSLog(@"Album %@ doesn't have any images!", track.album);
+             return;
+         }
+         
+         // Pop over to a background queue to load the image over the network.
+         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+             NSError *error = nil;
+             UIImage *image = nil;
+             NSData *imageData = [NSData dataWithContentsOfURL:imageURL options:0 error:&error];
+             
+             MPMediaItemArtwork *albumArt;
+             
+             if (imageData != nil) {
+                 image = [UIImage imageWithData:imageData];
+                 albumArt = [[MPMediaItemArtwork alloc] initWithImage:image];
+             }
+             
+             // …and back to the main queue to display the image.
+             dispatch_async(dispatch_get_main_queue(), ^
+                            {
+                                if (image == nil) {
+                                    NSLog(@"Couldn't load cover image with error: %@", error);
+                                    return;
+                                }
+                                
+                                [self.nowPlayingBarView setSongTitle:track.name artist:artist.name albumArt:image duration:track.duration];
+                                [self.player setNowPlayingInfoWithCurrentTrack:track.name artist:artist.name album:track.album.name duration:track.duration albumArt:albumArt];
+                            });
+         });
+         
+     }];
+}
+
+
+- (void)sc_updateUI
+{
+    NSDictionary *track = [[SoundCloud player] _getCurrentTrack];
+    
+    NSURL *imageURL = [NSURL URLWithString:track[kartwork_url]];
+    if (imageURL == nil) {
+        NSLog(@"Track %@ doesn't have any images!", track[ktitle]);
+        return;
+    }
+    
+    // Pop over to a background queue to load the image over the network.
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSError *error = nil;
+        UIImage *image = nil;
+        NSData *imageData = [NSData dataWithContentsOfURL:imageURL options:0 error:&error];
+        
+        MPMediaItemArtwork *albumArt;
+        
+        if (imageData != nil) {
+            image = [UIImage imageWithData:imageData];
+            albumArt = [[MPMediaItemArtwork alloc] initWithImage:image];
+        }
+        
+        // …and back to the main queue to display the image.
+        dispatch_async(dispatch_get_main_queue(), ^
+        {
+            if (image == nil) {
+                NSLog(@"Couldn't load cover image with error: %@", error);
+                return;
+            }
+            
+            [self.nowPlayingBarView setSongTitle:track[ktitle] artist:track[kuser][kusername] albumArt:image duration:[track[kduration] integerValue]];
+            [[SoundCloud player] setNowPlayingInfoWithCurrentTrack:track[ktitle] artist:track[kuser][kusername] album:nil duration:[track[kduration] integerValue] albumArt:albumArt];
+        });
+    });
+}
+
+
+
+- (void)handleNewSession
+{
+    SPTAuth *auth = [SPTAuth defaultInstance];
+    
+    if (self.player == nil) {
+        self.player = [[SPTAudioStreamingController alloc] initWithClientId:auth.clientID];
+        self.player.playbackDelegate = self;
+        self.player.diskCache = [[SPTDiskCache alloc] initWithCapacity:1024 * 1024 * 64];
+        [self.player initControlCenterWithTarget:self playPauseAction:@selector(playPause) rewindAction:@selector(rewind) fastForwardAction:@selector(fastForward)];
+    }
+    
+    [self.player loginWithSession:auth.session callback:^(NSError *error) {
+        
+        if (error != nil) {
+            NSLog(@"*** Enabling playback got error: %@", error);
+            return;
+        }
+        
+        // TODO: enable all functionality here
+        [self spt_updateUI];
+        
+        //        NSURLRequest *playlistReq = [SPTPlaylistSnapshot createRequestForPlaylistWithURI:[NSURL URLWithString:@"spotify:user:cariboutheband:playlist:4Dg0J0ICj9kKTGDyFu0Cv4"]
+        //                                                                             accessToken:auth.session.accessToken
+        //                                                                                   error:nil];
+        //        [[SPTRequest sharedHandler] performRequest:playlistReq callback:^(NSError *error, NSURLResponse *response, NSData *data) {
+        //            if (error != nil) {
+        //                NSLog(@"*** Failed to get playlist %@", error);
+        //                return;
+        //            }
+        //            SPTPlaylistSnapshot *playlistSnapshot = [SPTPlaylistSnapshot playlistSnapshotFromData:data withResponse:response error:nil];
+        //            [self.player playURIs:playlistSnapshot.firstTrackPage.items fromIndex:0 callback:nil];
+        //        }];
+    }];
+}
+
+
+/**
+ *  This method is needed in order for the now playing button bar to be updated
+ *  with the currently playing track.
+ *
+ *  Use at viewWillAppear and nowPlayingBarDelegate willEnterForeground
+ */
+- (void)handlePlaybackPosition
+{
+    if (self.player != nil || [SoundCloud player].isPlaying)
+        [self.nowPlayingBarView updateUI];
+}
+
+
 
 #pragma mark - Track Player Delegates
 
@@ -248,7 +294,7 @@
 - (void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didChangeToTrack:(NSDictionary *)trackMetadata
 {
     NSLog(@"track changed = %@", [trackMetadata valueForKey:SPTAudioStreamingMetadataTrackURI]);
-    [self updateUI];
+    [self spt_updateUI];
 }
 
 
@@ -307,6 +353,17 @@
             NSLog(@"buffering track...");
         }];
     }];
+}
+
+
+#pragma mark - SoundCloudSearchTableViewController Delegate
+
+- (void)soundCloudSearchTableViewController:(SoundCloudSearchTableViewController *)tableView didSelectTrack:(id)track atIndexPath:(NSIndexPath *)indexPath
+{
+    [[SoundCloud player] _loadAndPlayTrack:track];
+    [self sc_updateUI];
+    [self.nowPlayingBarView setCurrentDurationPosition:0 totalDuration:[track[kduration] integerValue]];
+    [self.nowPlayingBarView setPlaying:YES];
 }
 
 

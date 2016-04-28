@@ -26,6 +26,7 @@
 
 
 @protocol SoundCloudSearchTableViewControllerDelegate <NSObject>
+// TODO: create delegate for when track is playing
 @optional
 - (void)soundCloudSearchTableViewController:(SoundCloudSearchTableViewController *)tableView didSelectTrack:(id)track atIndexPath:(NSIndexPath *)indexPath;
 @end

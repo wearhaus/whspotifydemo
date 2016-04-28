@@ -51,22 +51,16 @@
 
 - (void)beginSearch
 {
-    [SoundCloud performSearchWithQuery:self.searchController.searchBar.text userInfo:@{} callback:^(id responseObject) {
-        
-        [[SoundCloud player] _loadAndPlayURLString:responseObject[0][kstream_url]];
-        
+    [SPTSearch performSearchWithQuery:self.searchController.searchBar.text queryType:SPTQueryTypeTrack callback:^(NSError *error, SPTListPage *object) {
+        if (!error) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                self.searchResults = [NSMutableArray arrayWithArray:object.items];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.tableView reloadData];
+                });
+            });
+        }
     }];
-    
-//    [SPTSearch performSearchWithQuery:self.searchController.searchBar.text queryType:SPTQueryTypeTrack callback:^(NSError *error, SPTListPage *object) {
-//        if (!error) {
-//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//                self.searchResults = [NSMutableArray arrayWithArray:object.items];
-//                dispatch_async(dispatch_get_main_queue(), ^{
-//                    [self.tableView reloadData];
-//                });
-//            });
-//        }
-//    }];
 }
 
 
@@ -104,8 +98,8 @@
 
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
-//    if (searchController.searchBar.text.length != 0)
-//        [self performSelectorOnMainThread:@selector(beginSearch) withObject:nil waitUntilDone:NO];
+    if (searchController.searchBar.text.length != 0)
+        [self performSelectorOnMainThread:@selector(beginSearch) withObject:nil waitUntilDone:NO];
 }
 
 
@@ -152,6 +146,7 @@
         [self.delegate spotifySearchTableViewController:self didSelectTrack:track atIndexPath:indexPath];
     
     [self dismissNavigationController];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 

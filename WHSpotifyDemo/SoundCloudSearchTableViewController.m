@@ -7,6 +7,10 @@
 //
 
 #import "SoundCloudSearchTableViewController.h"
+#import "TrackTableViewCell.h"
+#import "SoundCloud.h"
+#import "kSoundcloud.h"
+
 
 @interface SoundCloudSearchTableViewController ()
 
@@ -14,85 +18,138 @@
 
 @implementation SoundCloudSearchTableViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
+    [self setupNavbar];
+    [self initSearchController];
+    [self registerTableViewCellNib];
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 100, 0);
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+
+- (void)dismissNavigationController
+{
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+
+#pragma mark - Private
+
+- (void)beginSearch
+{
+    [SoundCloud performSearchWithQuery:self.searchController.searchBar.text userInfo:@{} callback:^(NSArray *results) {
+        
+        if (results.count) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                self.searchResults = [NSMutableArray arrayWithArray:results];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.tableView reloadData];
+                });
+            });
+        }
+        
+    }];
+}
+
+
+- (void)setupNavbar
+{
+    [self setTitle:@"Search"];
+    [self.navigationController setNavigationBarHidden:NO];
+}
+
+
+- (void)initSearchController
+{
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+    self.searchController.searchResultsUpdater = self;
+    self.searchController.dimsBackgroundDuringPresentation = NO;
+    self.searchController.searchBar.delegate = self;
+    
+    // init searchBar
+    self.tableView.tableHeaderView = self.searchController.searchBar;
+    [self.searchController.searchBar sizeToFit];
+    [self.searchController.searchBar setShowsCancelButton:NO];
+    
+    self.definesPresentationContext = YES;
+}
+
+
+- (void)registerTableViewCellNib
+{
+    [self.tableView registerNib:[UINib nibWithNibName:TrackTableViewCellIdentifier bundle:nil] forCellReuseIdentifier:TrackTableViewCellIdentifier];
+}
+
+
+
+#pragma mark - Search Bar Delegate
+
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController
+{
+    if (searchController.searchBar.text.length != 0)
+        [self performSelectorOnMainThread:@selector(beginSearch) withObject:nil waitUntilDone:YES];
+}
+
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [self.tableView reloadData];
+    [self beginSearch];
+}
+
+
+
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Incomplete implementation, return the number of sections
-    return 0;
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of rows
-    return 0;
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.searchResults.count;
 }
 
-/*
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:TrackTableViewCellIdentifier forIndexPath:indexPath];
     
-    // Configure the cell...
+    NSDictionary *track = [self.searchResults objectAtIndex:indexPath.row];
+    
+    [cell.textLabel setText:track[ktitle]];
+    [cell.detailTextLabel setText:track[kuser][kusername]];
     
     return cell;
 }
-*/
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSDictionary *track = [self.searchResults objectAtIndex:indexPath.row];
+    
+    if (_delegate)
+        [self.delegate soundCloudSearchTableViewController:self didSelectTrack:track atIndexPath:indexPath];
+    
+    [self dismissNavigationController];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return TrackTableViewCellHeight;
 }
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

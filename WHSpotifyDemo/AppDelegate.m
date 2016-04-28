@@ -39,6 +39,10 @@
     auth.tokenRefreshURL = [NSURL URLWithString:@kTokenRefreshServiceURL];
 #endif
     auth.sessionUserDefaultsKey = @kSessionUserDefaultsKey;
+    
+    // Setup for soundcloud playback
+    [self _configurePlaybackForBackground];
+    
     return YES;
 }
 
@@ -69,6 +73,19 @@
     }
     
     return NO;
+}
+
+
+#pragma mark - Helper
+
+- (void)_configurePlaybackForBackground
+{
+    NSError *sessionError = nil;
+    [[AVAudioSession sharedInstance] setDelegate:self];
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord error:&sessionError];
+
+    UInt32 doChangeDefaultRoute = 1;
+    AudioSessionSetProperty(kAudioSessionProperty_OverrideCategoryDefaultToSpeaker, sizeof(doChangeDefaultRoute), &doChangeDefaultRoute);
 }
 
 @end

@@ -23,6 +23,7 @@
 @implementation SoundCloud
 
 #pragma mark - Public
+#pragma mark Player
 
 + (instancetype)player
 {
@@ -44,6 +45,29 @@
     return self;
 }
 
+
+- (void)_setIsPlaying:(BOOL)isPlaying
+{
+    if (isPlaying)
+    {
+        [_avPlayer play];
+        self.playing = YES;
+    }
+    else
+    {
+        [_avPlayer pause];
+        self.playing = NO;
+    }
+}
+
+
+- (void)_loadAndPlayTrack:(NSDictionary *)track
+{
+    currentTrack = [NSDictionary dictionaryWithDictionary:track];
+    [self _loadAndPlayURLString:track[kstream_url]];
+}
+
+
 - (void)_loadAndPlayURLString:(NSString *)url
 {
     [self _loadAndPlayURL:[NSURL URLWithString:url]];
@@ -52,11 +76,20 @@
 
 - (void)_loadAndPlayURL:(NSURL *)url
 {
-    NSURL *authenticaatedURL = [NSURL URLWithString:[@[url.absoluteString, [self authenticate]] stringify]];
-    AVPlayerItem *item = [AVPlayerItem playerItemWithURL:authenticaatedURL];
+    NSURL *authenticatedURL = [NSURL URLWithString:[@[url.absoluteString, [self authenticate]] stringify]];
+    AVPlayerItem *item = [AVPlayerItem playerItemWithURL:authenticatedURL];
     _avPlayer = [AVPlayer playerWithPlayerItem:item];
     [_avPlayer play];
 }
+
+
+- (NSDictionary *)_getCurrentTrack
+{
+    return currentTrack;
+}
+
+
+#pragma mark HTTP
 
 
 + (void)getUser_userInfo:(NSDictionary *)dict success:(void (^)(NSDictionary *responseObject))succcessBlock fail:(void (^)(BOOL finished))failBlock
@@ -85,11 +118,11 @@
 }
 
 
-+ (void)performSearchWithQuery:(NSString *)searchQuery userInfo:(NSDictionary *)dict callback:(void (^)(NSDictionary *))block
++ (void)performSearchWithQuery:(NSString *)searchQuery userInfo:(NSDictionary *)dict callback:(void (^)(NSArray *))block
 {
-    [self request:[self searchForTrack:searchQuery] fromServer:SC_HOST withParams:nil success:^(NSDictionary *dict) {
+    [self request:[self searchForTrack:searchQuery] fromServer:SC_HOST withParams:nil success:^(id array) {
         
-        if (block) block(dict);
+        if (block) block(array);
         
     } fail:^(BOOL finished) {
         
