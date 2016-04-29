@@ -22,6 +22,12 @@
 
 @implementation SoundCloud
 
+- (void)dealloc
+{
+    [self removeObservers];
+}
+
+
 #pragma mark - Public
 #pragma mark Player
 
@@ -42,6 +48,7 @@
     self = [super init];
     
     self.avPlayer = [[AVPlayer alloc] init];
+    
     return self;
 }
 
@@ -77,9 +84,11 @@
 - (void)_loadAndPlayURL:(NSURL *)url
 {
     NSURL *authenticatedURL = [NSURL URLWithString:[@[url.absoluteString, [self authenticate]] stringify]];
-    AVPlayerItem *item = [AVPlayerItem playerItemWithURL:authenticatedURL];
+    item = [AVPlayerItem playerItemWithURL:authenticatedURL];
+    [self observePlayerChanges];
+    
     _avPlayer = [AVPlayer playerWithPlayerItem:item];
-    [_avPlayer play];
+    [self _setIsPlaying:YES];
 }
 
 
@@ -89,8 +98,51 @@
 }
 
 
-#pragma mark HTTP
+#pragma mark Helper
 
+- (void)observePlayerChanges
+{
+    [item addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionInitial context:nil];
+    [self.delegate addObserver:self forKeyPath:@"hash" options:NSKeyValueObservingOptionInitial context:nil];
+}
+
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
+{
+    if (object == item && [keyPath isEqualToString:@"status"])
+    {
+        switch (item.status)
+        {
+            case AVPlayerStatusReadyToPlay:
+                if (_delegate)
+                    [self.delegate soundCloud:self didChangePlaybackStatus:[self isPlaying]];
+                break;
+                
+            case AVPlayerStatusFailed:
+                if (_delegate)
+                    [self.delegate soundCloud:self didChangePlaybackStatus:NO];
+                break;
+                
+            case AVPlayerStatusUnknown:
+                break;
+        }
+    }
+    
+    if (object == self.delegate)
+    {
+        if (!self.delegate)
+            [self removeObservers];
+    }
+}
+
+- (void)removeObservers
+{
+    [item removeObserver:self forKeyPath:@"status"];
+    [self.delegate removeObserver:self forKeyPath:@"hash"];
+}
+
+
+#pragma mark HTTP
 
 + (void)getUser_userInfo:(NSDictionary *)dict success:(void (^)(NSDictionary *responseObject))succcessBlock fail:(void (^)(BOOL finished))failBlock
 {

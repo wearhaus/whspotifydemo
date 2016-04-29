@@ -68,8 +68,7 @@
  *  Forces the view to update to ensure all song metadata is accurate.
  */
 - (void)updateUI;
-/**
- *  Shows the now playing bar.
+/**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           *  Shows the now playing bar.
  */
 - (void)show;
 /**

@@ -126,7 +126,7 @@
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:TrackTableViewCellIdentifier forIndexPath:indexPath];
     
-    NSDictionary *track = [self.searchResults objectAtIndex:indexPath.row];
+    NSDictionary *track = [self.searchResults objectAtIndex:indexPath.row] ? [self.searchResults objectAtIndex:indexPath.row] : @{};
     
     [cell.textLabel setText:track[ktitle]];
     [cell.detailTextLabel setText:track[kuser][kusername]];

@@ -27,7 +27,7 @@
 
 
 
-@interface TabBarViewController () <SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate, SPTAudioStreamingDelegate, NowPlayingBarViewDelegate, SpotifySearchTableViewControllerDelegate, PlaylistTableViewControllerDelegate, MyMusicTableViewControllerDelegate, AccountTableViewControllerDelegate, SoundCloudSearchTableViewControllerDelegate>
+@interface TabBarViewController () <SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate, SPTAudioStreamingDelegate, NowPlayingBarViewDelegate, SpotifySearchTableViewControllerDelegate, PlaylistTableViewControllerDelegate, MyMusicTableViewControllerDelegate, AccountTableViewControllerDelegate, SoundCloudSearchTableViewControllerDelegate, SoundCloudPlayerDelegate>
 
 @property (nonatomic, strong) SPTAudioStreamingController *player;
 @property (nonatomic, strong) NowPlayingBarView *nowPlayingBarView;
@@ -43,15 +43,6 @@
     
     [self setDelegates];
     [self setupNowPlayingBottomBar];
-    
-    
-    // temp soundcloud
-//    [SoundCloud performSearchWithQuery:@"madeintyo i want" userInfo:@{} callback:^(id responseObject) {
-//        
-//        [[SoundCloud player] _loadAndPlayURLString:responseObject[0][kstream_url]];
-//        NSLog(@"\n\n[debug] %@\n\n", @"Succesfully got track information from search.");
-//        
-//    }];
 }
 
 
@@ -80,6 +71,9 @@
 - (void)playPause
 {
     [[SoundCloud player] _setIsPlaying:![SoundCloud player].isPlaying];
+    [[SoundCloud player] updateCurrentPlaybackPosition];
+    [self.nowPlayingBarView setPlaying:[SoundCloud player].isPlaying];
+    [self handlePlaybackPosition];
     
 //    [self.player setIsPlaying:!self.player.isPlaying callback:nil];
 //    [self.player updateCurrentPlaybackPosition];
@@ -120,6 +114,8 @@
                  break;
          }
      }];
+    
+    [SoundCloud player].delegate = self;
 }
 
 
@@ -211,8 +207,10 @@
                 return;
             }
             
-            [self.nowPlayingBarView setSongTitle:track[ktitle] artist:track[kuser][kusername] albumArt:image duration:[track[kduration] integerValue]];
-            [[SoundCloud player] setNowPlayingInfoWithCurrentTrack:track[ktitle] artist:track[kuser][kusername] album:nil duration:[track[kduration] integerValue] albumArt:albumArt];
+            NSTimeInterval duration = [track[kduration] integerValue]/1000;
+            
+            [self.nowPlayingBarView setSongTitle:track[ktitle] artist:track[kuser][kusername] albumArt:image duration:duration];
+            [[SoundCloud player] setNowPlayingInfoWithCurrentTrack:track[ktitle] artist:track[kuser][kusername] album:nil duration:duration albumArt:albumArt];
         });
     });
 }
@@ -263,7 +261,7 @@
  */
 - (void)handlePlaybackPosition
 {
-    if (self.player != nil || [SoundCloud player].isPlaying)
+    if (self.player != nil || [SoundCloud player])
         [self.nowPlayingBarView updateUI];
 }
 
@@ -312,6 +310,16 @@
      currentTrackDuration];
     [self.nowPlayingBarView setPlaying:self.player.isPlaying];
     [self.player updateCurrentPlaybackPosition];
+}
+
+
+
+#pragma mark - SoundCloud Player Delegate
+
+- (void)soundCloud:(SoundCloud *)soundcloud didChangePlaybackStatus:(BOOL)playing
+{
+//    [self.nowPlayingBarView setPlaying:playing];
+    [[SoundCloud player] updateCurrentPlaybackPosition];
 }
 
 

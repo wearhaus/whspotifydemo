@@ -9,15 +9,18 @@
 #import <Foundation/Foundation.h>
 
 
-@class AVPlayer;
+@protocol SoundCloudPlayerDelegate;
+
+@class AVPlayer, AVPlayerItem;
 @interface SoundCloud : NSObject
 {
     NSDictionary *currentTrack;
+    AVPlayerItem *item;
 }
 
-
-@property(strong, nonatomic) AVPlayer *avPlayer;
-@property(nonatomic, getter=isPlaying) BOOL playing;
+@property (strong, nonatomic) AVPlayer *avPlayer;
+@property (nonatomic, getter=isPlaying) BOOL playing;
+@property (weak) NSObject<SoundCloudPlayerDelegate> *delegate;
 
 /**
  *  Init a singleton of the location manager.
@@ -41,4 +44,10 @@
  */
 + (void)performSearchWithQuery:(NSString *)searchQuery userInfo:(NSDictionary *)dict callback:(void (^)(NSArray *results))block;
 
+@end
+
+
+@protocol SoundCloudPlayerDelegate <NSObject>
+@optional
+- (void)soundCloud:(SoundCloud *)soundcloud didChangePlaybackStatus:(BOOL)playing;
 @end
