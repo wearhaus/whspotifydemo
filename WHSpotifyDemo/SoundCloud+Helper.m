@@ -32,11 +32,16 @@
 
 - (void)updateCurrentPlaybackPosition
 {
-    NSNumber *seconds = [NSNumber numberWithDouble:self.avPlayer.currentTime.value/self.avPlayer.currentTime.timescale];
     NSMutableDictionary *nowPlayingInfo = [[MPNowPlayingInfoCenter defaultCenter].nowPlayingInfo mutableCopy];
     
-    [nowPlayingInfo setObject:seconds forKey:MPNowPlayingInfoPropertyElapsedPlaybackTime];
+    [nowPlayingInfo setObject:[self seconds] forKey:MPNowPlayingInfoPropertyElapsedPlaybackTime];
     [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:nowPlayingInfo];
+}
+
+
+- (NSNumber *)seconds
+{
+    return [NSNumber numberWithDouble:self.avPlayer.currentTime.value/self.avPlayer.currentTime.timescale];
 }
 
 @end

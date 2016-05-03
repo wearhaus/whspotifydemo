@@ -24,4 +24,10 @@
  */
 - (void)updateCurrentPlaybackPosition;
 
+
+/**
+ *  Returns the duration in seconds of the current track.
+ */
+- (NSNumber *)seconds;
+
 @end

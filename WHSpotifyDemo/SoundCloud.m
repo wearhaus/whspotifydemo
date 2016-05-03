@@ -7,9 +7,11 @@
 //
 
 #import "SoundCloud.h"
+#import "SoundCloud+Helper.h"
 #import "kSoundcloud.h"
 #import "NSArray+stringify.h"
 #import "NSDictionary+QueryStringBuilder.h"
+#import "AVPlayerItem+Helper.h"
 #import <AFNetworking.h>
 #import <AVFoundation/AVPlayer.h>
 #import <AVFoundation/AVPlayerItem.h>
@@ -25,6 +27,7 @@
 - (void)dealloc
 {
     [self removeObservers];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 
@@ -84,6 +87,9 @@
 - (void)_loadAndPlayURL:(NSURL *)url
 {
     NSURL *authenticatedURL = [NSURL URLWithString:[@[url.absoluteString, [self authenticate]] stringify]];
+    
+    if (item) [item removeObserver:self forKeyPath:@"status"];
+    
     item = [AVPlayerItem playerItemWithURL:authenticatedURL];
     [self observePlayerChanges];
     
@@ -98,12 +104,62 @@
 }
 
 
+- (NSNumber *)_getCurrentTrackDuration
+{
+    return [self seconds];
+}
+
+
 #pragma mark Helper
 
 - (void)observePlayerChanges
 {
     [item addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionInitial context:nil];
     [self.delegate addObserver:self forKeyPath:@"hash" options:NSKeyValueObservingOptionInitial context:nil];
+    
+    // NSNotification approach
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didPlayToEnd) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(timeJumped:) name:AVPlayerItemTimeJumpedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(failedToPlayToEndTime:) name:AVPlayerItemFailedToPlayToEndTimeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackStalled:) name:AVPlayerItemPlaybackStalledNotification object:nil];
+}
+
+
+- (void)didPlayToEnd
+{
+    if (self.delegate != nil)
+    {
+        [self _setIsPlaying:NO];
+        [self.delegate soundCloud:self didChangePlaybackStatus:NO];
+    }
+}
+
+
+- (void)timeJumped:(NSNotification *)notification
+{
+    AVPlayerItem *playerItem = notification.object;
+    NSLog(@"\n\n[time jumped] %@\n\n", [playerItem _seconds]);
+    
+    if (self.delegate != nil)
+        [self.delegate soundCloud:self didSeekToOffset:[playerItem _seconds].doubleValue];
+}
+
+
+- (void)failedToPlayToEndTime:(NSNotification *)notification
+{
+    NSLog(@"\n\n[failed to play to end] %@\n\n", notification.userInfo);
+    
+    if (self.delegate != nil)
+        [self.delegate soundCloud:self didFailToPlayTrack:nil];
+}
+
+
+- (void)playbackStalled:(NSNotification *)notification
+{
+    NSLog(@"\n\n[playback stalled] %@\n\n", notification.userInfo);
+    
+    if (self.delegate != nil)
+        [self.delegate soundCloud:self didFailToPlayTrack:nil];
 }
 
 
@@ -114,17 +170,23 @@
         switch (item.status)
         {
             case AVPlayerStatusReadyToPlay:
+            {
                 if (_delegate)
                     [self.delegate soundCloud:self didChangePlaybackStatus:[self isPlaying]];
                 break;
+            }
                 
             case AVPlayerStatusFailed:
+            {
                 if (_delegate)
                     [self.delegate soundCloud:self didChangePlaybackStatus:NO];
                 break;
+            }
                 
             case AVPlayerStatusUnknown:
+            {
                 break;
+            }
         }
     }
     

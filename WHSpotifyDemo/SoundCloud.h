@@ -31,6 +31,7 @@
 - (void)_loadAndPlayTrack:(NSDictionary *)track;
 - (void)_loadAndPlayURLString:(NSString *)url;
 - (NSDictionary *)_getCurrentTrack;
+- (NSNumber *)_getCurrentTrackDuration;
 
 + (void)getUser_userInfo:(NSDictionary *)dict success:(void (^)(NSDictionary *responseObject))succcessBlock fail:(void (^)(BOOL finished))failBlock;
 
@@ -50,4 +51,7 @@
 @protocol SoundCloudPlayerDelegate <NSObject>
 @optional
 - (void)soundCloud:(SoundCloud *)soundcloud didChangePlaybackStatus:(BOOL)playing;
+- (void)soundCloud:(SoundCloud *)soundcloud didSeekToOffset:(NSTimeInterval)offset;
+- (void)soundCloud:(SoundCloud *)soundcloud didChangeToTrack:(NSDictionary *)trackMetadata;
+- (void)soundCloud:(SoundCloud *)soundcloud didFailToPlayTrack:(NSURL *)trackUri;
 @end

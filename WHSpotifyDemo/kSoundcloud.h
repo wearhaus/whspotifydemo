@@ -51,7 +51,7 @@
 #define kpurchase_url @"purchase_url"
 #define kartwork_url @"artwork_url"
 #define kdescription @"description"
-#define klabel      @"label"yo
+#define klabel      @"label"
 #define kduration   @"duration"
 #define kgenre      @"genre"
 #define ktag_list   @"tag_list"

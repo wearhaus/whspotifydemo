@@ -16,6 +16,8 @@
 #import "MyMusicTableViewController.h"
 #import "AccountTableViewController.h"
 #import <Spotify/SPTDiskCache.h>
+#import <AVFoundation/AVPlayer.h>
+#import <AVFoundation/AVPlayerItem.h>
 #import <MediaPlayer/MPNowPlayingInfoCenter.h>
 #import <MediaPlayer/MPMediaItem.h>
 #import <MediaPlayer/MPMediaQuery.h>
@@ -323,6 +325,26 @@
 }
 
 
+- (void)soundCloud:(SoundCloud *)soundcloud didSeekToOffset:(NSTimeInterval)offset
+{
+    [self.nowPlayingBarView setCurrentDurationPosition:self.player.currentPlaybackPosition totalDuration:self.player.currentTrackDuration];
+    [self.nowPlayingBarView setPlaying:[SoundCloud player].isPlaying];
+    [[SoundCloud player] updateCurrentPlaybackPosition];
+}
+
+
+- (void)soundCloud:(SoundCloud *)soundcloud didChangeToTrack:(NSDictionary *)trackMetadata
+{
+    
+}
+
+
+- (void)soundCloud:(SoundCloud *)soundcloud didFailToPlayTrack:(NSURL *)trackUri
+{
+    
+}
+
+
 
 #pragma mark - Tab Bar Controller Delegate
 
@@ -337,7 +359,10 @@
 
 - (void)nowPlayingBar:(NowPlayingBarView *)nowPlayingBar playbackPositionDidTapToChangeToPosition:(NSTimeInterval)position
 {
+    // FIXME: Split/switch between SoundCloud and AVPlayer
     [self.player seekToOffset:position callback:nil];
+    
+    [[[SoundCloud player] avPlayer].currentItem seekToTime:CMTimeMakeWithSeconds(position, 60000)];
 }
 
 

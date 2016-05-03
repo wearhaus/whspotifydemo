@@ -80,6 +80,7 @@
     self.tableView.tableHeaderView = self.searchController.searchBar;
     [self.searchController.searchBar sizeToFit];
     [self.searchController.searchBar setShowsCancelButton:NO];
+    [self.searchController.searchBar setAutocapitalizationType:UITextAutocapitalizationTypeNone];
     
     self.definesPresentationContext = YES;
 }
