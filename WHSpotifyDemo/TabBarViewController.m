@@ -66,15 +66,17 @@
 
 - (void)rewind
 {
+    // TODO: switch reference to SoundCloud or Spotify
     [self.player skipPrevious:nil];
 }
 
 
 - (void)playPause
 {
+    // TODO: switch reference to SoundCloud or Spotify
     [[SoundCloud player] _setIsPlaying:![SoundCloud player].isPlaying];
-    [[SoundCloud player] updateCurrentPlaybackPosition];
     [self.nowPlayingBarView setPlaying:[SoundCloud player].isPlaying];
+    [[SoundCloud player] updateCurrentPlaybackPosition];
     [self handlePlaybackPosition];
     
 //    [self.player setIsPlaying:!self.player.isPlaying callback:nil];
@@ -84,6 +86,7 @@
 
 - (void)fastForward
 {
+    // TODO: switch reference to SoundCloud or Spotify
     [self.player skipNext:nil];
 }
 
@@ -237,20 +240,8 @@
             return;
         }
         
-        // TODO: enable all functionality here
+        // FIXME: enable all functionality here
         [self spt_updateUI];
-        
-        //        NSURLRequest *playlistReq = [SPTPlaylistSnapshot createRequestForPlaylistWithURI:[NSURL URLWithString:@"spotify:user:cariboutheband:playlist:4Dg0J0ICj9kKTGDyFu0Cv4"]
-        //                                                                             accessToken:auth.session.accessToken
-        //                                                                                   error:nil];
-        //        [[SPTRequest sharedHandler] performRequest:playlistReq callback:^(NSError *error, NSURLResponse *response, NSData *data) {
-        //            if (error != nil) {
-        //                NSLog(@"*** Failed to get playlist %@", error);
-        //                return;
-        //            }
-        //            SPTPlaylistSnapshot *playlistSnapshot = [SPTPlaylistSnapshot playlistSnapshotFromData:data withResponse:response error:nil];
-        //            [self.player playURIs:playlistSnapshot.firstTrackPage.items fromIndex:0 callback:nil];
-        //        }];
     }];
 }
 
@@ -268,8 +259,65 @@
 }
 
 
+- (id)nowPlayingTrackItem
+{
+    switch ([self getActiveMusicOrigin])
+    {
+        case MusicOriginSpotify:
+        {
+            return self.player;
+            break;
+        }
+            
+        case MusicOriginSoundCloud:
+        {
+            return [SoundCloud player];
+            break;
+        }
+    }
+}
 
-#pragma mark - Track Player Delegates
+
+- (MusicOrigin)getActiveMusicOrigin
+{
+    if (([SoundCloud player] || [[SoundCloud player] isPlaying])
+        && ![self.player isPlaying])
+    {
+        return MusicOriginSoundCloud;
+    }
+    else if ((self.player || [self.player isPlaying])
+             && ![[SoundCloud player] isPlaying])
+    {
+        return MusicOriginSpotify;
+    }
+    else
+    {
+        return MusicOriginSoundCloud;
+    }
+}
+
+
+- (void)forMusicPlayerSpotify:(void (^)(void))spotifyBlock soundCloud:(void (^)(void))soundCloudBlock
+{
+    switch ([self getActiveMusicOrigin])
+    {
+        case MusicOriginSpotify:
+        {
+            if (spotifyBlock) spotifyBlock();
+            break;
+        }
+            
+        case MusicOriginSoundCloud:
+        {
+            if (soundCloudBlock) soundCloudBlock();
+            break;
+        }
+    }
+}
+
+
+
+#pragma mark - Spotify Track Player Delegates
 
 - (void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didReceiveMessage:(NSString *)message
 {
@@ -287,7 +335,7 @@
     NSLog(@"failed to play track: %@", trackUri);
     [self.player setIsPlaying:NO callback:nil];
     
-    // TODO: Handle when track can't play and unload track from deck.
+    // FIXME: Handle when track can't play and unload track from deck.
 }
 
 
@@ -300,6 +348,7 @@
 
 - (void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didChangePlaybackStatus:(BOOL)isPlaying
 {
+    // TODO: switch reference to SoundCloud or Spotify
     [self.nowPlayingBarView setCurrentDurationPosition:self.player.currentPlaybackPosition totalDuration:self.player.currentTrackDuration];
     [self.nowPlayingBarView setPlaying:isPlaying];
     NSLog(@"is playing = %d", isPlaying);
@@ -308,10 +357,19 @@
 
 - (void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didSeekToOffset:(NSTimeInterval)offset
 {
-    [self.nowPlayingBarView setCurrentDurationPosition:self.player.currentPlaybackPosition totalDuration:self.player.
-     currentTrackDuration];
-    [self.nowPlayingBarView setPlaying:self.player.isPlaying];
-    [self.player updateCurrentPlaybackPosition];
+    SPTAudioStreamingController *nowPlayingTrackItem = (SPTAudioStreamingController *)[self nowPlayingTrackItem];
+    
+    [self.nowPlayingBarView setCurrentDurationPosition:[nowPlayingTrackItem currentPlaybackPosition] totalDuration:[nowPlayingTrackItem currentTrackDuration]];
+    [self.nowPlayingBarView setPlaying:[nowPlayingTrackItem isPlaying]];
+    
+    [self forMusicPlayerSpotify:^
+    {
+        [self.player updateCurrentPlaybackPosition];
+        
+    } soundCloud:^
+    {
+        [[SoundCloud player] updateCurrentPlaybackPosition];
+    }];
 }
 
 
@@ -327,8 +385,9 @@
 
 - (void)soundCloud:(SoundCloud *)soundcloud didSeekToOffset:(NSTimeInterval)offset
 {
+    // TODO: switch to soundcloud reference
     [self.nowPlayingBarView setCurrentDurationPosition:self.player.currentPlaybackPosition totalDuration:self.player.currentTrackDuration];
-    [self.nowPlayingBarView setPlaying:[SoundCloud player].isPlaying];
+//    [self.nowPlayingBarView setPlaying:[SoundCloud player].isPlaying];
     [[SoundCloud player] updateCurrentPlaybackPosition];
 }
 
@@ -359,10 +418,13 @@
 
 - (void)nowPlayingBar:(NowPlayingBarView *)nowPlayingBar playbackPositionDidTapToChangeToPosition:(NSTimeInterval)position
 {
-    // FIXME: Split/switch between SoundCloud and AVPlayer
+    // TODO: Split/switch between SoundCloud and AVPlayer
     [self.player seekToOffset:position callback:nil];
     
     [[[SoundCloud player] avPlayer].currentItem seekToTime:CMTimeMakeWithSeconds(position, 60000)];
+    [[SoundCloud player] updateCurrentPlaybackPosition];
+    
+    // TODO: Update view calling from SoundCloud delegate
 }
 
 
@@ -405,6 +467,7 @@
 
 - (void)playlistTableView:(PlaylistTableViewController *)view didSelectPlaylist:(SPTPartialPlaylist *)playlist userInfo:(NSDictionary *)userInfo
 {
+    // FIXME: switch between spotify playlist table or SoundCloud
     SPTAuth *auth = [SPTAuth defaultInstance];
     
     [SPTPlaylistSnapshot playlistWithURI:playlist.playableUri session:auth.session callback:^(NSError *error, id object)
@@ -424,6 +487,7 @@
 
 - (void)myMusicTableViewController:(MyMusicTableViewController *)tableView didSelectTrack:(SPTTrack *)track userInfo:(NSDictionary *)userInfo
 {
+    // FIXME: switch between spotify playlist table or SoundCloud
     SPTAuth *auth = [SPTAuth defaultInstance];
     
     [SPTTrack trackWithURI:track.uri session:auth.session callback:^(NSError *error, id object) {

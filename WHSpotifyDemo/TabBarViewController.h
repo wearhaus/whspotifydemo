@@ -16,6 +16,12 @@ typedef enum {
     WHSpotifyTabUser
 }WHSpotifyTabViews;
 
+
+typedef enum {
+    MusicOriginSpotify,
+    MusicOriginSoundCloud,
+}MusicOrigin;
+
 @interface TabBarViewController : UITabBarController <UITabBarControllerDelegate>
 
 @end

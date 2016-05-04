@@ -51,6 +51,7 @@
     self = [super init];
     
     self.avPlayer = [[AVPlayer alloc] init];
+    [self avPlayer_allowBluetooth];
     
     return self;
 }
@@ -107,6 +108,18 @@
 - (NSNumber *)_getCurrentTrackDuration
 {
     return [self seconds];
+}
+
+
+- (NSNumber *)currentPlaybackPosition
+{
+    return [item _seconds];
+}
+
+
+- (NSNumber *)currentTrackDuration
+{
+    return currentTrack[kduration];
 }
 
 
@@ -220,8 +233,7 @@
         // TODO: commented and logged instructions on how to load track
         // Reference: http://stackoverflow.com/questions/13111391/soundcloud-api-ios-no-sharing-only-listening
         //            https://developers.soundcloud.com/docs/api/reference#tracks
-        
-        NSLog(@"%@",dict[kstream_url]);
+
         if (succcessBlock) succcessBlock(dict);
         
     } fail:^(BOOL failed) {
@@ -259,10 +271,6 @@
     NSURLRequest *request = [[AFHTTPRequestSerializer serializer] requestWithMethod:@"GET" URLString:commandURL.
                              absoluteString parameters:dict error:nil];
     
-    
-    
-    NSLog(@"\n\n[request] %@\n\n[json] %@\n\n", commandURL, dict);
-    
     NSURLSessionDataTask *dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error)
     {
         if (error)
@@ -274,7 +282,6 @@
         {
             // TODO: have another check to make sure results are correct
             if (succcessBlock) succcessBlock(responseObject);
-            NSLog(@"\n\n[response] %@ %@\n\n", response, responseObject);
         }
     }];
     
@@ -314,6 +321,17 @@
 {
     return [@[@"?",kclient_id,@"=",SC_CLIENT_ID]
     stringify];
+}
+
+- (void)avPlayer_allowBluetooth
+{
+    NSError *setCategoryError = nil;
+    BOOL success = [[AVAudioSession sharedInstance]
+                    setCategory:AVAudioSessionCategoryPlayback
+                    withOptions:AVAudioSessionCategoryOptionAllowBluetooth
+                    error:&setCategoryError];
+    
+    if (!success) { /* handle the error in setCategoryError */ }
 }
 
 @end

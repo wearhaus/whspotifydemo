@@ -7,6 +7,7 @@
 //
 
 #import "SoundCloud+Helper.h"
+#import "AVPlayerItem+Helper.h"
 #import <AVFoundation/AVPlayer.h>
 
 
@@ -34,14 +35,8 @@
 {
     NSMutableDictionary *nowPlayingInfo = [[MPNowPlayingInfoCenter defaultCenter].nowPlayingInfo mutableCopy];
     
-    [nowPlayingInfo setObject:[self seconds] forKey:MPNowPlayingInfoPropertyElapsedPlaybackTime];
+    [nowPlayingInfo setObject:[self.avPlayer.currentItem _seconds] forKey:MPNowPlayingInfoPropertyElapsedPlaybackTime];
     [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:nowPlayingInfo];
-}
-
-
-- (NSNumber *)seconds
-{
-    return [NSNumber numberWithDouble:self.avPlayer.currentTime.value/self.avPlayer.currentTime.timescale];
 }
 
 @end
