@@ -73,14 +73,20 @@
 
 - (void)playPause
 {
-    // TODO: switch reference to SoundCloud or Spotify
-    [[SoundCloud player] _setIsPlaying:![SoundCloud player].isPlaying];
-    [self.nowPlayingBarView setPlaying:[SoundCloud player].isPlaying];
-    [[SoundCloud player] updateCurrentPlaybackPosition];
-    [self handlePlaybackPosition];
+    [self forMusicPlayerSpotify:^
+    {
+        [self.player setIsPlaying:!self.player.isPlaying callback:nil];
+        [self.player updateCurrentPlaybackPosition];
+        
+    } soundCloud:^
+    {
+        [[SoundCloud player] _setIsPlaying:![SoundCloud player].isPlaying];
+        [[SoundCloud player] updateCurrentPlaybackPosition];
+    }];
     
-//    [self.player setIsPlaying:!self.player.isPlaying callback:nil];
-//    [self.player updateCurrentPlaybackPosition];
+    
+    [self.nowPlayingBarView setPlaying:[SoundCloud player].isPlaying];
+//    [self handlePlaybackPosition];
 }
 
 
@@ -385,8 +391,7 @@
 
 - (void)soundCloud:(SoundCloud *)soundcloud didSeekToOffset:(NSTimeInterval)offset
 {
-    // TODO: switch to soundcloud reference
-    [self.nowPlayingBarView setCurrentDurationPosition:self.player.currentPlaybackPosition totalDuration:self.player.currentTrackDuration];
+    [self.nowPlayingBarView setCurrentDurationPosition:(double)offset totalDuration:self.player.currentTrackDuration];
 //    [self.nowPlayingBarView setPlaying:[SoundCloud player].isPlaying];
     [[SoundCloud player] updateCurrentPlaybackPosition];
 }

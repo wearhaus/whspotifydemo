@@ -47,7 +47,7 @@
 - (void)pause
 {
     self.playing = NO;
-    [self setCurrentDurationPosition:[self getPlaybackPosition] totalDuration:self.duration];
+//    [self setCurrentDurationPosition:[self getPlaybackPosition] totalDuration:self.duration];
 }
 
 
@@ -107,7 +107,7 @@
 - (void)setPosition:(NSTimeInterval)playbackPosition
 {
     self.playbackPosition = playbackPosition;
-    startDate = [NSDate date];
+    startDate = [self isPlaying] ? [NSDate date] : nil;
     [self.delegate playbackPositionDidChangeToPosition:playbackPosition duration:self.duration sender:self];
 }
 
@@ -126,7 +126,7 @@
 
 - (void)autoAnimate
 {
-    [self autoAnimateDurationWithPosition:[self getPlaybackPosition] duration:self.duration];
+    [self autoAnimateDurationWithPosition:([self isPlaying] ? [self getPlaybackPosition] : self.playbackPosition) duration:self.duration];
 }
 
 

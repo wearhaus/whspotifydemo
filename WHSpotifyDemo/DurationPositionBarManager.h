@@ -41,6 +41,8 @@
 - (double)percentWithWidth:(double)width;
 - (NSTimeInterval)getPlaybackPosition;
 
+- (void)setPosition:(NSTimeInterval)playbackPosition;
+
 @end
 
 
