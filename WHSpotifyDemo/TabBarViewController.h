@@ -24,4 +24,6 @@ typedef enum {
 
 @interface TabBarViewController : UITabBarController <UITabBarControllerDelegate>
 
+@property (nonatomic) MusicOrigin lastMusicOrigin;
+
 @end

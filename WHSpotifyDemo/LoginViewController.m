@@ -102,7 +102,7 @@
 
 - (void)sessionUpdatedNotification:(NSNotification *)notification
 {
-    if(self.navigationController.topViewController == self) {
+    if (self.navigationController.topViewController == self) {
         SPTAuth *auth = [SPTAuth defaultInstance];
         if (auth.session && [auth.session isValid]) {
             [self performSegueWithIdentifier:@"ShowTabView" sender:nil];

@@ -112,6 +112,27 @@
 }
 
 
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
+{
+    [UIView animateWithDuration:0.4f animations:^
+     {
+         UIEdgeInsets inset = UIEdgeInsetsMake(108, 0, 0, 0);
+         self.tableView.contentInset = inset;
+     }];
+    
+    return YES;
+}
+
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    [UIView animateWithDuration:0.4f animations:^
+     {
+         UIEdgeInsets inset = UIEdgeInsetsMake(0, 0, 0, 0);
+         self.tableView.contentInset = inset;
+     }];
+}
+
 
 #pragma mark - Table view data source
 

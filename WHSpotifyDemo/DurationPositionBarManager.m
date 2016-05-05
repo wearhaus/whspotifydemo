@@ -47,7 +47,7 @@
 - (void)pause
 {
     self.playing = NO;
-//    [self setCurrentDurationPosition:[self getPlaybackPosition] totalDuration:self.duration];
+    [self setCurrentDurationPosition:[self getPlaybackPosition] totalDuration:self.duration];
 }
 
 

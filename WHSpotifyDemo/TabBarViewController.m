@@ -15,6 +15,7 @@
 #import "SPTAudioStreamingController+WHSpotifyHelper.h"
 #import "MyMusicTableViewController.h"
 #import "AccountTableViewController.h"
+#import "SearchTabsNavigationViewController.h"
 #import <Spotify/SPTDiskCache.h>
 #import <AVFoundation/AVPlayer.h>
 #import <AVFoundation/AVPlayerItem.h>
@@ -73,7 +74,7 @@
 
 - (void)playPause
 {
-    [self forMusicPlayerSpotify:^
+    [self forActiveMusicPlayerSpotify:^
     {
         [self.player setIsPlaying:!self.player.isPlaying callback:nil];
         [self.player updateCurrentPlaybackPosition];
@@ -84,9 +85,7 @@
         [[SoundCloud player] updateCurrentPlaybackPosition];
     }];
     
-    
-    [self.nowPlayingBarView setPlaying:[SoundCloud player].isPlaying];
-//    [self handlePlaybackPosition];
+    [self updateDurationUI];
 }
 
 
@@ -110,8 +109,12 @@
                  break;
                  
              case WHSpotifyTabSearch:
-                 ((SpotifySearchTableViewController *)[(UINavigationController *)obj topViewController]).delegate = self;
+             {
+                 SearchTabsNavigationViewController *searchTabs = [(SearchTabsNavigationViewController *)[obj topViewController] init];
+                 searchTabs.spotifySearchTableViewController.delegate = self;
+                 searchTabs.soundCloudSearchTableViewController.delegate = self;
                  break;
+             }
                  
              case WHSpotifyTabPlaylists:
                  ((PlaylistTableViewController *)[(UINavigationController *)obj topViewController]).delegate = self;
@@ -189,6 +192,8 @@
 
 - (void)sc_updateUI
 {
+    [self setLastMusicOrigin:MusicOriginSoundCloud];
+    
     NSDictionary *track = [[SoundCloud player] _getCurrentTrack];
     
     NSURL *imageURL = [NSURL URLWithString:track[kartwork_url]];
@@ -322,6 +327,56 @@
 }
 
 
+- (void)forActiveMusicPlayerSpotify:(void (^)(void))spotifyBlock soundCloud:(void (^)(void))soundCloudBlock
+{
+    switch (self.lastMusicOrigin)
+    {
+        case MusicOriginSpotify:
+        {
+            if (spotifyBlock) spotifyBlock();
+            break;
+        }
+            
+        case MusicOriginSoundCloud:
+        {
+            if (soundCloudBlock) soundCloudBlock();
+            break;
+        }
+    }
+}
+
+
+- (void)updateDurationUI
+{
+    double currentPosition, totalDuration;
+    
+    switch (self.lastMusicOrigin)
+    {
+        case MusicOriginSpotify:
+        {
+            currentPosition = [self.player currentPlaybackPosition];
+            totalDuration = [self.player currentTrackDuration];
+            
+            [self.nowPlayingBarView setPlaying:self.player.isPlaying];
+            [self setLastMusicOrigin:MusicOriginSpotify];
+            break;
+        }
+            
+        case MusicOriginSoundCloud:
+        {
+            currentPosition = [[SoundCloud player] currentPlaybackPosition].doubleValue;
+            totalDuration = [[SoundCloud player] currentTrackDuration].doubleValue;
+            
+            [self.nowPlayingBarView setPlaying:[SoundCloud player].isPlaying];
+            [self setLastMusicOrigin:MusicOriginSoundCloud];
+            break;
+        }
+    }
+    
+    [self.nowPlayingBarView setCurrentDurationPosition:currentPosition totalDuration:totalDuration];
+}
+
+
 
 #pragma mark - Spotify Track Player Delegates
 
@@ -349,6 +404,7 @@
 {
     NSLog(@"track changed = %@", [trackMetadata valueForKey:SPTAudioStreamingMetadataTrackURI]);
     [self spt_updateUI];
+    [self setLastMusicOrigin:MusicOriginSpotify];
 }
 
 
@@ -363,10 +419,7 @@
 
 - (void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didSeekToOffset:(NSTimeInterval)offset
 {
-    SPTAudioStreamingController *nowPlayingTrackItem = (SPTAudioStreamingController *)[self nowPlayingTrackItem];
-    
-    [self.nowPlayingBarView setCurrentDurationPosition:[nowPlayingTrackItem currentPlaybackPosition] totalDuration:[nowPlayingTrackItem currentTrackDuration]];
-    [self.nowPlayingBarView setPlaying:[nowPlayingTrackItem isPlaying]];
+    [self updateDurationUI];
     
     [self forMusicPlayerSpotify:^
     {

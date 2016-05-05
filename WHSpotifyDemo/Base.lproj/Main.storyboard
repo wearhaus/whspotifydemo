@@ -99,17 +99,31 @@
             </objects>
             <point key="canvasLocation" x="288" y="1262"/>
         </scene>
-        <!--Sound Cloud Search Table View Controller-->
+        <!--Search Tabs Navigation View Controller-->
+        <scene sceneID="Ojb-pT-5M6">
+            <objects>
+                <navigationController id="eh0-Qo-1fr" customClass="SearchTabsNavigationViewController" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="g9A-2a-goE"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="UFn-YB-bI6">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Nz4-N2-WJr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2527" y="1262"/>
+        </scene>
+        <!--Table View Controller-->
         <scene sceneID="y4K-AV-eHb">
             <objects>
-                <tableViewController id="Mnb-la-7EA" customClass="SoundCloudSearchTableViewController" sceneMemberID="viewController">
+                <tableViewController id="Mnb-la-7EA" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="klj-R0-nHe">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="bET-DP-kdx">
-                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bET-DP-kdx" id="ybN-kU-Xks">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
@@ -126,7 +140,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JeG-hr-Iyc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2527" y="1262"/>
+            <point key="canvasLocation" x="3257" y="974"/>
         </scene>
         <!--Playlist Table View Controller-->
         <scene sceneID="d8g-Ol-XVF">
@@ -169,7 +183,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="Mnb-la-7EA" kind="relationship" relationship="rootViewController" id="hDJ-wQ-LwC"/>
+                        <segue destination="eh0-Qo-1fr" kind="relationship" relationship="rootViewController" id="jaa-tz-gic"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cai-Cp-j7w" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -38,6 +38,7 @@
 		4241C60B1C77C4FD0031F2A9 /* TrackTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4241C6071C77C4FD0031F2A9 /* TrackTableViewCell.m */; };
 		4241C60C1C77C4FD0031F2A9 /* TrackTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4241C6081C77C4FD0031F2A9 /* TrackTableViewCell.xib */; };
 		426C5C971CCEE5CE00D85B24 /* NSArray+stringify.m in Sources */ = {isa = PBXBuildFile; fileRef = 426C5C961CCEE5CE00D85B24 /* NSArray+stringify.m */; };
+		428723E21CDBE97700FE10D0 /* SearchTabsNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 428723E11CDBE97700FE10D0 /* SearchTabsNavigationViewController.m */; };
 		42FA92C81CCED96C006819A1 /* SoundCloud.m in Sources */ = {isa = PBXBuildFile; fileRef = 42FA92C71CCED96C006819A1 /* SoundCloud.m */; };
 		953432DE11F3BFA27A1DF5F4 /* libPods-WHSpotifyDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF3494AEFE5ED1084BE0106A /* libPods-WHSpotifyDemo.a */; };
 /* End PBXBuildFile section */
@@ -117,6 +118,8 @@
 		4241C6081C77C4FD0031F2A9 /* TrackTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TrackTableViewCell.xib; sourceTree = "<group>"; };
 		426C5C951CCEE5CE00D85B24 /* NSArray+stringify.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+stringify.h"; sourceTree = "<group>"; };
 		426C5C961CCEE5CE00D85B24 /* NSArray+stringify.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+stringify.m"; sourceTree = "<group>"; };
+		428723E01CDBE97700FE10D0 /* SearchTabsNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTabsNavigationViewController.h; sourceTree = "<group>"; };
+		428723E11CDBE97700FE10D0 /* SearchTabsNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTabsNavigationViewController.m; sourceTree = "<group>"; };
 		42FA92C61CCED96C006819A1 /* SoundCloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundCloud.h; sourceTree = "<group>"; };
 		42FA92C71CCED96C006819A1 /* SoundCloud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoundCloud.m; sourceTree = "<group>"; };
 		42FA92C91CCEDBD8006819A1 /* kSoundcloud.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = kSoundcloud.h; sourceTree = "<group>"; };
@@ -273,6 +276,8 @@
 				4227D3DB1C78541600A71342 /* AccountTableViewController.m */,
 				4214D4961CD141BD001BCBDB /* SoundCloudSearchTableViewController.h */,
 				4214D4971CD141BD001BCBDB /* SoundCloudSearchTableViewController.m */,
+				428723E01CDBE97700FE10D0 /* SearchTabsNavigationViewController.h */,
+				428723E11CDBE97700FE10D0 /* SearchTabsNavigationViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -531,6 +536,7 @@
 				4241C5F51C77C0CB0031F2A9 /* SPTSearch+WebAPI.m in Sources */,
 				4241C5A11C77A7D50031F2A9 /* AppDelegate.m in Sources */,
 				4214D48E1CD01825001BCBDB /* NSDictionary+QueryStringBuilder.m in Sources */,
+				428723E21CDBE97700FE10D0 /* SearchTabsNavigationViewController.m in Sources */,
 				4241C5EE1C77C0BC0031F2A9 /* PlaylistTableViewController.m in Sources */,
 				42FA92C81CCED96C006819A1 /* SoundCloud.m in Sources */,
 				4241C60B1C77C4FD0031F2A9 /* TrackTableViewCell.m in Sources */,

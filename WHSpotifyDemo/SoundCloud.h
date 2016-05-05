@@ -51,10 +51,6 @@
  */
 - (NSDictionary *)_getCurrentTrack;
 
-/**
- *  Get the current duration of the track in seconds as an NSNumber.
- */
-- (NSNumber *)_getCurrentTrackDuration;
 
 /** Returns the current approximate playback position of the current track. */
 - (NSNumber *)currentPlaybackPosition;

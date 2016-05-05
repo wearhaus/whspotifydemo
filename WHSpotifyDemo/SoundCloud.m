@@ -105,15 +105,9 @@
 }
 
 
-- (NSNumber *)_getCurrentTrackDuration
-{
-    return [self seconds];
-}
-
-
 - (NSNumber *)currentPlaybackPosition
 {
-    return [item _seconds];
+    return [self.avPlayer.currentItem _seconds];
 }
 
 
