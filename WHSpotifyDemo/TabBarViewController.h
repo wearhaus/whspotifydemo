@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "kMusicServices.h"
 
 
 typedef enum {
@@ -15,12 +16,6 @@ typedef enum {
     WHSpotifyTabSearch,
     WHSpotifyTabUser
 }WHSpotifyTabViews;
-
-
-typedef enum {
-    MusicOriginSpotify,
-    MusicOriginSoundCloud,
-}MusicOrigin;
 
 @interface TabBarViewController : UITabBarController <UITabBarControllerDelegate>
 

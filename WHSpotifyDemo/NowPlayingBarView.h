@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "DurationPositionBarManager.h"
 #import "NowPlayingDetailViewController.h"
+#import "kMusicServices.h"
 
 
 @protocol NowPlayingBarViewDelegate;
@@ -40,6 +41,7 @@
 @property (weak, nonatomic) IBOutlet UIView *progressBarView;
 @property (weak, nonatomic) IBOutlet UIView *progressBarDuration;
 @property (weak, nonatomic) IBOutlet UIView *progressBarTouch;
+@property (weak, nonatomic) IBOutlet UIView *musicServiceColorLabel;
 
 @property (nonatomic) NSTimeInterval duration;
 
@@ -51,10 +53,15 @@
 /**
  *  Sets the song metadata for the view.
  */
-- (void)setSongTitle:(NSString *)title artist:(NSString *)artist albumArt:(UIImage *)albumArt duration:(NSTimeInterval)duration;
+- (void)setSongTitle:(NSString *)title artist:(NSString *)artist albumArt:(UIImage *)albumArt duration:(NSTimeInterval)duration origin:(MusicOrigin)origin;
 - (void)setSongTitle:(NSString *)title;
 - (void)setSongArtist:(NSString *)artist;
 - (void)setSongAlbumArt:(UIImage *)albumArt;
+
+/**
+ *  Set the origin of the music
+ */
+- (void)setMusicServiceOrigin:(MusicOrigin)origin;
 /**
  *  This method should be set in a delegate method that handles actual playback
  *  and not user actions.

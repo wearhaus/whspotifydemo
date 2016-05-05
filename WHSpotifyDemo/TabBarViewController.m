@@ -175,15 +175,15 @@
              
              // …and back to the main queue to display the image.
              dispatch_async(dispatch_get_main_queue(), ^
-                            {
-                                if (image == nil) {
-                                    NSLog(@"Couldn't load cover image with error: %@", error);
-                                    return;
-                                }
-                                
-                                [self.nowPlayingBarView setSongTitle:track.name artist:artist.name albumArt:image duration:track.duration];
-                                [self.player setNowPlayingInfoWithCurrentTrack:track.name artist:artist.name album:track.album.name duration:track.duration albumArt:albumArt];
-                            });
+             {
+                 if (image == nil) {
+                     NSLog(@"Couldn't load cover image with error: %@", error);
+                     return;
+                 }
+                 
+                 [self.nowPlayingBarView setSongTitle:track.name artist:artist.name albumArt:image duration:track.duration origin:MusicOriginSpotify];
+                 [self.player setNowPlayingInfoWithCurrentTrack:track.name artist:artist.name album:track.album.name duration:track.duration albumArt:albumArt];
+             });
          });
          
      }];
@@ -192,7 +192,7 @@
 
 - (void)sc_updateUI
 {
-    [self setLastMusicOrigin:MusicOriginSoundCloud];
+    [self changeLastMusicOrigin:MusicOriginSoundCloud];
     
     NSDictionary *track = [[SoundCloud player] _getCurrentTrack];
     
@@ -225,7 +225,7 @@
             
             NSTimeInterval duration = [track[kduration] integerValue]/1000;
             
-            [self.nowPlayingBarView setSongTitle:track[ktitle] artist:track[kuser][kusername] albumArt:image duration:duration];
+            [self.nowPlayingBarView setSongTitle:track[ktitle] artist:track[kuser][kusername] albumArt:image duration:duration origin:MusicOriginSoundCloud];
             [[SoundCloud player] setNowPlayingInfoWithCurrentTrack:track[ktitle] artist:track[kuser][kusername] album:nil duration:duration albumArt:albumArt];
         });
     });
@@ -358,7 +358,7 @@
             totalDuration = [self.player currentTrackDuration];
             
             [self.nowPlayingBarView setPlaying:self.player.isPlaying];
-            [self setLastMusicOrigin:MusicOriginSpotify];
+            [self changeLastMusicOrigin:MusicOriginSpotify];
             break;
         }
             
@@ -368,12 +368,34 @@
             totalDuration = [[SoundCloud player] currentTrackDuration].doubleValue;
             
             [self.nowPlayingBarView setPlaying:[SoundCloud player].isPlaying];
-            [self setLastMusicOrigin:MusicOriginSoundCloud];
+            [self changeLastMusicOrigin:MusicOriginSoundCloud];
             break;
         }
     }
     
     [self.nowPlayingBarView setCurrentDurationPosition:currentPosition totalDuration:totalDuration];
+}
+
+
+- (void)changeLastMusicOrigin:(MusicOrigin)lastMusicOrigin
+{
+    BOOL didChangeOrigin = lastMusicOrigin != self.lastMusicOrigin;
+    self.lastMusicOrigin = lastMusicOrigin;
+    
+    if (didChangeOrigin) [self didChangeMusicOrigin];
+}
+
+
+- (void)didChangeMusicOrigin
+{
+    [self forActiveMusicPlayerSpotify:^
+    {
+        [[SoundCloud player] _setIsPlaying:NO];
+        
+    } soundCloud:^
+    {
+        [self.player setIsPlaying:NO callback:nil];
+    }];
 }
 
 
@@ -404,7 +426,7 @@
 {
     NSLog(@"track changed = %@", [trackMetadata valueForKey:SPTAudioStreamingMetadataTrackURI]);
     [self spt_updateUI];
-    [self setLastMusicOrigin:MusicOriginSpotify];
+    [self changeLastMusicOrigin:MusicOriginSpotify];
 }
 
 
@@ -437,7 +459,7 @@
 
 - (void)soundCloud:(SoundCloud *)soundcloud didChangePlaybackStatus:(BOOL)playing
 {
-//    [self.nowPlayingBarView setPlaying:playing];
+    [self.nowPlayingBarView setPlaying:playing];
     [[SoundCloud player] updateCurrentPlaybackPosition];
 }
 
@@ -445,7 +467,7 @@
 - (void)soundCloud:(SoundCloud *)soundcloud didSeekToOffset:(NSTimeInterval)offset
 {
     [self.nowPlayingBarView setCurrentDurationPosition:(double)offset totalDuration:self.player.currentTrackDuration];
-//    [self.nowPlayingBarView setPlaying:[SoundCloud player].isPlaying];
+    [self.nowPlayingBarView setPlaying:[SoundCloud player].isPlaying];
     [[SoundCloud player] updateCurrentPlaybackPosition];
 }
 

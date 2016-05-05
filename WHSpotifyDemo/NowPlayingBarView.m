@@ -122,13 +122,29 @@
 }
 
 
-- (void)setSongTitle:(NSString *)title artist:(NSString *)artist albumArt:(UIImage *)albumArt duration:(NSTimeInterval)duration
+- (void)setMusicServiceOrigin:(MusicOrigin)origin
+{
+    switch (origin)
+    {
+        case MusicOriginSpotify:
+            [self.musicServiceColorLabel setBackgroundColor:[UIColor colorWithRed:50./255 green:205./255 blue:100./255 alpha:1]];
+            break;
+            
+        case MusicOriginSoundCloud:
+            [self.musicServiceColorLabel setBackgroundColor:[UIColor colorWithRed:255./255 green:153./255 blue:63./255 alpha:1]];
+            break;
+    }
+}
+
+
+- (void)setSongTitle:(NSString *)title artist:(NSString *)artist albumArt:(UIImage *)albumArt duration:(NSTimeInterval)duration origin:(MusicOrigin)origin
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         [self setDuration:duration];
         [self setSongTitle:title];
         [self setSongArtist:artist];
         [self setSongAlbumArt:albumArt];
+        [self setMusicServiceOrigin:origin];
         [durationPositionManager setCurrentDurationPosition:0 totalDuration:duration];
         [self setPlaying:self.isPlaying];
         

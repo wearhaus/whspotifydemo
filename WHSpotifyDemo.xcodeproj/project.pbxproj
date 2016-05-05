@@ -120,6 +120,7 @@
 		426C5C961CCEE5CE00D85B24 /* NSArray+stringify.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+stringify.m"; sourceTree = "<group>"; };
 		428723E01CDBE97700FE10D0 /* SearchTabsNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTabsNavigationViewController.h; sourceTree = "<group>"; };
 		428723E11CDBE97700FE10D0 /* SearchTabsNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTabsNavigationViewController.m; sourceTree = "<group>"; };
+		428723E31CDC040700FE10D0 /* kMusicServices.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = kMusicServices.h; sourceTree = "<group>"; };
 		42FA92C61CCED96C006819A1 /* SoundCloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundCloud.h; sourceTree = "<group>"; };
 		42FA92C71CCED96C006819A1 /* SoundCloud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoundCloud.m; sourceTree = "<group>"; };
 		42FA92C91CCEDBD8006819A1 /* kSoundcloud.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = kSoundcloud.h; sourceTree = "<group>"; };
@@ -211,6 +212,7 @@
 			children = (
 				4241C59D1C77A7D50031F2A9 /* main.m */,
 				42FA92C91CCEDBD8006819A1 /* kSoundcloud.h */,
+				428723E31CDC040700FE10D0 /* kMusicServices.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
