@@ -69,7 +69,7 @@
 - (void)setupNavbar
 {
     [self setTitle:@"Search"];
-    [self.navigationController setNavigationBarHidden:NO];
+    [self.navigationController setNavigationBarHidden:YES];
 }
 
 
@@ -114,7 +114,7 @@
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
 {
-    [UIView animateWithDuration:0.4f animations:^
+    [UIView animateWithDuration:.8f animations:^
      {
          UIEdgeInsets inset = UIEdgeInsetsMake(108, 0, 0, 0);
          self.tableView.contentInset = inset;
@@ -126,11 +126,19 @@
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-    [UIView animateWithDuration:0.4f animations:^
+    [UIView animateWithDuration:.1f animations:^
      {
-         UIEdgeInsets inset = UIEdgeInsetsMake(0, 0, 0, 0);
+         UIEdgeInsets inset = UIEdgeInsetsMake([self getNavigationBarHeight], 0, 0, 0);
          self.tableView.contentInset = inset;
      }];
+}
+
+
+#pragma mark Helper
+
+- (CGFloat)getNavigationBarHeight
+{
+    return [(UINavigationController *)self.parentViewController navigationItem].titleView.frame.size.height/2 + 5;
 }
 
 

@@ -16,6 +16,11 @@
 #import "MyMusicTableViewController.h"
 #import "AccountTableViewController.h"
 #import "SearchTabsNavigationViewController.h"
+#import "SoundCloud.h"
+#import "SoundCloud+Helper.h"
+#import "kSoundcloud.h"
+#import "PlaybackQueue.h"
+#import "PlaybackQueue+Origin.h"
 #import <Spotify/SPTDiskCache.h>
 #import <AVFoundation/AVPlayer.h>
 #import <AVFoundation/AVPlayerItem.h>
@@ -24,9 +29,6 @@
 #import <MediaPlayer/MPMediaQuery.h>
 #import <MediaPlayer/MPRemoteCommandCenter.h>
 #import <MediaPlayer/MPRemoteCommand.h>
-#import "SoundCloud.h"
-#import "SoundCloud+Helper.h"
-#import "kSoundcloud.h"
 
 
 
@@ -67,32 +69,20 @@
 
 - (void)rewind
 {
-    // TODO: switch reference to SoundCloud or Spotify
-    [self.player skipPrevious:nil];
+    [[PlaybackQueue manager] _previous];
 }
 
 
 - (void)playPause
 {
-    [self forActiveMusicPlayerSpotify:^
-    {
-        [self.player setIsPlaying:!self.player.isPlaying callback:nil];
-        [self.player updateCurrentPlaybackPosition];
-        
-    } soundCloud:^
-    {
-        [[SoundCloud player] _setIsPlaying:![SoundCloud player].isPlaying];
-        [[SoundCloud player] updateCurrentPlaybackPosition];
-    }];
-    
+    [[PlaybackQueue manager] _togglePlayPause];
     [self updateDurationUI];
 }
 
 
 - (void)fastForward
 {
-    // TODO: switch reference to SoundCloud or Spotify
-    [self.player skipNext:nil];
+    [[PlaybackQueue manager] _next];
 }
 
 
@@ -137,6 +127,8 @@
 {
     self.nowPlayingBarView = [[NowPlayingBarView alloc] initInViewController:self];
     [self.nowPlayingBarView assignBarActionWithTarget:self playPauseAction:@selector(playPause) nextTrackAction:@selector(fastForward) previousTrackAction:@selector(rewind)];
+    
+    [self.nowPlayingBarView setSongTitle:@"" artist:@"" albumArt:nil duration:0 origin:MusicOriginSpotify];
 }
 
 
@@ -192,7 +184,7 @@
 
 - (void)sc_updateUI
 {
-    [self changeLastMusicOrigin:MusicOriginSoundCloud];
+    [[PlaybackQueue manager] changeLastMusicOrigin:MusicOriginSoundCloud];
     
     NSDictionary *track = [[SoundCloud player] _getCurrentTrack];
     
@@ -242,6 +234,8 @@
         self.player.playbackDelegate = self;
         self.player.diskCache = [[SPTDiskCache alloc] initWithCapacity:1024 * 1024 * 64];
         [self.player initControlCenterWithTarget:self playPauseAction:@selector(playPause) rewindAction:@selector(rewind) fastForwardAction:@selector(fastForward)];
+        
+        [PlaybackQueue manager].spotifyPlayer = self.player;
     }
     
     [self.player loginWithSession:auth.session callback:^(NSError *error) {
@@ -327,30 +321,11 @@
 }
 
 
-- (void)forActiveMusicPlayerSpotify:(void (^)(void))spotifyBlock soundCloud:(void (^)(void))soundCloudBlock
-{
-    switch (self.lastMusicOrigin)
-    {
-        case MusicOriginSpotify:
-        {
-            if (spotifyBlock) spotifyBlock();
-            break;
-        }
-            
-        case MusicOriginSoundCloud:
-        {
-            if (soundCloudBlock) soundCloudBlock();
-            break;
-        }
-    }
-}
-
-
 - (void)updateDurationUI
 {
     double currentPosition, totalDuration;
     
-    switch (self.lastMusicOrigin)
+    switch ([PlaybackQueue manager].lastMusicOrigin)
     {
         case MusicOriginSpotify:
         {
@@ -358,7 +333,7 @@
             totalDuration = [self.player currentTrackDuration];
             
             [self.nowPlayingBarView setPlaying:self.player.isPlaying];
-            [self changeLastMusicOrigin:MusicOriginSpotify];
+            [[PlaybackQueue manager] changeLastMusicOrigin:MusicOriginSpotify];
             break;
         }
             
@@ -368,34 +343,12 @@
             totalDuration = [[SoundCloud player] currentTrackDuration].doubleValue;
             
             [self.nowPlayingBarView setPlaying:[SoundCloud player].isPlaying];
-            [self changeLastMusicOrigin:MusicOriginSoundCloud];
+            [[PlaybackQueue manager] changeLastMusicOrigin:MusicOriginSoundCloud];
             break;
         }
     }
     
     [self.nowPlayingBarView setCurrentDurationPosition:currentPosition totalDuration:totalDuration];
-}
-
-
-- (void)changeLastMusicOrigin:(MusicOrigin)lastMusicOrigin
-{
-    BOOL didChangeOrigin = lastMusicOrigin != self.lastMusicOrigin;
-    self.lastMusicOrigin = lastMusicOrigin;
-    
-    if (didChangeOrigin) [self didChangeMusicOrigin];
-}
-
-
-- (void)didChangeMusicOrigin
-{
-    [self forActiveMusicPlayerSpotify:^
-    {
-        [[SoundCloud player] _setIsPlaying:NO];
-        
-    } soundCloud:^
-    {
-        [self.player setIsPlaying:NO callback:nil];
-    }];
 }
 
 
@@ -426,7 +379,7 @@
 {
     NSLog(@"track changed = %@", [trackMetadata valueForKey:SPTAudioStreamingMetadataTrackURI]);
     [self spt_updateUI];
-    [self changeLastMusicOrigin:MusicOriginSpotify];
+    [[PlaybackQueue manager] changeLastMusicOrigin:MusicOriginSpotify];
 }
 
 
@@ -519,15 +472,8 @@
 
 - (void)spotifySearchTableViewController:(SpotifySearchTableViewController *)tableView didSelectTrack:(SPTTrack *)track atIndexPath:(NSIndexPath *)indexPath
 {
-    SPTAuth *auth = [SPTAuth defaultInstance];
-    
-    [SPTTrack trackWithURI:track.uri session:auth.session callback:^(NSError *error, id object) {
-        NSArray *tracks = @[track.playableUri];
-        [self.player playURIs:tracks fromIndex:0 callback:nil];
-        [self.player confirmTrackIsPlaying:nil isNotPlaying:^{
-            NSLog(@"buffering track...");
-        }];
-    }];
+    [[PlaybackQueue manager] changeLastMusicOrigin:MusicOriginSpotify];
+    [[PlaybackQueue manager] _play:@[track]];
 }
 
 
@@ -535,7 +481,8 @@
 
 - (void)soundCloudSearchTableViewController:(SoundCloudSearchTableViewController *)tableView didSelectTrack:(id)track atIndexPath:(NSIndexPath *)indexPath
 {
-    [[SoundCloud player] _loadAndPlayTrack:track];
+    [[PlaybackQueue manager] changeLastMusicOrigin:MusicOriginSoundCloud];
+    [[PlaybackQueue manager] _play:@[track]];
     [self sc_updateUI];
     [self.nowPlayingBarView setCurrentDurationPosition:0 totalDuration:[track[kduration] integerValue]];
     [self.nowPlayingBarView setPlaying:YES];

@@ -13,4 +13,6 @@
 
 @interface TrackTableViewCell : UITableViewCell
 
+@property (assign, nonatomic) IBOutlet UIView *musicServiceColorLabel;
+
 @end

@@ -105,6 +105,9 @@
 {
 //    tableViewController.automaticallyAdjustsScrollViewInsets = NO;
 //    tableViewController.tableView.contentInset = UIEdgeInsetsZero;
+//    [(UINavigationController *)self.parentViewController setNavigationBarHidden:YES animated:YES];
+//    tableViewController.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    [tableViewController.tableView updateConstraints];
 }
 
 

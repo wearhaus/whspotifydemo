@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "DurationPositionBarManager.h"
+#import "kMusicServices.h"
 
 
 @protocol NowPlayingDetailViewControllerDelegate;
@@ -27,12 +28,14 @@
 @property (weak, nonatomic) IBOutlet UIButton *playPauseButton;
 @property (weak, nonatomic) IBOutlet UIButton *nextButton;
 @property (weak, nonatomic) IBOutlet UIButton *previousButton;
+@property (weak, nonatomic) IBOutlet UILabel *musicServiceOriginLabel;
+@property (weak, nonatomic) IBOutlet UIView *musicServiceColorLabel;
 @property (weak) NSObject<NowPlayingDetailViewControllerDelegate> *delegate;
 
 /**
  *  Sets the song metadata for the view.
  */
-- (void)setSongTitle:(NSString *)title artist:(NSString *)artist albumArt:(UIImage *)albumArt duration:(NSTimeInterval)duration;
+- (void)setSongTitle:(NSString *)title artist:(NSString *)artist albumArt:(UIImage *)albumArt duration:(NSTimeInterval)duration origin:(MusicOrigin)origin;
 - (void)setSongTitle:(NSString *)title;
 - (void)setSongArtist:(NSString *)artist;
 - (void)setSongAlbumArt:(UIImage *)albumArt;

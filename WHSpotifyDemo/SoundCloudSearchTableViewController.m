@@ -10,6 +10,7 @@
 #import "TrackTableViewCell.h"
 #import "SoundCloud.h"
 #import "kSoundcloud.h"
+#import "kMusicServices.h"
 
 
 @interface SoundCloudSearchTableViewController ()
@@ -111,7 +112,7 @@
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
 {
-    [UIView animateWithDuration:1.f animations:^
+    [UIView animateWithDuration:.8f animations:^
      {
          UIEdgeInsets inset = UIEdgeInsetsMake(108, 0, 0, 0);
          self.tableView.contentInset = inset;
@@ -123,11 +124,19 @@
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-    [UIView animateWithDuration:1.f animations:^
+    [UIView animateWithDuration:.1f animations:^
      {
-         UIEdgeInsets inset = UIEdgeInsetsMake(0, 0, 0, 0);
+         UIEdgeInsets inset = UIEdgeInsetsMake([self getNavigationBarHeight], 0, 0, 0);
          self.tableView.contentInset = inset;
      }];
+}
+
+
+#pragma mark Helper
+
+- (CGFloat)getNavigationBarHeight
+{
+    return [(UINavigationController *)self.parentViewController navigationItem].titleView.frame.size.height/2 + 5;
 }
 
 
@@ -154,6 +163,9 @@
     [cell.textLabel setText:track[ktitle]];
     [cell.detailTextLabel setText:track[kuser][kusername]];
     
+    // TODO: check against current playing track
+    [((TrackTableViewCell *)cell).musicServiceColorLabel setBackgroundColor:cell.tag ? COLOR_SOUNDCLOUD : [UIColor whiteColor]];
+    
     return cell;
 }
 
@@ -167,6 +179,20 @@
     
     [self dismissNavigationController];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    // indicate current track is playing
+    [UIView animateWithDuration:0.4f animations:^
+    {
+        TrackTableViewCell *trackCell = (TrackTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+        [trackCell.musicServiceColorLabel setBackgroundColor:COLOR_SOUNDCLOUD];
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^
+        {
+            [trackCell setTag:YES];
+        });
+        
+        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }];
 }
 
 

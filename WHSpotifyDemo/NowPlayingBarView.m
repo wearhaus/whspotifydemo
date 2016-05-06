@@ -15,6 +15,7 @@
 @implementation NowPlayingBarView
 {
     CGPoint originalCenter;
+    MusicOrigin currentOrigin;
 }
 
 
@@ -127,12 +128,18 @@
     switch (origin)
     {
         case MusicOriginSpotify:
+        {
+            currentOrigin = MusicOriginSpotify;
             [self.musicServiceColorLabel setBackgroundColor:[UIColor colorWithRed:50./255 green:205./255 blue:100./255 alpha:1]];
             break;
+        }
             
         case MusicOriginSoundCloud:
+        {
+            currentOrigin = MusicOriginSoundCloud;
             [self.musicServiceColorLabel setBackgroundColor:[UIColor colorWithRed:255./255 green:153./255 blue:63./255 alpha:1]];
             break;
+        }
     }
 }
 
@@ -149,7 +156,7 @@
         [self setPlaying:self.isPlaying];
         
         if (detailViewController != nil)
-            [detailViewController setSongTitle:title artist:artist albumArt:albumArt duration:duration];
+            [detailViewController setSongTitle:title artist:artist albumArt:albumArt duration:duration origin:origin];
     });
 }
 
@@ -240,7 +247,7 @@
 - (void)tapRecognizer:(UITapGestureRecognizer *)sender
 {
     detailViewController = (NowPlayingDetailViewController *)[[[NSBundle mainBundle] loadNibNamed:@"NowPlayingDetailView" owner:self options:nil] firstObject];
-    [detailViewController setSongTitle:self.titleLabel.text artist:self.artistLabel.text albumArt:self.albumArtImageView.image duration:self.duration];
+    [detailViewController setSongTitle:self.titleLabel.text artist:self.artistLabel.text albumArt:self.albumArtImageView.image duration:self.duration origin:currentOrigin];
     detailViewController.delegate = self;
     
     [self.parentViewController presentViewController:detailViewController animated:YES completion:nil];

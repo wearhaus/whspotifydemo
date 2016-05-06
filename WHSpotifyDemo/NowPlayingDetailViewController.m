@@ -8,6 +8,7 @@
 
 #import "NowPlayingDetailViewController.h"
 
+
 @interface NowPlayingDetailViewController ()
 
 @end
@@ -49,17 +50,39 @@
 }
 
 
-- (void)setSongTitle:(NSString *)title artist:(NSString *)artist albumArt:(UIImage *)albumArt duration:(NSTimeInterval)duration
+- (void)setSongTitle:(NSString *)title artist:(NSString *)artist albumArt:(UIImage *)albumArt duration:(NSTimeInterval)duration origin:(MusicOrigin)origin
 {
     [self setSongTitle:title];
     [self setSongArtist:artist];
     [self setSongAlbumArt:albumArt];
+    [self setMusicServiceOrigin:origin];
 }
 
 
 - (void)setCurrentDurationPosition:(double)current totalDuration:(double)total
 {
     [durationPositionManager setCurrentDurationPosition:current totalDuration:total];
+}
+
+
+- (void)setMusicServiceOrigin:(MusicOrigin)origin
+{
+    switch (origin)
+    {
+        case MusicOriginSpotify:
+        {
+            [self.musicServiceOriginLabel setText:@"Playing from Spotify"];
+            [self.musicServiceColorLabel setBackgroundColor:[UIColor colorWithRed:50./255 green:205./255 blue:100./255 alpha:1]];
+            break;
+        }
+            
+        case MusicOriginSoundCloud:
+        {
+            [self.musicServiceOriginLabel setText:@"Playing from SoundCloud"];
+            [self.musicServiceColorLabel setBackgroundColor:[UIColor colorWithRed:255./255 green:153./255 blue:63./255 alpha:1]];
+            break;
+        }
+    }
 }
 
 

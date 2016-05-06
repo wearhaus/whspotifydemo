@@ -60,7 +60,9 @@
 
 - (void)setCurrentDurationPosition:(double)current totalDuration:(double)total
 {
-    [self updateDurationToPercent:current/total];
+    double percent = (current && total) ? current/total : 0.;
+    
+    [self updateDurationToPercent:percent];
     [self setPosition:current];
     [self setDuration:total];
     
