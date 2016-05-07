@@ -84,39 +84,46 @@
 
 - (void)_playNext:(NSArray *)tracks
 {
-    
+    [self queue_addTracks:tracks];
 }
 
 
 - (void)_next
 {
-    [self forActiveMusicPlayerSpotify:^
-    {
-       [self.spotifyPlayer skipNext:nil];
-        
-    } soundCloud:^
-    {
-        [self history_addTrack:self.getTrack];
-        self.currentTrack = [self queue_popTrack];
-        [[SoundCloud player] _loadAndPlayTrack:self.getTrack];
-    }];
+//    [self history_addTrack:self.getTrack];
+//    self.currentTrack = [self queue_popTrack];
+    id nextTrack = [self queue_popTrack];
+    
+    [self updateOriginWithTrack:nextTrack];
+    [self _play:@[nextTrack]];
+    
+//    [self forActiveMusicPlayerSpotify:^
+//    {
+//       [self.spotifyPlayer pla];
+//        
+//    } soundCloud:^
+//    {
+//        [[SoundCloud player] _loadAndPlayTrack:self.getTrack];
+//    }];
 }
 
 
 - (void)_previous
 {
+    [self queue_addTracks:@[self.getTrack]];
+    self.currentTrack = [self history_popTrack];
+    [self updateOriginWithTrack:self.currentTrack];
+    
     [self forActiveMusicPlayerSpotify:^
     {
         [self.spotifyPlayer skipPrevious:nil];
         
     } soundCloud:^
     {
-        [self queue_addTracks:@[self.getTrack]];
-        self.currentTrack = [self history_popTrack];
         [[SoundCloud player] _loadAndPlayTrack:self.getTrack];
-        
     }];
 }
+
 
 
 #pragma mark Helper
@@ -137,6 +144,8 @@
     NSDictionary *track = [history lastObject];
     
     [history removeLastObject];
+    self.history = [NSArray arrayWithArray:history];
+    
     return track;
 }
 
@@ -146,7 +155,8 @@
     if (!tracks || !tracks.count) return;
     
     NSMutableArray *queue = [NSMutableArray arrayWithArray:self.queue];
-    [queue addObjectsFromArray:tracks];
+    [queue insertObjects:tracks atIndexes:[NSIndexSet indexSetWithIndex:0]];
+    
     self.queue = [NSArray arrayWithArray:queue];
 }
 
@@ -160,7 +170,19 @@
     NSDictionary *track = [queue lastObject];
     
     [queue removeLastObject];
+    self.queue = [NSArray arrayWithArray:queue];
+    
     return track;
+}
+
+
+- (void)updateOriginWithTrack:(id)track
+{
+    if ([track isKindOfClass:[SPTPartialTrack class]])
+        [self changeLastMusicOrigin:MusicOriginSpotify];
+        
+    if ([track isKindOfClass:[NSDictionary class]])
+        [self changeLastMusicOrigin:MusicOriginSoundCloud];
 }
 
 @end

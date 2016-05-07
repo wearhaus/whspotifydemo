@@ -12,6 +12,7 @@
 #import "kSoundcloud.h"
 #import "kMusicServices.h"
 #import "PlaybackQueue.h"
+#import "NSDictionary+TrackHelper.h"
 
 
 @interface SoundCloudSearchTableViewController ()
@@ -95,12 +96,15 @@
 
 #pragma mark Helper
 
-- (BOOL)isCurrentlyPlayingTrack:(NSDictionary *)track
+- (void)longTapToQueue:(UILongPressGestureRecognizer *)gestureRecognizer
 {
-    if (![[PlaybackQueue manager].currentTrack objectForKey:kid] ||
-        ![track objectForKey:kid]) return NO;
+    NSLog(@"gestureRecognizer= %@",gestureRecognizer);
     
-    return [[[PlaybackQueue manager].currentTrack objectForKey:kid] isEqual:[track objectForKey:kid]];
+    if ([gestureRecognizer state] == UIGestureRecognizerStateBegan)
+    {
+        NSLog(@"longTap began");
+        [[PlaybackQueue manager] _playNext:@[self.searchResults[gestureRecognizer.view.tag]]];
+    }
 }
 
 
@@ -174,7 +178,11 @@
     [cell.textLabel setText:track[ktitle]];
     [cell.detailTextLabel setText:track[kuser][kusername]];
     
-    [((TrackTableViewCell *)cell).musicServiceColorLabel setBackgroundColor:[self isCurrentlyPlayingTrack:track] ? COLOR_SOUNDCLOUD : [UIColor whiteColor]];
+    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longTapToQueue:)];
+    [cell addGestureRecognizer:longPressGesture];
+    longPressGesture.view.tag = indexPath.row;
+    
+    [((TrackTableViewCell *)cell).musicServiceColorLabel setBackgroundColor:[track isPlaying] ? COLOR_SOUNDCLOUD : [UIColor whiteColor]];
     
     return cell;
 }

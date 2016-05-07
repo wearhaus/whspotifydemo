@@ -9,9 +9,12 @@
 #import "SpotifySearchTableViewController.h"
 #import "SPTSearch+WebAPI.h"
 #import "TrackTableViewCell.h"
-#import <Spotify/Spotify.h>
 #import "SoundCloud.h"
 #import "kSoundcloud.h"
+#import "SPTPartialTrack+Helper.h"
+#import "PlaybackQueue.h"
+#import "kMusicServices.h"
+#import <Spotify/Spotify.h>
 
 
 @interface SpotifySearchTableViewController ()
@@ -94,6 +97,20 @@
 }
 
 
+#pragma mark Helper
+
+- (void)longTapToQueue:(UILongPressGestureRecognizer *)gestureRecognizer
+{
+    NSLog(@"gestureRecognizer= %@",gestureRecognizer);
+    
+    if ([gestureRecognizer state] == UIGestureRecognizerStateBegan)
+    {
+        NSLog(@"longTap began");
+        [[PlaybackQueue manager] _playNext:@[self.searchResults[gestureRecognizer.view.tag]]];
+    }
+}
+
+
 
 #pragma mark - Search Bar Delegate
 
@@ -164,6 +181,12 @@
     [cell.textLabel setText:track.name];
     [cell.detailTextLabel setText:artist.name];
     
+    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longTapToQueue:)];
+    [cell addGestureRecognizer:longPressGesture];
+    longPressGesture.view.tag = indexPath.row;
+    
+    [((TrackTableViewCell *)cell).musicServiceColorLabel setBackgroundColor:[track isPlaying] ? COLOR_SPOTIFY : [UIColor whiteColor]];
+    
     return cell;
 }
 
@@ -177,6 +200,15 @@
     
     [self dismissNavigationController];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    // indicate current track is playing
+    [UIView animateWithDuration:0.4f animations:^
+     {
+         TrackTableViewCell *trackCell = (TrackTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+         [trackCell.musicServiceColorLabel setBackgroundColor:COLOR_SPOTIFY];
+         
+         [tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+     }];
 }
 
 

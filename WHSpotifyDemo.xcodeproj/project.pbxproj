@@ -41,6 +41,8 @@
 		428723E21CDBE97700FE10D0 /* SearchTabsNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 428723E11CDBE97700FE10D0 /* SearchTabsNavigationViewController.m */; };
 		428723E61CDD298700FE10D0 /* PlaybackQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 428723E51CDD298700FE10D0 /* PlaybackQueue.m */; };
 		428723E91CDD339E00FE10D0 /* PlaybackQueue+Origin.m in Sources */ = {isa = PBXBuildFile; fileRef = 428723E81CDD339E00FE10D0 /* PlaybackQueue+Origin.m */; };
+		428723EC1CDD713A00FE10D0 /* NSDictionary+TrackHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 428723EB1CDD713A00FE10D0 /* NSDictionary+TrackHelper.m */; };
+		428723EF1CDD72BA00FE10D0 /* SPTPartialTrack+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 428723EE1CDD72BA00FE10D0 /* SPTPartialTrack+Helper.m */; };
 		42FA92C81CCED96C006819A1 /* SoundCloud.m in Sources */ = {isa = PBXBuildFile; fileRef = 42FA92C71CCED96C006819A1 /* SoundCloud.m */; };
 		953432DE11F3BFA27A1DF5F4 /* libPods-WHSpotifyDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF3494AEFE5ED1084BE0106A /* libPods-WHSpotifyDemo.a */; };
 /* End PBXBuildFile section */
@@ -127,6 +129,10 @@
 		428723E51CDD298700FE10D0 /* PlaybackQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaybackQueue.m; sourceTree = "<group>"; };
 		428723E71CDD339E00FE10D0 /* PlaybackQueue+Origin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PlaybackQueue+Origin.h"; sourceTree = "<group>"; };
 		428723E81CDD339E00FE10D0 /* PlaybackQueue+Origin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PlaybackQueue+Origin.m"; sourceTree = "<group>"; };
+		428723EA1CDD713900FE10D0 /* NSDictionary+TrackHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+TrackHelper.h"; sourceTree = "<group>"; };
+		428723EB1CDD713A00FE10D0 /* NSDictionary+TrackHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+TrackHelper.m"; sourceTree = "<group>"; };
+		428723ED1CDD72BA00FE10D0 /* SPTPartialTrack+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SPTPartialTrack+Helper.h"; sourceTree = "<group>"; };
+		428723EE1CDD72BA00FE10D0 /* SPTPartialTrack+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SPTPartialTrack+Helper.m"; sourceTree = "<group>"; };
 		42FA92C61CCED96C006819A1 /* SoundCloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundCloud.h; sourceTree = "<group>"; };
 		42FA92C71CCED96C006819A1 /* SoundCloud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoundCloud.m; sourceTree = "<group>"; };
 		42FA92C91CCEDBD8006819A1 /* kSoundcloud.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = kSoundcloud.h; sourceTree = "<group>"; };
@@ -309,6 +315,10 @@
 				422A68F51CD963B50037A02C /* AVPlayerItem+Helper.m */,
 				428723E71CDD339E00FE10D0 /* PlaybackQueue+Origin.h */,
 				428723E81CDD339E00FE10D0 /* PlaybackQueue+Origin.m */,
+				428723EA1CDD713900FE10D0 /* NSDictionary+TrackHelper.h */,
+				428723EB1CDD713A00FE10D0 /* NSDictionary+TrackHelper.m */,
+				428723ED1CDD72BA00FE10D0 /* SPTPartialTrack+Helper.h */,
+				428723EE1CDD72BA00FE10D0 /* SPTPartialTrack+Helper.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -547,9 +557,11 @@
 				4227D3DC1C78541600A71342 /* AccountTableViewController.m in Sources */,
 				4241C5F51C77C0CB0031F2A9 /* SPTSearch+WebAPI.m in Sources */,
 				4241C5A11C77A7D50031F2A9 /* AppDelegate.m in Sources */,
+				428723EC1CDD713A00FE10D0 /* NSDictionary+TrackHelper.m in Sources */,
 				4214D48E1CD01825001BCBDB /* NSDictionary+QueryStringBuilder.m in Sources */,
 				428723E91CDD339E00FE10D0 /* PlaybackQueue+Origin.m in Sources */,
 				428723E21CDBE97700FE10D0 /* SearchTabsNavigationViewController.m in Sources */,
+				428723EF1CDD72BA00FE10D0 /* SPTPartialTrack+Helper.m in Sources */,
 				4241C5EE1C77C0BC0031F2A9 /* PlaylistTableViewController.m in Sources */,
 				428723E61CDD298700FE10D0 /* PlaybackQueue.m in Sources */,
 				42FA92C81CCED96C006819A1 /* SoundCloud.m in Sources */,

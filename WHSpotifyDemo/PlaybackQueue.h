@@ -15,7 +15,7 @@
 
 @property (strong, nonatomic, getter=getPreviousSongs, getter=getPreviousTracks) NSArray *history;
 @property (strong, nonatomic, getter=getUpNext, getter=getNextSongs, getter=getNextTracks) NSArray *queue;
-@property (strong, nonatomic, getter=getNowPlaying, getter=getCurrentSong, getter=getSong, getter=getTrack) NSDictionary *currentTrack;
+@property (strong, nonatomic, getter=getNowPlaying, getter=getCurrentSong, getter=getSong, getter=getTrack) id currentTrack;
 
 @property (assign, nonatomic) SPTAudioStreamingController *spotifyPlayer;
 @property (nonatomic) MusicOrigin lastMusicOrigin;
