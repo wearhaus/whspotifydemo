@@ -68,7 +68,6 @@
 
 - (void)setupNavbar
 {
-    [self setTitle:@"Search"];
     [self.navigationController setNavigationBarHidden:YES];
 }
 

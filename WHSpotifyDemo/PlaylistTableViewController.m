@@ -22,7 +22,7 @@
 {
     [super viewDidLoad];
     
-    [self setTitle:@"My Playlists"];
+    [self setTitle:@"Playlists"];
     [self registerTableViewCellNib];
     [self setupNavbar];
     

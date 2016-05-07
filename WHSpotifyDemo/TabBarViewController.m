@@ -187,8 +187,9 @@
     [[PlaybackQueue manager] changeLastMusicOrigin:MusicOriginSoundCloud];
     
     NSDictionary *track = [[SoundCloud player] _getCurrentTrack];
+    NSString *artworkURL = ![track[kartwork_url] isKindOfClass:[NSNull class]] ? track[kartwork_url] : nil;
     
-    NSURL *imageURL = [NSURL URLWithString:track[kartwork_url]];
+    NSURL *imageURL = [NSURL URLWithString:artworkURL];
     if (imageURL == nil) {
         NSLog(@"Track %@ doesn't have any images!", track[ktitle]);
         return;
@@ -378,8 +379,8 @@
 - (void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didChangeToTrack:(NSDictionary *)trackMetadata
 {
     NSLog(@"track changed = %@", [trackMetadata valueForKey:SPTAudioStreamingMetadataTrackURI]);
-    [self spt_updateUI];
     [[PlaybackQueue manager] changeLastMusicOrigin:MusicOriginSpotify];
+    [self spt_updateUI];
 }
 
 
@@ -427,7 +428,7 @@
 
 - (void)soundCloud:(SoundCloud *)soundcloud didChangeToTrack:(NSDictionary *)trackMetadata
 {
-    
+    [self sc_updateUI];
 }
 
 

@@ -11,6 +11,7 @@
 #import "SoundCloud.h"
 #import "kSoundcloud.h"
 #import "kMusicServices.h"
+#import "PlaybackQueue.h"
 
 
 @interface SoundCloudSearchTableViewController ()
@@ -51,7 +52,7 @@
     [SoundCloud performSearchWithQuery:self.searchController.searchBar.text userInfo:@{} callback:^(NSArray *results) {
         
         if (results.count) {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                 self.searchResults = [NSMutableArray arrayWithArray:results];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.tableView reloadData];
@@ -65,7 +66,6 @@
 
 - (void)setupNavbar
 {
-    [self setTitle:@"Search"];
     [self.navigationController setNavigationBarHidden:YES];
 }
 
@@ -90,6 +90,17 @@
 - (void)registerTableViewCellNib
 {
     [self.tableView registerNib:[UINib nibWithNibName:TrackTableViewCellIdentifier bundle:nil] forCellReuseIdentifier:TrackTableViewCellIdentifier];
+}
+
+
+#pragma mark Helper
+
+- (BOOL)isCurrentlyPlayingTrack:(NSDictionary *)track
+{
+    if (![[PlaybackQueue manager].currentTrack objectForKey:kid] ||
+        ![track objectForKey:kid]) return NO;
+    
+    return [[[PlaybackQueue manager].currentTrack objectForKey:kid] isEqual:[track objectForKey:kid]];
 }
 
 
@@ -163,8 +174,7 @@
     [cell.textLabel setText:track[ktitle]];
     [cell.detailTextLabel setText:track[kuser][kusername]];
     
-    // TODO: check against current playing track
-    [((TrackTableViewCell *)cell).musicServiceColorLabel setBackgroundColor:cell.tag ? COLOR_SOUNDCLOUD : [UIColor whiteColor]];
+    [((TrackTableViewCell *)cell).musicServiceColorLabel setBackgroundColor:[self isCurrentlyPlayingTrack:track] ? COLOR_SOUNDCLOUD : [UIColor whiteColor]];
     
     return cell;
 }
@@ -186,12 +196,7 @@
         TrackTableViewCell *trackCell = (TrackTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
         [trackCell.musicServiceColorLabel setBackgroundColor:COLOR_SOUNDCLOUD];
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^
-        {
-            [trackCell setTag:YES];
-        });
-        
-        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
     }];
 }
 

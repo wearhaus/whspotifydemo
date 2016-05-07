@@ -96,6 +96,8 @@
     
     _avPlayer = [AVPlayer playerWithPlayerItem:item];
     [self _setIsPlaying:YES];
+    
+    [self.delegate soundCloud:self didChangeToTrack:currentTrack];
 }
 
 
