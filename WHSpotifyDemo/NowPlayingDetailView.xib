@@ -223,8 +223,6 @@
                             <mask key="constraints">
                                 <exclude reference="0qj-lj-hEZ"/>
                                 <exclude reference="ku9-BF-tuB"/>
-                                <exclude reference="03M-n6-WrV"/>
-                                <exclude reference="qoa-8a-3yE"/>
                                 <exclude reference="cqm-Po-auy"/>
                                 <exclude reference="m5l-Th-KYU"/>
                                 <exclude reference="T0r-e4-pBd"/>
@@ -234,6 +232,8 @@
                                 <exclude reference="L6k-2a-QKI"/>
                                 <exclude reference="fTB-C5-HoN"/>
                                 <exclude reference="zL5-0E-hiG"/>
+                                <exclude reference="03M-n6-WrV"/>
+                                <exclude reference="qoa-8a-3yE"/>
                             </mask>
                         </variation>
                     </view>

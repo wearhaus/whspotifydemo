@@ -31,9 +31,13 @@
 - (void)_play:(NSArray *)tracks;
 - (void)_togglePlayPause;
 /**
- *  Adds tracks to a queue
+ *  Adds tracks to the top of queue
  */
 - (void)_playNext:(NSArray *)tracks;
+/**
+ *  Adds tracks to the end of the queue
+ */
+- (void)_playLater:(NSArray *)tracks;
 /**
  *  Load next track from queue.
  */

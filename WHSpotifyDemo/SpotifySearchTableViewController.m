@@ -106,7 +106,7 @@
     if ([gestureRecognizer state] == UIGestureRecognizerStateBegan)
     {
         NSLog(@"longTap began");
-        [[PlaybackQueue manager] _playNext:@[self.searchResults[gestureRecognizer.view.tag]]];
+        [[PlaybackQueue manager] _playLater:@[self.searchResults[gestureRecognizer.view.tag]]];
     }
 }
 

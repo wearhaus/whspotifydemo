@@ -52,22 +52,8 @@
                                 </mask>
                             </variation>
                         </label>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KLV-rh-50r" userLabel="musicServiceColorLabel">
-                            <rect key="frame" x="88" y="45.5" width="12" height="12"/>
-                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="12" id="8Jd-tG-dmu"/>
-                                <constraint firstAttribute="width" constant="12" id="byF-gV-w6K"/>
-                            </constraints>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                    <integer key="value" value="6"/>
-                                </userDefinedRuntimeAttribute>
-                                <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
-                            </userDefinedRuntimeAttributes>
-                        </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Artist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DHh-Y3-Itj" userLabel="artistLabel">
-                            <rect key="frame" x="105" y="40" width="272" height="21"/>
+                            <rect key="frame" x="90" y="40" width="272" height="21"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="21" id="Jb7-nG-D7M"/>
                             </constraints>
@@ -79,21 +65,18 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="bG6-jw-r7T" firstAttribute="top" secondItem="GPk-et-pQz" secondAttribute="top" constant="3" id="0BA-6X-qWV"/>
-                        <constraint firstItem="DHh-Y3-Itj" firstAttribute="leading" secondItem="KLV-rh-50r" secondAttribute="trailing" constant="5" id="13O-io-zHw"/>
                         <constraint firstItem="DHh-Y3-Itj" firstAttribute="top" secondItem="24n-XM-r8Z" secondAttribute="bottom" id="F15-no-4Yd"/>
                         <constraint firstAttribute="bottom" secondItem="bG6-jw-r7T" secondAttribute="bottom" id="Kda-8z-bT2"/>
                         <constraint firstAttribute="trailing" secondItem="24n-XM-r8Z" secondAttribute="trailing" id="Q2B-CF-CR5"/>
-                        <constraint firstAttribute="bottom" secondItem="KLV-rh-50r" secondAttribute="bottom" constant="13.5" id="S55-IW-iQT"/>
                         <constraint firstAttribute="bottom" secondItem="bG6-jw-r7T" secondAttribute="bottom" id="TOw-Z2-4ft"/>
                         <constraint firstItem="DHh-Y3-Itj" firstAttribute="leading" secondItem="bG6-jw-r7T" secondAttribute="trailing" constant="8" id="WRo-oL-Kiy"/>
                         <constraint firstItem="bG6-jw-r7T" firstAttribute="leading" secondItem="GPk-et-pQz" secondAttribute="leading" constant="17" id="bT8-EH-JAc"/>
-                        <constraint firstAttribute="trailing" secondItem="DHh-Y3-Itj" secondAttribute="trailing" constant="-21" id="e6Z-Au-oZL"/>
+                        <constraint firstAttribute="trailing" secondItem="DHh-Y3-Itj" secondAttribute="trailing" constant="-6" id="e6Z-Au-oZL"/>
                         <constraint firstItem="bG6-jw-r7T" firstAttribute="top" secondItem="GPk-et-pQz" secondAttribute="top" constant="6" id="egr-wh-ymN"/>
                         <constraint firstItem="24n-XM-r8Z" firstAttribute="leading" secondItem="bG6-jw-r7T" secondAttribute="trailing" constant="8" id="hJ9-Mt-Gjd"/>
-                        <constraint firstItem="DHh-Y3-Itj" firstAttribute="leading" secondItem="bG6-jw-r7T" secondAttribute="trailing" constant="23" id="hXT-Ig-tzX"/>
+                        <constraint firstItem="DHh-Y3-Itj" firstAttribute="leading" secondItem="bG6-jw-r7T" secondAttribute="trailing" constant="8" id="hXT-Ig-tzX"/>
                         <constraint firstItem="DHh-Y3-Itj" firstAttribute="top" secondItem="24n-XM-r8Z" secondAttribute="bottom" id="pOI-Iy-Qav"/>
                         <constraint firstItem="bG6-jw-r7T" firstAttribute="leading" secondItem="GPk-et-pQz" secondAttribute="leading" constant="14" id="ukW-hL-1Fg"/>
-                        <constraint firstItem="KLV-rh-50r" firstAttribute="leading" secondItem="bG6-jw-r7T" secondAttribute="trailing" constant="6" id="zKK-N0-UCX"/>
                         <constraint firstItem="24n-XM-r8Z" firstAttribute="top" secondItem="GPk-et-pQz" secondAttribute="top" constant="16" id="zMC-1Q-x25"/>
                         <constraint firstItem="24n-XM-r8Z" firstAttribute="leading" secondItem="bG6-jw-r7T" secondAttribute="trailing" constant="8" id="zXn-wk-t6u"/>
                     </constraints>
@@ -166,7 +149,6 @@
             <connections>
                 <outlet property="albumArtImageView" destination="bG6-jw-r7T" id="VmR-tS-DrG"/>
                 <outlet property="artistLabel" destination="DHh-Y3-Itj" id="iT0-2r-qFY"/>
-                <outlet property="musicServiceColorLabel" destination="KLV-rh-50r" id="w67-f2-piM"/>
                 <outlet property="playPauseButton" destination="NVO-Yk-RCG" id="Vv6-Ks-SfK"/>
                 <outlet property="progressBarDuration" destination="8Gf-2D-3xG" id="N9o-ME-IHI"/>
                 <outlet property="progressBarTouch" destination="odV-XL-gnK" id="0ir-D6-QVd"/>

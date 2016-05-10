@@ -41,7 +41,6 @@
 @property (weak, nonatomic) IBOutlet UIView *progressBarView;
 @property (weak, nonatomic) IBOutlet UIView *progressBarDuration;
 @property (weak, nonatomic) IBOutlet UIView *progressBarTouch;
-@property (weak, nonatomic) IBOutlet UIView *musicServiceColorLabel;
 
 @property (nonatomic) NSTimeInterval duration;
 

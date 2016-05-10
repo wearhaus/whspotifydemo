@@ -153,7 +153,7 @@
          }
          
          // Pop over to a background queue to load the image over the network.
-         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
              NSError *error = nil;
              UIImage *image = nil;
              NSData *imageData = [NSData dataWithContentsOfURL:imageURL options:0 error:&error];
@@ -165,17 +165,13 @@
                  albumArt = [[MPMediaItemArtwork alloc] initWithImage:image];
              }
              
-             // …and back to the main queue to display the image.
-             dispatch_async(dispatch_get_main_queue(), ^
-             {
-                 if (image == nil) {
-                     NSLog(@"Couldn't load cover image with error: %@", error);
-                     return;
-                 }
-                 
-                 [self.nowPlayingBarView setSongTitle:track.name artist:artist.name albumArt:image duration:track.duration origin:MusicOriginSpotify];
-                 [self.player setNowPlayingInfoWithCurrentTrack:track.name artist:artist.name album:track.album.name duration:track.duration albumArt:albumArt];
-             });
+             if (image == nil) {
+                 NSLog(@"Couldn't load cover image with error: %@", error);
+                 return;
+             }
+             
+             [self.nowPlayingBarView setSongTitle:track.name artist:artist.name albumArt:image duration:track.duration origin:MusicOriginSpotify];
+             [self.player setNowPlayingInfoWithCurrentTrack:track.name artist:artist.name album:track.album.name duration:track.duration albumArt:albumArt];
          });
          
      }];
@@ -196,7 +192,7 @@
     }
     
     // Pop over to a background queue to load the image over the network.
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         NSError *error = nil;
         UIImage *image = nil;
         NSData *imageData = [NSData dataWithContentsOfURL:imageURL options:0 error:&error];
@@ -208,19 +204,15 @@
             albumArt = [[MPMediaItemArtwork alloc] initWithImage:image];
         }
         
-        // …and back to the main queue to display the image.
-        dispatch_async(dispatch_get_main_queue(), ^
-        {
-            if (image == nil) {
-                NSLog(@"Couldn't load cover image with error: %@", error);
-                return;
-            }
-            
-            NSTimeInterval duration = [track[kduration] integerValue]/1000;
-            
-            [self.nowPlayingBarView setSongTitle:track[ktitle] artist:track[kuser][kusername] albumArt:image duration:duration origin:MusicOriginSoundCloud];
-            [[SoundCloud player] setNowPlayingInfoWithCurrentTrack:track[ktitle] artist:track[kuser][kusername] album:nil duration:duration albumArt:albumArt];
-        });
+        if (image == nil) {
+            NSLog(@"Couldn't load cover image with error: %@", error);
+            return;
+        }
+        
+        NSTimeInterval duration = [track[kduration] integerValue]/1000;
+        
+        [self.nowPlayingBarView setSongTitle:track[ktitle] artist:track[kuser][kusername] albumArt:image duration:duration origin:MusicOriginSoundCloud];
+        [[SoundCloud player] setNowPlayingInfoWithCurrentTrack:track[ktitle] artist:track[kuser][kusername] album:nil duration:duration albumArt:albumArt];
     });
 }
 
@@ -389,6 +381,7 @@
     // TODO: switch reference to SoundCloud or Spotify
     [self.nowPlayingBarView setCurrentDurationPosition:self.player.currentPlaybackPosition totalDuration:self.player.currentTrackDuration];
     [self.nowPlayingBarView setPlaying:isPlaying];
+    [self spt_updateUI];
     NSLog(@"is playing = %d", isPlaying);
 }
 
@@ -396,15 +389,7 @@
 - (void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didSeekToOffset:(NSTimeInterval)offset
 {
     [self updateDurationUI];
-    
-    [self forMusicPlayerSpotify:^
-    {
-        [self.player updateCurrentPlaybackPosition];
-        
-    } soundCloud:^
-    {
-        [[SoundCloud player] updateCurrentPlaybackPosition];
-    }];
+    [self.player updateCurrentPlaybackPosition];
 }
 
 
@@ -423,6 +408,7 @@
     [self.nowPlayingBarView setCurrentDurationPosition:(double)offset totalDuration:self.player.currentTrackDuration];
     [self.nowPlayingBarView setPlaying:[SoundCloud player].isPlaying];
     [[SoundCloud player] updateCurrentPlaybackPosition];
+    [self updateDurationUI];
 }
 
 
@@ -469,16 +455,18 @@
 
 
 
-#pragma mark - SpotifySearchTableViewController Delegate
+#pragma mark - Search TableViewController Delegates
+#pragma mark Spotify
 
 - (void)spotifySearchTableViewController:(SpotifySearchTableViewController *)tableView didSelectTrack:(SPTTrack *)track atIndexPath:(NSIndexPath *)indexPath
 {
     [[PlaybackQueue manager] changeLastMusicOrigin:MusicOriginSpotify];
     [[PlaybackQueue manager] _play:@[track]];
+    [self spt_updateUI];
 }
 
 
-#pragma mark - SoundCloudSearchTableViewController Delegate
+#pragma mark SoundCloud
 
 - (void)soundCloudSearchTableViewController:(SoundCloudSearchTableViewController *)tableView didSelectTrack:(id)track atIndexPath:(NSIndexPath *)indexPath
 {
@@ -491,11 +479,12 @@
 
 
 
-#pragma mark - PlaylistTableViewController Delegate
+#pragma mark - Spotify View Delegates
+#pragma mark Playlist
 
 - (void)playlistTableView:(PlaylistTableViewController *)view didSelectPlaylist:(SPTPartialPlaylist *)playlist userInfo:(NSDictionary *)userInfo
 {
-    // FIXME: switch between spotify playlist table or SoundCloud
+    // TODO: decide whether to switch from spotify queues vs local queues
     SPTAuth *auth = [SPTAuth defaultInstance];
     
     [SPTPlaylistSnapshot playlistWithURI:playlist.playableUri session:auth.session callback:^(NSError *error, id object)
@@ -509,22 +498,13 @@
      }];
 }
 
-
-
-#pragma mark - MyMusicTableViewController Delegate
+#pragma mark My Music
 
 - (void)myMusicTableViewController:(MyMusicTableViewController *)tableView didSelectTrack:(SPTTrack *)track userInfo:(NSDictionary *)userInfo
 {
-    // FIXME: switch between spotify playlist table or SoundCloud
-    SPTAuth *auth = [SPTAuth defaultInstance];
-    
-    [SPTTrack trackWithURI:track.uri session:auth.session callback:^(NSError *error, id object) {
-        NSArray *tracks = @[track.playableUri];
-        [self.player playURIs:tracks fromIndex:0 callback:nil];
-        [self.player confirmTrackIsPlaying:nil isNotPlaying:^{
-            NSLog(@"buffering track...");
-        }];
-    }];
+    [[PlaybackQueue manager] changeLastMusicOrigin:MusicOriginSpotify];
+    [[PlaybackQueue manager] _play:@[track]];
+    [self spt_updateUI];
 }
 
 

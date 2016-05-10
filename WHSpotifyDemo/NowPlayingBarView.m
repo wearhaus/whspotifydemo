@@ -130,14 +130,14 @@
         case MusicOriginSpotify:
         {
             currentOrigin = MusicOriginSpotify;
-            [self.musicServiceColorLabel setBackgroundColor:[UIColor colorWithRed:50./255 green:205./255 blue:100./255 alpha:1]];
+            [self.progressBarDuration setBackgroundColor:[UIColor colorWithRed:50./255 green:205./255 blue:100./255 alpha:1]];
             break;
         }
             
         case MusicOriginSoundCloud:
         {
             currentOrigin = MusicOriginSoundCloud;
-            [self.musicServiceColorLabel setBackgroundColor:[UIColor colorWithRed:255./255 green:153./255 blue:63./255 alpha:1]];
+            [self.progressBarDuration setBackgroundColor:[UIColor colorWithRed:255./255 green:153./255 blue:63./255 alpha:1]];
             break;
         }
     }

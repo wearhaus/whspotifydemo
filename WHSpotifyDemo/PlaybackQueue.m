@@ -44,26 +44,33 @@
 
 - (void)_play:(NSArray *)tracks
 {
-    [self history_addTrack:self.getTrack];
+    [self _playNext:tracks];
+    [self _next];
+}
+
+
+- (void)playNow:(id)track
+{
+    [self updateOriginWithTrack:track];
     [self forActiveMusicPlayerSpotify:^
-    {
-        SPTAuth *auth = [SPTAuth defaultInstance];
-        SPTTrack *track = (SPTTrack *)[tracks firstObject];
-        
-        [SPTTrack trackWithURI:track.uri session:auth.session callback:^(NSError *error, id object) {
-            NSArray *tracks = @[track.playableUri];
-            [self.spotifyPlayer playURIs:tracks fromIndex:0 callback:nil];
-            [self.spotifyPlayer confirmTrackIsPlaying:nil isNotPlaying:^{
-                NSLog(@"buffering track...");
-            }];
-        }];
-        
-    } soundCloud:^
-    {
-        [self queue_addTracks:tracks];
-        self.currentTrack = [self queue_popTrack];
-        [[SoundCloud player] _loadAndPlayTrack:self.currentTrack];
-    }];
+     {
+         SPTAuth *auth = [SPTAuth defaultInstance];
+         SPTTrack *spotifyTrack = (SPTTrack *)track;
+         self.currentTrack = spotifyTrack;
+         
+         [SPTTrack trackWithURI:spotifyTrack.uri session:auth.session callback:^(NSError *error, id object) {
+             NSArray *tracks = @[spotifyTrack.playableUri];
+             [self.spotifyPlayer playURIs:tracks fromIndex:0 callback:nil];
+             [self.spotifyPlayer confirmTrackIsPlaying:nil isNotPlaying:^{
+                 NSLog(@"buffering track...");
+             }];
+         }];
+         
+     } soundCloud:^
+     {
+         self.currentTrack = track;
+         [[SoundCloud player] _loadAndPlayTrack:self.currentTrack];
+     }];
 }
 
 
@@ -84,44 +91,31 @@
 
 - (void)_playNext:(NSArray *)tracks
 {
+    [self queue_queueTracks:tracks];
+}
+
+
+- (void)_playLater:(NSArray *)tracks
+{
     [self queue_addTracks:tracks];
 }
 
 
 - (void)_next
 {
-//    [self history_addTrack:self.getTrack];
-//    self.currentTrack = [self queue_popTrack];
-    id nextTrack = [self queue_popTrack];
+    if (!self.queue.count) return;
     
-    [self updateOriginWithTrack:nextTrack];
-    [self _play:@[nextTrack]];
-    
-//    [self forActiveMusicPlayerSpotify:^
-//    {
-//       [self.spotifyPlayer pla];
-//        
-//    } soundCloud:^
-//    {
-//        [[SoundCloud player] _loadAndPlayTrack:self.getTrack];
-//    }];
+    [self history_addTrack:self.currentTrack];
+    [self playNow:[self queue_popTrack]];
 }
 
 
 - (void)_previous
 {
-    [self queue_addTracks:@[self.getTrack]];
-    self.currentTrack = [self history_popTrack];
-    [self updateOriginWithTrack:self.currentTrack];
+    if (!self.history.count) return;
     
-    [self forActiveMusicPlayerSpotify:^
-    {
-        [self.spotifyPlayer skipPrevious:nil];
-        
-    } soundCloud:^
-    {
-        [[SoundCloud player] _loadAndPlayTrack:self.getTrack];
-    }];
+    [self _playNext:@[self.getTrack]];
+    [self playNow:[self history_popTrack]];
 }
 
 
@@ -134,6 +128,7 @@
     
     NSMutableArray *history = [NSMutableArray arrayWithArray:self.history];
     [history addObject:track];
+    
     self.history = [NSArray arrayWithArray:history];
 }
 
@@ -161,6 +156,17 @@
 }
 
 
+- (void)queue_queueTracks:(NSArray<NSDictionary *> *)tracks
+{
+    if (!tracks || !tracks.count) return;
+    
+    NSMutableArray *queue = [NSMutableArray arrayWithArray:self.queue];
+    [queue addObjectsFromArray:tracks];
+    
+    self.queue = [NSArray arrayWithArray:queue];
+}
+
+
 /**
  *  Removes a track from the next queue and returns that track.
  */
@@ -183,6 +189,18 @@
         
     if ([track isKindOfClass:[NSDictionary class]])
         [self changeLastMusicOrigin:MusicOriginSoundCloud];
+}
+
+
+- (NSArray *)removeDuplicates:(NSArray *)arr
+{
+    return [NSOrderedSet orderedSetWithArray:arr].array;
+}
+
+
+- (id)nextTrack
+{
+    return [self.queue lastObject];
 }
 
 @end

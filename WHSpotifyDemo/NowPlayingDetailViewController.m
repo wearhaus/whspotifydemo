@@ -72,14 +72,16 @@
         case MusicOriginSpotify:
         {
             [self.musicServiceOriginLabel setText:@"Playing from Spotify"];
-            [self.musicServiceColorLabel setBackgroundColor:[UIColor colorWithRed:50./255 green:205./255 blue:100./255 alpha:1]];
+            [self.progressBarDuration setBackgroundColor:COLOR_SPOTIFY];
+            [self.musicServiceColorLabel setBackgroundColor:COLOR_SPOTIFY];
             break;
         }
             
         case MusicOriginSoundCloud:
         {
             [self.musicServiceOriginLabel setText:@"Playing from SoundCloud"];
-            [self.musicServiceColorLabel setBackgroundColor:[UIColor colorWithRed:255./255 green:153./255 blue:63./255 alpha:1]];
+            [self.progressBarDuration setBackgroundColor:COLOR_SOUNDCLOUD];
+            [self.musicServiceColorLabel setBackgroundColor:COLOR_SOUNDCLOUD];
             break;
         }
     }
