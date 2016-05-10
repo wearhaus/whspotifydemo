@@ -14,7 +14,7 @@
 
 @implementation NowPlayingBarView
 {
-    CGPoint originalCenter;
+    CGRect originalFrame;
     MusicOrigin currentOrigin;
 }
 
@@ -60,7 +60,7 @@
 
 - (void)layoutSubviews
 {
-    originalCenter = self.slideView.center;
+    originalFrame = self.bounds;
 }
 
 
@@ -214,12 +214,13 @@
         // you might want to do something at the start of the pan
     }
     
-    CGPoint distance = [sender translationInView:self.slideView]; // get distance of pan/swipe in the view in which the gesture recognizer was added
-
-    CGFloat x = originalCenter.x;
-    CGPoint newCenter = {.x = x+distance.x, .y = originalCenter.y};
+    CGPoint distance = [sender translationInView:self]; // get distance of pan/swipe in the view in which the gesture recognizer was added
     
-    self.slideView.center = newCenter;
+    CGFloat x = originalFrame.origin.x;
+    CGPoint newOrigin = { .x = x+distance.x, .y = originalFrame.origin.y };
+    CGRect newFrame = { .origin = newOrigin, .size = originalFrame.size };
+    
+    self.slideView.frame = newFrame;
     
     if (sender.state == UIGestureRecognizerStateEnded) {
         [sender cancelsTouchesInView]; // you may or may not need this - check documentation if unsure
@@ -230,7 +231,7 @@
         }
         
         [UIView animateWithDuration:0.3 animations:^{
-            self.slideView.center = originalCenter;
+            self.slideView.frame = originalFrame;
         }];
         // Note: if you don't want both axis directions to be triggered (i.e. up and right) you can add a tolerence instead of checking the distance against 0 you could check for greater and less than 50 or 100, etc.
     }
