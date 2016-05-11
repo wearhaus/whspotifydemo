@@ -153,7 +153,7 @@
          }
          
          // Pop over to a background queue to load the image over the network.
-         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
              NSError *error = nil;
              UIImage *image = nil;
              NSData *imageData = [NSData dataWithContentsOfURL:imageURL options:0 error:&error];
@@ -192,7 +192,7 @@
     }
     
     // Pop over to a background queue to load the image over the network.
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSError *error = nil;
         UIImage *image = nil;
         NSData *imageData = [NSData dataWithContentsOfURL:imageURL options:0 error:&error];
