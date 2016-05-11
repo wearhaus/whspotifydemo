@@ -9,8 +9,10 @@
 #import "NowPlayingDetailViewController.h"
 
 
-@interface NowPlayingDetailViewController ()
-
+@interface NowPlayingDetailViewController () <UIGestureRecognizerDelegate>
+{
+    CGRect originalFrame;
+}
 @end
 
 @implementation NowPlayingDetailViewController
@@ -20,6 +22,16 @@
     [super viewDidLoad];
     durationPositionManager = [[DurationPositionBarManager alloc] initWithView:self.progressBarView positionView:self.progressBarDuration touchView:self.progressBarTouch];
     durationPositionManager.delegate = self;
+}
+
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    if (CGRectIsEmpty(originalFrame))
+    {
+        originalFrame = self.albumSwipeView.frame;
+        [self addSwipeGestures];
+    }
 }
 
 
@@ -107,6 +119,48 @@
 
 - (void)playbackPositionDidChangeToPosition:(NSTimeInterval)position duration:(NSTimeInterval)duration sender:(id)sender
 {
+}
+
+
+
+#pragma mark - Private
+
+- (void)addSwipeGestures
+{
+    // add pan recognizer to the view when initialized
+    UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panRecognized:)];
+    [panRecognizer setDelegate:self];
+    [self.albumSwipeView addGestureRecognizer:panRecognizer]; // add to the view you want to detect swipe on
+}
+
+
+-(void)panRecognized:(UIPanGestureRecognizer *)sender
+{
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        // you might want to do something at the start of the pan
+    }
+    
+    CGPoint distance = [sender translationInView:self.albumSwipeView]; // get distance of pan/swipe in the view in which the gesture recognizer was added
+    
+    CGFloat x = originalFrame.origin.x;
+    CGPoint newOrigin = { .x = x+distance.x, .y = originalFrame.origin.y };
+    CGRect newFrame = { .origin = newOrigin, .size = originalFrame.size };
+    
+    self.albumSwipeView.frame = newFrame;
+    
+    if (sender.state == UIGestureRecognizerStateEnded) {
+        [sender cancelsTouchesInView]; // you may or may not need this - check documentation if unsure
+        if (distance.x > 20) { // right
+            [self previousButton_pressed:nil];
+        } else if (distance.x < -20) { //left
+            [self nextButton_pressed:nil];
+        }
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            self.albumSwipeView.frame = originalFrame;
+        }];
+        // Note: if you don't want both axis directions to be triggered (i.e. up and right) you can add a tolerence instead of checking the distance against 0 you could check for greater and less than 50 or 100, etc.
+    }
 }
 
 

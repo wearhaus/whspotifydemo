@@ -21,6 +21,7 @@
 @property (nonatomic, getter=isPlaying) BOOL playing;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *artistLabel;
+@property (weak, nonatomic) IBOutlet UIView *albumSwipeView;
 @property (weak, nonatomic) IBOutlet UIImageView *albumArtImageView;
 @property (weak, nonatomic) IBOutlet UIView *progressBarTouch;
 @property (weak, nonatomic) IBOutlet UIView *progressBarDuration;

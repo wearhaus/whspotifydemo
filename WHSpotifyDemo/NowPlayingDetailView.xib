@@ -250,6 +250,7 @@
             <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="albumArtImageView" destination="KsE-83-Gec" id="kh7-TA-eWO"/>
+                <outlet property="albumSwipeView" destination="naw-hl-EaI" id="ISg-7n-wmQ"/>
                 <outlet property="artistLabel" destination="Oqj-xO-0s3" id="JVX-jZ-87h"/>
                 <outlet property="musicServiceColorLabel" destination="Rd5-cA-h3l" id="rtZ-r4-Tog"/>
                 <outlet property="musicServiceOriginLabel" destination="ftn-2g-5c6" id="nwo-EE-Pl5"/>
