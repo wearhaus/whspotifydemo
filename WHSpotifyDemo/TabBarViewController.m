@@ -381,7 +381,8 @@
     // TODO: switch reference to SoundCloud or Spotify
     [self.nowPlayingBarView setCurrentDurationPosition:self.player.currentPlaybackPosition totalDuration:self.player.currentTrackDuration];
     [self.nowPlayingBarView setPlaying:isPlaying];
-    [self spt_updateUI];
+//    [self spt_updateUI];
+    [self handlePlaybackPosition];
     NSLog(@"is playing = %d", isPlaying);
 }
 
@@ -390,6 +391,7 @@
 {
     [self updateDurationUI];
     [self.player updateCurrentPlaybackPosition];
+    [self handlePlaybackPosition];
 }
 
 
@@ -405,10 +407,8 @@
 
 - (void)soundCloud:(SoundCloud *)soundcloud didSeekToOffset:(NSTimeInterval)offset
 {
-    [self.nowPlayingBarView setCurrentDurationPosition:(double)offset totalDuration:self.player.currentTrackDuration];
-    [self.nowPlayingBarView setPlaying:[SoundCloud player].isPlaying];
-    [[SoundCloud player] updateCurrentPlaybackPosition];
-    [self updateDurationUI];
+    [self.nowPlayingBarView setCurrentDurationPosition:(double)offset totalDuration:[[SoundCloud player] currentTrackDuration].doubleValue];
+    [self handlePlaybackPosition];
 }
 
 
@@ -438,11 +438,15 @@
 
 - (void)nowPlayingBar:(NowPlayingBarView *)nowPlayingBar playbackPositionDidTapToChangeToPosition:(NSTimeInterval)position
 {
-    // TODO: Split/switch between SoundCloud and AVPlayer
-    [self.player seekToOffset:position callback:nil];
-    
-    [[[SoundCloud player] avPlayer].currentItem seekToTime:CMTimeMakeWithSeconds(position, 60000)];
-    [[SoundCloud player] updateCurrentPlaybackPosition];
+    [[PlaybackQueue manager] forActiveMusicPlayerSpotify:^
+    {
+        [self.player seekToOffset:position callback:nil];
+        
+    } soundCloud:^
+    {
+        [[[SoundCloud player] avPlayer].currentItem seekToTime:CMTimeMakeWithSeconds(position, 60000)];
+        [[SoundCloud player] updateCurrentPlaybackPosition];
+    }];
     
     // TODO: Update view calling from SoundCloud delegate
 }

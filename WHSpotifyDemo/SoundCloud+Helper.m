@@ -19,7 +19,7 @@
                                  dictionaryWithDictionary:@{
                                                             MPMediaItemPropertyTitle: title ? title : @"",
                                                             MPMediaItemPropertyArtist: artist ? artist : @"",
-                                                            MPMediaItemPropertyAlbumTitle: album ? album : @"",
+                                                            MPMediaItemPropertyAlbumTitle: album ? album : @"from Wearhaus (via SoundCloud)",
                                                             MPMediaItemPropertyPlaybackDuration: [NSNumber numberWithDouble:duration]
                                                             }];
     

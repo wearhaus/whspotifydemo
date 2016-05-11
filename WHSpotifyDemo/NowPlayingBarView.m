@@ -300,6 +300,9 @@
 {
     if (self.delegate != nil)
         [self.delegate nowPlayingBar:self playbackPositionDidTapToChangeToPosition:position];
+    
+    if (detailViewController != nil)
+        [detailViewController setCurrentDurationPosition:position totalDuration:[self duration]];
 }
 
 

@@ -115,7 +115,7 @@
 
 - (NSNumber *)currentTrackDuration
 {
-    return currentTrack[kduration];
+    return @([currentTrack[kduration] doubleValue]/1000);
 }
 
 
