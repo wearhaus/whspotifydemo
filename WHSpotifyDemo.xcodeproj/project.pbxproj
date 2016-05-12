@@ -278,22 +278,22 @@
 		4241C5D11C77A9E80031F2A9 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				4227D3DA1C78541600A71342 /* AccountTableViewController.h */,
+				4227D3DB1C78541600A71342 /* AccountTableViewController.m */,
 				4241C5D51C77B0D00031F2A9 /* LoginViewController.h */,
 				4241C5D61C77B0D00031F2A9 /* LoginViewController.m */,
 				4241C5E81C77C0BC0031F2A9 /* MyMusicTableViewController.h */,
 				4241C5E91C77C0BC0031F2A9 /* MyMusicTableViewController.m */,
 				4241C5E61C77C0BC0031F2A9 /* PlaylistTableViewController.h */,
 				4241C5E71C77C0BC0031F2A9 /* PlaylistTableViewController.m */,
+				428723E01CDBE97700FE10D0 /* SearchTabsNavigationViewController.h */,
+				428723E11CDBE97700FE10D0 /* SearchTabsNavigationViewController.m */,
+				4214D4961CD141BD001BCBDB /* SoundCloudSearchTableViewController.h */,
+				4214D4971CD141BD001BCBDB /* SoundCloudSearchTableViewController.m */,
 				4241C5F61C77C0F10031F2A9 /* SpotifySearchTableViewController.h */,
 				4241C5F71C77C0F10031F2A9 /* SpotifySearchTableViewController.m */,
 				4241C5FF1C77C1790031F2A9 /* TabBarViewController.h */,
 				4241C6001C77C1790031F2A9 /* TabBarViewController.m */,
-				4227D3DA1C78541600A71342 /* AccountTableViewController.h */,
-				4227D3DB1C78541600A71342 /* AccountTableViewController.m */,
-				4214D4961CD141BD001BCBDB /* SoundCloudSearchTableViewController.h */,
-				4214D4971CD141BD001BCBDB /* SoundCloudSearchTableViewController.m */,
-				428723E01CDBE97700FE10D0 /* SearchTabsNavigationViewController.h */,
-				428723E11CDBE97700FE10D0 /* SearchTabsNavigationViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";

@@ -381,7 +381,6 @@
     // TODO: switch reference to SoundCloud or Spotify
     [self.nowPlayingBarView setCurrentDurationPosition:self.player.currentPlaybackPosition totalDuration:self.player.currentTrackDuration];
     [self.nowPlayingBarView setPlaying:isPlaying];
-//    [self spt_updateUI];
     [self handlePlaybackPosition];
     NSLog(@"is playing = %d", isPlaying);
 }
@@ -447,8 +446,6 @@
         [[[SoundCloud player] avPlayer].currentItem seekToTime:CMTimeMakeWithSeconds(position, 60000)];
         [[SoundCloud player] updateCurrentPlaybackPosition];
     }];
-    
-    // TODO: Update view calling from SoundCloud delegate
 }
 
 

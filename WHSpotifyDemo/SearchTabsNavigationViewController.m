@@ -35,6 +35,7 @@
     [super viewDidLoad];
     
     [self initServicesSegmentedControl];
+    [self listenForKeyboardNotifications];
 }
 
 
@@ -94,6 +95,7 @@
     if (!self.soundCloudSearchTableViewController)
     {
         self.soundCloudSearchTableViewController = [[SoundCloudSearchTableViewController alloc] init];
+        self.soundCloudSearchTableViewController.searchController = self.spotifySearchTableViewController.searchController;
         [self hackyFixForTableView:self.soundCloudSearchTableViewController];
     }
     
@@ -101,13 +103,38 @@
 }
 
 
+- (void)listenForKeyboardNotifications
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(hideNavbar)
+                                                 name:UIKeyboardDidShowNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(showNavbar)
+                                                 name:UIKeyboardDidHideNotification
+                                               object:nil];
+}
+
+
+- (void)hideNavbar
+{
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+}
+
+
+- (void)showNavbar
+{
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+}
+
+
 - (void)hackyFixForTableView:(UITableViewController *)tableViewController
 {
 //    tableViewController.automaticallyAdjustsScrollViewInsets = NO;
 //    tableViewController.tableView.contentInset = UIEdgeInsetsZero;
-//    [(UINavigationController *)self.parentViewController setNavigationBarHidden:YES animated:YES];
-//    tableViewController.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
-    [tableViewController.tableView updateConstraints];
+    tableViewController.tableView.contentInset = UIEdgeInsetsMake(.01, 0, 0, 0);
+//    [tableViewController.tableView updateConstraints];
 }
 
 

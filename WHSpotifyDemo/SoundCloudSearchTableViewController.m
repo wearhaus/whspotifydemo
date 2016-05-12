@@ -15,9 +15,10 @@
 #import "NSDictionary+TrackHelper.h"
 
 
-@interface SoundCloudSearchTableViewController ()
+@interface SoundCloudSearchTableViewController () <UISearchBarDelegate>
 
 @end
+
 
 @implementation SoundCloudSearchTableViewController
 
@@ -25,17 +26,23 @@
 {
     [super viewDidLoad];
     
-    [self setupNavbar];
-    [self initSearchController];
+//    [self initSearchController];
     [self registerTableViewCellNib];
+    [self listenForKeyboardNotifications];
     
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 100, 0);
 }
 
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)viewWillAppear:(BOOL)animated
+{
+    self.searchController.searchBar.delegate = self;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.tableView.tableHeaderView = self.searchController.searchBar;
+        [self.searchController.searchBar sizeToFit];
+        [self updateSearchResultsForSearchController:self.searchController];
+    });
 }
 
 
@@ -65,24 +72,18 @@
 }
 
 
-- (void)setupNavbar
-{
-    [self.navigationController setNavigationBarHidden:YES];
-}
-
-
 - (void)initSearchController
 {
-    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+//    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
     self.searchController.searchResultsUpdater = self;
     self.searchController.dimsBackgroundDuringPresentation = NO;
     self.searchController.searchBar.delegate = self;
     
     // init searchBar
+    [self.searchController.searchBar setShowsCancelButton:NO animated:NO];
+    [self.searchController.searchBar setAutocapitalizationType:UITextAutocapitalizationTypeNone];
     self.tableView.tableHeaderView = self.searchController.searchBar;
     [self.searchController.searchBar sizeToFit];
-    [self.searchController.searchBar setShowsCancelButton:NO];
-    [self.searchController.searchBar setAutocapitalizationType:UITextAutocapitalizationTypeNone];
     
     self.definesPresentationContext = YES;
 }
@@ -108,6 +109,32 @@
 }
 
 
+- (void)listenForKeyboardNotifications
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(hideNavbar)
+                                                 name:UIKeyboardDidShowNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(showNavbar)
+                                                 name:UIKeyboardDidHideNotification
+                                               object:nil];
+}
+
+
+- (void)hideNavbar
+{
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+}
+
+
+- (void)showNavbar
+{
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+}
+
+
 
 #pragma mark - Search Bar Delegate
 
@@ -122,28 +149,21 @@
 {
     [self.tableView reloadData];
     [self beginSearch];
+    self.searchController.active = NO;
 }
 
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
 {
-    [UIView animateWithDuration:.8f animations:^
-     {
-         UIEdgeInsets inset = UIEdgeInsetsMake(108, 0, 0, 0);
-         self.tableView.contentInset = inset;
-     }];
+    [searchBar setShowsCancelButton:NO animated:NO];
+    
+//    [UIView animateWithDuration:.8f animations:^
+//     {
+//         UIEdgeInsets inset = UIEdgeInsetsMake(108, 0, 0, 0);
+//         self.tableView.contentInset = inset;
+//     }];
     
     return YES;
-}
-
-
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
-{
-    [UIView animateWithDuration:.1f animations:^
-     {
-         UIEdgeInsets inset = UIEdgeInsetsMake([self getNavigationBarHeight], 0, 0, 0);
-         self.tableView.contentInset = inset;
-     }];
 }
 
 
@@ -152,6 +172,15 @@
 - (CGFloat)getNavigationBarHeight
 {
     return [(UINavigationController *)self.parentViewController navigationItem].titleView.frame.size.height/2 + 5;
+}
+
+
+
+#pragma mark - Scroll view delegate
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    [self.searchController.searchBar resignFirstResponder];
 }
 
 
