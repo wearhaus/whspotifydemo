@@ -18,7 +18,7 @@
  */
 @interface SoundCloudSearchTableViewController : UITableViewController <UISearchBarDelegate, UISearchDisplayDelegate, UISearchResultsUpdating>
 
-@property (weak, nonatomic) UISearchController *searchController;
+@property (strong, nonatomic) UISearchController *searchController;
 @property (strong, nonatomic) NSMutableArray *searchResults;
 @property (weak) NSObject<SoundCloudSearchTableViewControllerDelegate> *delegate;
 

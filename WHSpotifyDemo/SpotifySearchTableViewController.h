@@ -28,4 +28,5 @@
 @protocol SpotifySearchTableViewControllerDelegate <NSObject>
 @optional
 - (void)spotifySearchTableViewController:(SpotifySearchTableViewController *)tableView didSelectTrack:(SPTTrack *)track atIndexPath:(NSIndexPath *)indexPath;
+- (void)spotifySearchTableViewController:(SpotifySearchTableViewController *)tableView didLoadView:(BOOL)loaded;
 @end

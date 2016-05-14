@@ -34,17 +34,7 @@
     [self listenForKeyboardNotifications];
     
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 100, 0);
-}
-
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    self.searchController.searchBar.delegate = self;
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.tableView.tableHeaderView = self.searchController.searchBar;
-        [self.searchController.searchBar sizeToFit];
-    });
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
 
@@ -76,7 +66,9 @@
 
 - (void)initSearchController
 {
-    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+    if (!self.searchController)
+        self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+    
     self.searchController.searchResultsUpdater = self;
     self.searchController.dimsBackgroundDuringPresentation = NO;
     self.searchController.searchBar.delegate = self;
@@ -127,13 +119,16 @@
 
 - (void)hideNavbar
 {
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
+//    [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
 
 - (void)showNavbar
 {
     [self.navigationController setNavigationBarHidden:NO animated:YES];
+    NSString *lastSearch = self.searchController.searchBar.text;
+    self.searchController.active = NO;
+    self.searchController.searchBar.text = lastSearch;
 }
 
 
@@ -151,7 +146,7 @@
 {
     [self.tableView reloadData];
     [self beginSearch];
-    self.searchController.active = NO;
+    [self showNavbar];
 }
 
 

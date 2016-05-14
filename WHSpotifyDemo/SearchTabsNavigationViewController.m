@@ -7,8 +7,6 @@
 //
 
 #import "SearchTabsNavigationViewController.h"
-#import "SpotifySearchTableViewController.h"
-#import "SoundCloudSearchTableViewController.h"
 
 
 @interface SearchTabsNavigationViewController ()
@@ -57,6 +55,15 @@
 }
 
 
+
+#pragma mark - SpotifySearchTableViewControllerDelegate
+
+- (void)spotifySearchTableViewController:(SpotifySearchTableViewController *)tableView didLoadView:(BOOL)loaded
+{
+//    [self hackilyAddSearchBar];
+}
+
+
 #pragma mark - Helper
 
 - (void)segmentedControlChanged:(UISegmentedControl *)sender
@@ -83,8 +90,16 @@
     if (!self.spotifySearchTableViewController)
     {
         self.spotifySearchTableViewController = [[SpotifySearchTableViewController alloc] init];
-        [self hackyFixForTableView:self.spotifySearchTableViewController];
+        self.spotifySearchTableViewController.delegate = self;
+        
+        if (self.soundCloudSearchTableViewController.searchController)
+            self.spotifySearchTableViewController.searchController = self.soundCloudSearchTableViewController.searchController;
     }
+    
+    // update search text
+    if (self.soundCloudSearchTableViewController.searchController)
+        self.spotifySearchTableViewController.searchController.searchBar.text
+        = self.soundCloudSearchTableViewController.searchController.searchBar.text;
     
     return self.spotifySearchTableViewController;
 }
@@ -96,8 +111,11 @@
     {
         self.soundCloudSearchTableViewController = [[SoundCloudSearchTableViewController alloc] init];
         self.soundCloudSearchTableViewController.searchController = self.spotifySearchTableViewController.searchController;
-        [self hackyFixForTableView:self.soundCloudSearchTableViewController];
     }
+    
+    // update search text
+    self.soundCloudSearchTableViewController.searchController.searchBar.text
+    = self.spotifySearchTableViewController.searchController.searchBar.text;
     
     return self.soundCloudSearchTableViewController;
 }
@@ -127,6 +145,9 @@
 {
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
+
+
+
 
 
 - (void)hackyFixForTableView:(UITableViewController *)tableViewController

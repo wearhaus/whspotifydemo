@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SpotifySearchTableViewController.h"
+#import "SoundCloudSearchTableViewController.h"
 
 
 typedef enum {
@@ -14,11 +16,11 @@ typedef enum {
     SearchServiceSoundCloud
 }SearchServices;
 
-@class SpotifySearchTableViewController, SoundCloudSearchTableViewController;
 
-@interface SearchTabsNavigationViewController : UINavigationController
+@interface SearchTabsNavigationViewController : UINavigationController <SpotifySearchTableViewControllerDelegate>
 
 @property (strong, nonatomic) SpotifySearchTableViewController *spotifySearchTableViewController;
 @property (strong, nonatomic) SoundCloudSearchTableViewController *soundCloudSearchTableViewController;
+@property (assign, nonatomic) UISearchBar *searchBar;
 
 @end

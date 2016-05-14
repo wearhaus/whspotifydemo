@@ -26,23 +26,11 @@
 {
     [super viewDidLoad];
     
-//    [self initSearchController];
+    [self initSearchController];
     [self registerTableViewCellNib];
     [self listenForKeyboardNotifications];
     
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 100, 0);
-}
-
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    self.searchController.searchBar.delegate = self;
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.tableView.tableHeaderView = self.searchController.searchBar;
-        [self.searchController.searchBar sizeToFit];
-        [self updateSearchResultsForSearchController:self.searchController];
-    });
 }
 
 
@@ -60,9 +48,11 @@
     [SoundCloud performSearchWithQuery:self.searchController.searchBar.text userInfo:@{} callback:^(NSArray *results) {
         
         if (results.count) {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^
+            {
                 self.searchResults = [NSMutableArray arrayWithArray:results];
-                dispatch_async(dispatch_get_main_queue(), ^{
+                dispatch_async(dispatch_get_main_queue(), ^
+                {
                     [self.tableView reloadData];
                 });
             });
@@ -74,7 +64,7 @@
 
 - (void)initSearchController
 {
-//    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
     self.searchController.searchResultsUpdater = self;
     self.searchController.dimsBackgroundDuringPresentation = NO;
     self.searchController.searchBar.delegate = self;
@@ -125,13 +115,16 @@
 
 - (void)hideNavbar
 {
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
+//    [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
 
 - (void)showNavbar
 {
     [self.navigationController setNavigationBarHidden:NO animated:YES];
+    NSString *lastSearch = self.searchController.searchBar.text;
+    self.searchController.active = NO;
+    self.searchController.searchBar.text = lastSearch;
 }
 
 
@@ -149,7 +142,7 @@
 {
     [self.tableView reloadData];
     [self beginSearch];
-    self.searchController.active = NO;
+    [self showNavbar];
 }
 
 
