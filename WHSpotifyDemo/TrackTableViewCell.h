@@ -13,6 +13,9 @@
 
 @interface TrackTableViewCell : UITableViewCell
 
+@property (assign, nonatomic) id track;
 @property (assign, nonatomic) IBOutlet UIView *musicServiceColorLabel;
+
+- (void)addLongTapToQueueForTrack:(id)theTrack;
 
 @end

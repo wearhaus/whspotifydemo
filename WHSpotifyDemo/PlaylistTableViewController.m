@@ -95,10 +95,6 @@
     
     [cell initWithPlaylistTitle:playlist.name playlistSubtitle:[NSString stringWithFormat:@"%lu songs", (unsigned long)playlist.trackCount] playlistImageURL:playlist.smallestImage.imageURL];
     
-//    [cell.imageView hnk_setImageFromURL:playlist.smallestImage.imageURL];
-//    [cell.playlistImage hnk_setImageFromURL:playlist.smallestImage.imageURL];
-    // FIXME: get image to display loading from a cache
-    
     return cell;
 }
 

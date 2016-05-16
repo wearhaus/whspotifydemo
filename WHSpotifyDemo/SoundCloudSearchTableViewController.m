@@ -87,18 +87,6 @@
 
 #pragma mark Helper
 
-- (void)longTapToQueue:(UILongPressGestureRecognizer *)gestureRecognizer
-{
-    NSLog(@"gestureRecognizer= %@",gestureRecognizer);
-    
-    if ([gestureRecognizer state] == UIGestureRecognizerStateBegan)
-    {
-        NSLog(@"longTap began");
-        [[PlaybackQueue manager] _playLater:@[self.searchResults[gestureRecognizer.view.tag]]];
-    }
-}
-
-
 - (void)listenForKeyboardNotifications
 {
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -193,18 +181,15 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:TrackTableViewCellIdentifier forIndexPath:indexPath];
+    TrackTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:TrackTableViewCellIdentifier forIndexPath:indexPath];
     
     NSDictionary *track = [self.searchResults objectAtIndex:indexPath.row] ? [self.searchResults objectAtIndex:indexPath.row] : @{};
     
     [cell.textLabel setText:track[ktitle]];
     [cell.detailTextLabel setText:track[kuser][kusername]];
+    [cell addLongTapToQueueForTrack:track];
     
-    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longTapToQueue:)];
-    [cell addGestureRecognizer:longPressGesture];
-    longPressGesture.view.tag = indexPath.row;
-    
-    [((TrackTableViewCell *)cell).musicServiceColorLabel setBackgroundColor:[track isPlaying] ? COLOR_SOUNDCLOUD : [UIColor whiteColor]];
+    [cell.musicServiceColorLabel setBackgroundColor:[track isPlaying] ? COLOR_SOUNDCLOUD : [UIColor whiteColor]];
     
     return cell;
 }

@@ -7,17 +7,25 @@
 //
 
 #import "TrackTableViewCell.h"
+#import "PlaybackQueue.h"
+
 
 @implementation TrackTableViewCell
 
-- (void)awakeFromNib {
-    // Initialization code
+- (void)addLongTapToQueueForTrack:(id)theTrack
+{
+    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longTapToQueue:)];
+    [self addGestureRecognizer:longPressGesture];
+    self.track = theTrack;
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
 
-    // Configure the view for the selected state
+- (void)longTapToQueue:(UILongPressGestureRecognizer *)gestureRecognizer
+{
+    if ([gestureRecognizer state] == UIGestureRecognizerStateBegan)
+    {
+        [[PlaybackQueue manager] _playLater:@[self.track]];
+    }
 }
 
 @end

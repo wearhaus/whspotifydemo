@@ -197,19 +197,16 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:TrackTableViewCellIdentifier forIndexPath:indexPath];
+    TrackTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:TrackTableViewCellIdentifier forIndexPath:indexPath];
     
     SPTTrack *track = [self.searchResults objectAtIndex:indexPath.row];
     SPTPartialArtist *artist = [track.artists objectAtIndex:0];
     
     [cell.textLabel setText:track.name];
     [cell.detailTextLabel setText:artist.name];
+    [cell addLongTapToQueueForTrack:track];
     
-    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longTapToQueue:)];
-    [cell addGestureRecognizer:longPressGesture];
-    longPressGesture.view.tag = indexPath.row;
-    
-    [((TrackTableViewCell *)cell).musicServiceColorLabel setBackgroundColor:[track isPlaying] ? COLOR_SPOTIFY : [UIColor whiteColor]];
+    [cell.musicServiceColorLabel setBackgroundColor:[track isPlaying] ? COLOR_SPOTIFY : [UIColor whiteColor]];
     
     return cell;
 }

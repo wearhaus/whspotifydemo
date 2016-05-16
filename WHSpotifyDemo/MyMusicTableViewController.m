@@ -39,10 +39,15 @@
         return;
     
     [self setTitle:@"My Music"];
+    
     SPTAuth *auth = [SPTAuth defaultInstance];
     [SPTYourMusic savedTracksForUserWithAccessToken:auth.session.accessToken callback:^(NSError *error, SPTListPage *object) {
         [self loadTracksWithItems:object.items title:@"My Music" showsCancelButton:NO userInfo:nil];
     }];
+    
+    // TODO: Add functionality to lazy load more tracks
+    // TODO: lazy load should occur when the user gets to the bottom of the page
+    // TODO: it will then use SPTRequest to run the nextPage URI
 }
 
 
@@ -112,13 +117,14 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:TrackTableViewCellIdentifier forIndexPath:indexPath];
+    TrackTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:TrackTableViewCellIdentifier forIndexPath:indexPath];
     
     SPTTrack *track = [self.tracks objectAtIndex:indexPath.row];
     SPTPartialArtist *artist = [track.artists objectAtIndex:0];
     
     [cell.textLabel setText:track.name];
     [cell.detailTextLabel setText:artist.name];
+    [cell addLongTapToQueueForTrack:track];
     
     return cell;
 }
