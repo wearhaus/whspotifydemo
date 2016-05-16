@@ -6,6 +6,7 @@ target 'WHSpotifyDemo' do
   pod 'Fabric'
   pod 'Crashlytics'
   pod 'AFNetworking', '~> 3.0'
+  pod 'MBProgressHUD', '~> 0.9'
 end
 
 target 'WHSpotifyDemoTests' do
