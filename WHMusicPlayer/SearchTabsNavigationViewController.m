@@ -47,9 +47,10 @@
     UISegmentedControl *servicesSegmentedControl = [[UISegmentedControl alloc] initWithItems:services];
     servicesSegmentedControl.frame = CGRectMake(60, 250,200, 30);
     servicesSegmentedControl.selectedSegmentIndex = 0;
+    
     [servicesSegmentedControl addTarget:self action:@selector(segmentedControlChanged:) forControlEvents:UIControlEventValueChanged];
     [self segmentedControlChanged:servicesSegmentedControl];
-    self.navigationItem.titleView = servicesSegmentedControl;
+    [self.navigationItem setTitleView:servicesSegmentedControl];
     
     // TODO: find out whether center or custom/math is needed to add subview
 }
@@ -152,10 +153,7 @@
 
 - (void)hackyFixForTableView:(UITableViewController *)tableViewController
 {
-//    tableViewController.automaticallyAdjustsScrollViewInsets = NO;
-//    tableViewController.tableView.contentInset = UIEdgeInsetsZero;
     tableViewController.tableView.contentInset = UIEdgeInsetsMake(.01, 0, 0, 0);
-//    [tableViewController.tableView updateConstraints];
 }
 
 

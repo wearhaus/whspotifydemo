@@ -25,10 +25,11 @@
 {
     self = [super init];
     {
-        _visible = YES;
-        _playing = NO;
         durationPositionManager = [[DurationPositionBarManager alloc] initWithView:self.progressBarView positionView:self.progressBarDuration touchView:self.progressBarTouch];
         durationPositionManager.delegate = self;
+        _visible = YES;
+        _playing = NO;
+        
         [durationPositionManager setPlaybackPosition:0];
         [UIView setAnimationBeginsFromCurrentState:YES];
         [self setupBackgroundNotification];
@@ -42,12 +43,14 @@
     self = [[[[NSBundle mainBundle] loadNibNamed:@"NowPlayingBarView" owner:self options:nil] firstObject] init];;
     {
         CGRect nowPlayingViewFrameBottom = viewController.view.frame;
+        
         nowPlayingViewFrameBottom.size = self.frame.size;
         nowPlayingViewFrameBottom.size.width = viewController.view.frame.size.width;
         nowPlayingViewFrameBottom.origin.y = viewController.view.frame.size.height - self.frame.size.height - NowPlayingBarOffset;
         self.frame = nowPlayingViewFrameBottom;
         self.delegate = (id)viewController;
         self.parentViewController = viewController;
+        
         [self addSwipeGestures];
         [self addTapGesture];
         [self hide];
@@ -80,8 +83,8 @@
     
     [UIView animateWithDuration:0.3 animations:^{
         CGRect newFramePosition = self.frame;
-        newFramePosition.origin.y -= self.frame.size.height;
         
+        newFramePosition.origin.y -= self.frame.size.height;
         self.frame = newFramePosition;
         self.hidden = NO;
     }];
@@ -95,8 +98,8 @@
     
     [UIView animateWithDuration:0.3 animations:^{
         CGRect newFramePosition = self.frame;
-        newFramePosition.origin.y += self.frame.size.height;
         
+        newFramePosition.origin.y += self.frame.size.height;
         self.frame = newFramePosition;
     } completion:^(BOOL finished) {
         if (finished)
@@ -203,6 +206,7 @@
 {
     // add pan recognizer to the view when initialized
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panRecognized:)];
+    
     [panRecognizer setDelegate:self];
     [self.slideView addGestureRecognizer:panRecognizer]; // add to the view you want to detect swipe on
 }
@@ -248,8 +252,9 @@
 - (void)tapRecognizer:(UITapGestureRecognizer *)sender
 {
     detailViewController = (NowPlayingDetailViewController *)[[[NSBundle mainBundle] loadNibNamed:@"NowPlayingDetailView" owner:self options:nil] firstObject];
-    [detailViewController setSongTitle:self.titleLabel.text artist:self.artistLabel.text albumArt:self.albumArtImageView.image duration:self.duration origin:currentOrigin];
     detailViewController.delegate = self;
+    
+    [detailViewController setSongTitle:self.titleLabel.text artist:self.artistLabel.text albumArt:self.albumArtImageView.image duration:self.duration origin:currentOrigin];
     
     [self.parentViewController presentViewController:detailViewController animated:YES completion:nil];
     

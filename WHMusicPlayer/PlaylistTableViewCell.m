@@ -16,6 +16,7 @@
 {
     self.playlistTitle.text = title;
     self.playlistSubtitle.text = subtitle;
+    
     [self setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     [self.playlistImage hnk_setImageFromURL:imageURL placeholder:[UIImage imageNamed:@"PlaylistDefault"]];
 }

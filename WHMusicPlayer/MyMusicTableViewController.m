@@ -24,6 +24,7 @@
     self = [super init];
     {
         noAutoload = YES;
+        [self registerTableViewCellNib];
     }
     return self;
 }
@@ -32,18 +33,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self registerTableViewCellNib];
-    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 100, 0);
     
     if (noAutoload)
         return;
     
     [self setTitle:@"My Music"];
+    [self registerTableViewCellNib];
+    [self fetchMyMusic];
     
-    SPTAuth *auth = [SPTAuth defaultInstance];
-    [SPTYourMusic savedTracksForUserWithAccessToken:auth.session.accessToken callback:^(NSError *error, SPTListPage *object) {
-        [self loadTracksWithItems:object.items title:@"My Music" showsCancelButton:NO userInfo:nil];
-    }];
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 100, 0);
     
     // TODO: Add functionality to lazy load more tracks
     // TODO: lazy load should occur when the user gets to the bottom of the page
@@ -96,6 +94,19 @@
 
 
 
+#pragma mark Helper
+
+- (void)fetchMyMusic
+{
+    SPTAuth *auth = [SPTAuth defaultInstance];
+    
+    [SPTYourMusic savedTracksForUserWithAccessToken:auth.session.accessToken callback:^(NSError *error, SPTListPage *object) {
+        [self loadTracksWithItems:object.items title:@"My Music" showsCancelButton:NO userInfo:nil];
+    }];
+}
+
+
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -118,7 +129,6 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     TrackTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:TrackTableViewCellIdentifier forIndexPath:indexPath];
-    
     SPTTrack *track = [self.tracks objectAtIndex:indexPath.row];
     SPTPartialArtist *artist = [track.artists objectAtIndex:0];
     

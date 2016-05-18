@@ -76,7 +76,7 @@
     // init searchBar
     [self.searchController.searchBar setShowsCancelButton:NO animated:NO];
     [self.searchController.searchBar setAutocapitalizationType:UITextAutocapitalizationTypeNone];
-    self.tableView.tableHeaderView = self.searchController.searchBar;
+    [self.tableView setTableHeaderView:self.searchController.searchBar];
     [self.searchController.searchBar sizeToFit];
     
     self.definesPresentationContext = YES;

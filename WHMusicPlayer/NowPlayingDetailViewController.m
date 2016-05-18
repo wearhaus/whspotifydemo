@@ -104,6 +104,7 @@
 {
     [self.playPauseButton setImage:[UIImage imageNamed:playing ? @"iconPause" : @"iconPlay"] forState:UIControlStateNormal];
     [durationPositionManager updatePlaybackStatePlaying:playing];
+    
     _playing = playing;
 }
 
@@ -129,6 +130,7 @@
 {
     // add pan recognizer to the view when initialized
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panRecognized:)];
+    
     [panRecognizer setDelegate:self];
     [self.albumSwipeView addGestureRecognizer:panRecognizer]; // add to the view you want to detect swipe on
 }

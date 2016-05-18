@@ -38,14 +38,14 @@
 {
     UIViewController *vc = ((UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController).topViewController;
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:vc.view animated:YES];
-    
     UIImage *image = [[UIImage imageNamed:@"Checkmark"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+    
     hud.customView = imageView;
     hud.mode = MBProgressHUDModeCustomView;
     hud.labelText = @"Added to queue";
     
-    [hud hide:YES afterDelay:.7f];
+    [hud hide:YES afterDelay:.6f];
 }
 
 @end

@@ -25,12 +25,7 @@
     [self setTitle:@"Playlists"];
     [self registerTableViewCellNib];
     [self setupNavbar];
-    
-    // TODO: fetch all playlists
-    SPTAuth *auth = [SPTAuth defaultInstance];
-    [SPTPlaylistList playlistsForUserWithSession:auth.session callback:^(NSError *error, SPTListPage *object) {
-        [self loadTableViewWithArray:object.items];
-    }];
+    [self fetchAllPlaylists];
     
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 100, 0);
 }
@@ -67,6 +62,19 @@
 
 
 
+#pragma mark Helper
+
+- (void)fetchAllPlaylists
+{
+    SPTAuth *auth = [SPTAuth defaultInstance];
+    
+    [SPTPlaylistList playlistsForUserWithSession:auth.session callback:^(NSError *error, SPTListPage *object) {
+        [self loadTableViewWithArray:object.items];
+    }];
+}
+
+
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -90,7 +98,6 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     PlaylistTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:PlaylistTableViewCellIdentifier forIndexPath:indexPath];
-    
     SPTPartialPlaylist *playlist = [self.playlists objectAtIndex:indexPath.row];
     
     [cell initWithPlaylistTitle:playlist.name playlistSubtitle:[NSString stringWithFormat:@"%lu songs", (unsigned long)playlist.trackCount] playlistImageURL:playlist.smallestImage.imageURL];
@@ -104,12 +111,12 @@
     SPTAuth *auth = [SPTAuth defaultInstance];
     SPTPartialPlaylist *playlist = [self.playlists objectAtIndex:indexPath.row];
     lastSelectedPlaylist = playlist;
-    
     MyMusicTableViewController *myMusicViewController = [(MyMusicTableViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"MyMusicTableViewController"] initWithoutAutoload];
-    [myMusicViewController setTitle:playlist.name];
-    myMusicViewController.delegate = self;
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [myMusicViewController setTitle:playlist.name];
+    
+    myMusicViewController.delegate = self;
     
     [SPTPlaylistSnapshot playlistWithURI:playlist.uri session:auth.session callback:^(NSError *error, SPTPlaylistSnapshot *object) {
         [myMusicViewController loadTracksWithItems:object.firstTrackPage.items title:playlist.name showsCancelButton:NO userInfo:@{PlaylistURIKey: playlist.uri}];
@@ -117,10 +124,6 @@
     
     // TODO: show loader
     [self.navigationController pushViewController:myMusicViewController animated:YES];
-    
-//    if (self.delegate != nil)
-//        [self.delegate playlistTableView:self didSelectPlaylist:[self.playlists objectAtIndex:indexPath.row]];
-//    [self dismissNavigationController];
 }
 
 

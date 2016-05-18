@@ -72,7 +72,7 @@
     // init searchBar
     [self.searchController.searchBar setShowsCancelButton:NO animated:NO];
     [self.searchController.searchBar setAutocapitalizationType:UITextAutocapitalizationTypeNone];
-    self.tableView.tableHeaderView = self.searchController.searchBar;
+    [self.tableView setTableHeaderView:self.searchController.searchBar];
     [self.searchController.searchBar sizeToFit];
     
     self.definesPresentationContext = YES;
@@ -109,8 +109,10 @@
 
 - (void)showNavbar
 {
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
     NSString *lastSearch = self.searchController.searchBar.text;
+    
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    
     self.searchController.active = NO;
     self.searchController.searchBar.text = lastSearch;
 }
@@ -182,13 +184,11 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     TrackTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:TrackTableViewCellIdentifier forIndexPath:indexPath];
-    
     NSDictionary *track = [self.searchResults objectAtIndex:indexPath.row] ? [self.searchResults objectAtIndex:indexPath.row] : @{};
     
     [cell.textLabel setText:track[ktitle]];
     [cell.detailTextLabel setText:track[kuser][kusername]];
     [cell addLongTapToQueueForTrack:track];
-    
     [cell.musicServiceColorLabel setBackgroundColor:[track isPlaying] ? COLOR_SOUNDCLOUD : [UIColor whiteColor]];
     
     return cell;
@@ -209,8 +209,8 @@
     [UIView animateWithDuration:0.4f animations:^
     {
         TrackTableViewCell *trackCell = (TrackTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-        [trackCell.musicServiceColorLabel setBackgroundColor:COLOR_SOUNDCLOUD];
         
+        [trackCell.musicServiceColorLabel setBackgroundColor:COLOR_SOUNDCLOUD];
         [tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
     }];
 }
