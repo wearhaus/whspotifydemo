@@ -45,7 +45,7 @@
     hud.mode = MBProgressHUDModeCustomView;
     hud.labelText = @"Added to queue";
     
-    [hud hide:YES afterDelay:1.f];
+    [hud hide:YES afterDelay:.7f];
 }
 
 @end

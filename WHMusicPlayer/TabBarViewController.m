@@ -171,9 +171,10 @@
                  return;
              }
              
-             
-             [self.nowPlayingBarView setSongTitle:track.name artist:artist.name albumArt:image duration:track.duration origin:MusicOriginSpotify];
-             [self.player setNowPlayingInfoWithCurrentTrack:track.name artist:artist.name album:track.album.name duration:track.duration albumArt:albumArt];
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 [self.nowPlayingBarView setSongTitle:track.name artist:artist.name albumArt:image duration:track.duration origin:MusicOriginSpotify];
+                 [self.player setNowPlayingInfoWithCurrentTrack:track.name artist:artist.name album:track.album.name duration:track.duration albumArt:albumArt];
+             });
          });
          
      }];
@@ -194,7 +195,7 @@
     }
     
     // Pop over to a background queue to load the image over the network.
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSError *error = nil;
         UIImage *image = nil;
         NSData *imageData = [NSData dataWithContentsOfURL:imageURL options:0 error:&error];
@@ -213,8 +214,10 @@
         
         NSTimeInterval duration = [track[kduration] integerValue]/1000;
         
-        [self.nowPlayingBarView setSongTitle:track[ktitle] artist:track[kuser][kusername] albumArt:image duration:duration origin:MusicOriginSoundCloud];
-        [[SoundCloud player] setNowPlayingInfoWithCurrentTrack:track[ktitle] artist:track[kuser][kusername] album:nil duration:duration albumArt:albumArt];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.nowPlayingBarView setSongTitle:track[ktitle] artist:track[kuser][kusername] albumArt:image duration:duration origin:MusicOriginSoundCloud];
+            [[SoundCloud player] setNowPlayingInfoWithCurrentTrack:track[ktitle] artist:track[kuser][kusername] album:nil duration:duration albumArt:albumArt];
+        });
     });
 }
 
@@ -373,8 +376,12 @@
 - (void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didChangeToTrack:(NSDictionary *)trackMetadata
 {
     NSLog(@"track changed = %@", [trackMetadata valueForKey:SPTAudioStreamingMetadataTrackURI]);
-    [[PlaybackQueue manager] changeLastMusicOrigin:MusicOriginSpotify];
-    [self spt_updateUI];
+    
+    if ([trackMetadata valueForKey:SPTAudioStreamingMetadataTrackURI])
+    {
+        [[PlaybackQueue manager] changeLastMusicOrigin:MusicOriginSpotify];
+        [self spt_updateUI];
+    }
 }
 
 
@@ -385,6 +392,17 @@
     [self.nowPlayingBarView setPlaying:isPlaying];
     [self handlePlaybackPosition];
     NSLog(@"is playing = %d", isPlaying);
+    
+    if (isPlaying) [self spt_updateUI];
+    
+    // check if spotify track finished playing
+    if (!isPlaying && self.player.currentPlaybackPosition >= self.player.currentTrackDuration - 1) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self fastForward];
+            });
+        });
+    }
 }
 
 
@@ -403,6 +421,15 @@
 {
     [self.nowPlayingBarView setPlaying:playing];
     [[SoundCloud player] updateCurrentPlaybackPosition];
+    
+    // check if soundcloud track finished playing
+    if (!playing && [SoundCloud player].currentPlaybackPosition.intValue >= [SoundCloud player].currentTrackDuration.intValue - 1) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self fastForward];
+            });
+        });
+    }
 }
 
 
