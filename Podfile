@@ -1,6 +1,8 @@
 #platform :ios, '8.0'
 #use_frameworks!
 
+project 'WHMusicPlayer.xcodeproj'
+
 target 'WHMusicPlayer' do
   pod 'Haneke', '~> 1.0'
   pod 'Fabric'
